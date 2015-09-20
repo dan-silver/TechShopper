@@ -47,7 +47,7 @@ public class Category {
                     JSONArray productsJSON = jsonObject.getJSONArray("products");
                     for (int i = 0; i < productsJSON.length(); i++) {
                         JSONObject o = (JSONObject) productsJSON.get(i);
-                        products.add(new Product(o.getString("title"), o.getString("link"), o.getString("img"), o.getDouble("price")));
+                        products.add(new Product(o.getString("title"), o.getString("link"), o.getString("img"), o.getDouble("price"), o.getString("source")));
                     }
 
                     if (adapter != null) {

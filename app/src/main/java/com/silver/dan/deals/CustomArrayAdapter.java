@@ -2,6 +2,8 @@ package com.silver.dan.deals;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import uk.co.deanwild.flowtextview.FlowTextView;
 
 /**
  * Created by dan on 9/19/15.
@@ -29,8 +33,8 @@ public class CustomArrayAdapter extends ArrayAdapter<Product> {
     /*private view holder class*/
     private class ViewHolder {
         ImageView imageView;
-        TextView txtProductName;
-//        TextView txtProduct;
+        ImageView sourceLogo;
+        FlowTextView flowTextView;
         TextView txtProductPrice;
     }
 
@@ -42,18 +46,28 @@ public class CustomArrayAdapter extends ArrayAdapter<Product> {
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.list_row, null);
+
             holder = new ViewHolder();
-            holder.txtProductName = (TextView) convertView.findViewById(R.id.menu_name);
+            holder.flowTextView = (FlowTextView) convertView.findViewById(R.id.menu_name);
             holder.txtProductPrice = (TextView) convertView.findViewById(R.id.price);
             holder.imageView = (ImageView) convertView.findViewById(R.id.list_image);
+            holder.sourceLogo = (ImageView) convertView.findViewById(R.id.source_logo);
+
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.txtProductName.setText(rowItem.name);
+//        holder.txtProductName.setText(rowItem.name);
         holder.txtProductPrice.setText("$"+rowItem.price);
         Picasso.with(context).load(rowItem.image).into(holder.imageView);
+        holder.sourceLogo.setImageResource(R.mipmap.newegg);
+        holder.flowTextView.setText(rowItem.name);
+
+
+        holder.flowTextView.setTextSize(60);
+
 
         return convertView;
     }
