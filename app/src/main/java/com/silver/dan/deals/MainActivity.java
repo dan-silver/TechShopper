@@ -104,6 +104,9 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 adapter.notifyDataSetChanged();
+                //update the homescreen
+                HomeScreen.adapter.notifyDataSetChanged();
+
 
                 pager.setCurrentItem(1);
             }
