@@ -59,9 +59,16 @@ public class CustomArrayAdapter extends ArrayAdapter<Product> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.txtProductPrice.setText("$"+rowItem.price);
+        holder.txtProductPrice.setText("$" + rowItem.price);
         Picasso.with(context).load(rowItem.image).into(holder.imageView);
-        holder.sourceLogo.setImageResource(R.mipmap.newegg);
+
+        int resource = 0;
+        if (rowItem.source.equals("newegg")) {
+            resource = R.mipmap.newegg;
+        } else if (rowItem.source.equals("techbargains")) {
+            resource = R.mipmap.techbargains;
+        }
+        holder.sourceLogo.setImageResource(resource);
         holder.flowTextView.setText(rowItem.name);
 
 
