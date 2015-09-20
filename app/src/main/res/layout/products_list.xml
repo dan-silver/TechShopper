@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_settings_white_24dp"
+        android:src="@mipmap/ic_settings_white_24dp"
         fab:fab_colorNormal="@color/green"
         fab:fab_colorPressed="@color/greenDark"
         fab:fab_colorRipple="@color/green" />
