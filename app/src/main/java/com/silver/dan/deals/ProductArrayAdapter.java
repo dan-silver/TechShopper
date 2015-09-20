@@ -20,11 +20,11 @@ import uk.co.deanwild.flowtextview.FlowTextView;
 /**
  * Created by dan on 9/19/15.
  */
-public class CustomArrayAdapter extends ArrayAdapter<Product> {
+public class ProductArrayAdapter extends ArrayAdapter<Product> {
 
     Context context;
 
-    public CustomArrayAdapter(Context context, int textViewResourceId, List<Product> objects) {
+    public ProductArrayAdapter(Context context, int textViewResourceId, List<Product> objects) {
         super(context, textViewResourceId, objects);
         this.context = context;
     }

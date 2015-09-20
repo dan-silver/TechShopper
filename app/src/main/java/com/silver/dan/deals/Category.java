@@ -22,14 +22,14 @@ import fuel.core.Response;
 public class Category {
     public String name;
     public ArrayList<Product> products;
-    public CustomArrayAdapter adapter;
+    public ProductArrayAdapter adapter;
     public boolean fetchingProducts = false;
     int index;
     Category(String name, int index, Context c) {
         this.name = name;
         this.index = index;
         products = new ArrayList<>();
-        adapter = new CustomArrayAdapter(c,
+        adapter = new ProductArrayAdapter(c,
                 R.layout.list_item,
                 products);
     }
