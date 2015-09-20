@@ -2,10 +2,13 @@ package com.silver.dan.deals;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -39,11 +42,13 @@ public class HomeScreenCategoryAdapter extends ArrayAdapter<Category> {
         /*private view holder class*/
         private class ViewHolder {
             TextView name;
+            LinearLayout row;
+            CheckBox checkBox;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
+            final ViewHolder holder;
             Category rowItem = getItem(position);
 
             LayoutInflater mInflater = (LayoutInflater) context
@@ -53,6 +58,8 @@ public class HomeScreenCategoryAdapter extends ArrayAdapter<Category> {
 
                 holder = new ViewHolder();
                 holder.name = (TextView) convertView.findViewById(R.id.category_name);
+                holder.row = (LinearLayout) convertView.findViewById(R.id.category_list_item);
+                holder.checkBox = (CheckBox) convertView.findViewById(R.id.category_list_item_checkBox);
 
                 convertView.setTag(holder);
             } else {
@@ -60,6 +67,13 @@ public class HomeScreenCategoryAdapter extends ArrayAdapter<Category> {
             }
 
             holder.name.setText(rowItem.name);
+            holder.row.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.v(MainActivity.TAG, "test");
+                    holder.checkBox.toggle();
+                }
+            });
 
             return convertView;
         }

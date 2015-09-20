@@ -59,8 +59,6 @@ public class HomeScreen extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        title.setText("...Dashboard...");
-
         adapter = new HomeScreenCategoryAdapter(getContext(), R.id.category_option_list_view, MainActivity.categories);
         category_option_list_view.setAdapter(adapter);
     }
