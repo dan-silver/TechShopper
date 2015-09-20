@@ -44,16 +44,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -93,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
         final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
                 .getDisplayMetrics());
         pager.setPageMargin(pageMargin);
-        pager.setCurrentItem(1);
         changeColor(getResources().getColor(R.color.green));
 
 
@@ -114,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 adapter.notifyDataSetChanged();
+
+                pager.setCurrentItem(1);
             }
 
             @Override
@@ -150,17 +142,24 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return MainActivity.categories.get(position).name;
+            if (position > 0)
+                return MainActivity.categories.get(position - 1).name;
+            else
+                return "Home";
         }
 
         @Override
         public int getCount() {
-            return MainActivity.categories.size();
+            return 1 + MainActivity.categories.size();
         }
 
         @Override
         public Fragment getItem(int position) {
-            return SuperAwesomeCardFragment.newInstance(position);
+            if (position > 0) {
+                return SuperAwesomeCardFragment.newInstance(position - 1);
+            } else {
+                return new HomeScreen();
+            }
         }
     }
 }
