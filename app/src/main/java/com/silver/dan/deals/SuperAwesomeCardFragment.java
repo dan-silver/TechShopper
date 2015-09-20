@@ -16,16 +16,22 @@
 
 package com.silver.dan.deals;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
-public class SuperAwesomeCardFragment extends ListFragment {
+import com.melnykov.fab.FloatingActionButton;
+
+public class SuperAwesomeCardFragment extends Fragment {
     private static final String ARG_POSITION = "position";
     Category cat;
-
     int position;
 
     public static SuperAwesomeCardFragment newInstance(int position) {
@@ -46,7 +52,13 @@ public class SuperAwesomeCardFragment extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        setListAdapter(cat.adapter);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.products_list, container, false);
+        ListView productsList = (ListView) view.findViewById(R.id.products_list);
+        productsList.setAdapter(cat.adapter);
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.attachToListView(productsList);
+
+//        fab.setImageResource();
+        return view;
     }
 }
