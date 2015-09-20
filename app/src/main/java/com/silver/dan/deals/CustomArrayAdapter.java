@@ -26,7 +26,6 @@ public class CustomArrayAdapter extends ArrayAdapter<Product> {
 
     public CustomArrayAdapter(Context context, int textViewResourceId, List<Product> objects) {
         super(context, textViewResourceId, objects);
-        // TODO Auto-generated constructor stub
         this.context = context;
     }
 
