@@ -59,14 +59,13 @@ public class CustomArrayAdapter extends ArrayAdapter<Product> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-//        holder.txtProductName.setText(rowItem.name);
         holder.txtProductPrice.setText("$"+rowItem.price);
         Picasso.with(context).load(rowItem.image).into(holder.imageView);
         holder.sourceLogo.setImageResource(R.mipmap.newegg);
         holder.flowTextView.setText(rowItem.name);
 
 
-        holder.flowTextView.setTextSize(60);
+        holder.flowTextView.setTextSize(55);
 
 
         return convertView;
