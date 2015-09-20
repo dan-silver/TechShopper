@@ -1,6 +1,7 @@
 package com.silver.dan.deals;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -22,27 +23,16 @@ import fuel.core.Response;
 public class Category {
     public String name;
     public ArrayList<Product> products;
-    public ArrayAdapter<String> adapter;
+    public CustomArrayAdapter adapter;
     public boolean fetchingProducts = false;
     int index;
-    ArrayList<String> te = new ArrayList<>();
-
     Category(String name, int index, Context c) {
         this.name = name;
         this.index = index;
         products = new ArrayList<>();
-        te = new ArrayList<>();
-        adapter = new ArrayAdapter<>(c
-                , R.layout.list_item,
-                te);
-    }
-
-
-    public void extractProductInfoIntoList() {
-        Log.v(MainActivity.TAG, "making list for " + this.index);
-        for (Product p : products) {
-            te.add(p.title);
-        }
+        adapter = new CustomArrayAdapter(c,
+                R.layout.list_item,
+                products);
     }
 
     public void getProducts() {
@@ -51,20 +41,18 @@ public class Category {
         fetchingProducts = true;
         Fuel.get("http://104.131.119.4/data/" + this.index + ".json").responseJson(new Handler<JSONObject>() {
             @Override
-            public void success(Request request, Response response, JSONObject jsonObject) {
+            public void success(@NonNull Request request, @NonNull Response response, JSONObject jsonObject) {
                 //parse response
                 try {
                     JSONArray productsJSON = jsonObject.getJSONArray("products");
-//                    int index = jsonObject.getInt("index");
                     for (int i = 0; i < productsJSON.length(); i++) {
                         JSONObject o = (JSONObject) productsJSON.get(i);
-                        products.add(new Product(o.getString("title"), o.getString("link"), o.getString("price"), o.getDouble("price")));
+                        products.add(new Product(o.getString("title"), o.getString("link"), o.getString("img"), o.getDouble("price")));
                     }
 
-                        if (adapter != null) {
-                            extractProductInfoIntoList();
-                            adapter.notifyDataSetChanged();
-                        }
+                    if (adapter != null) {
+                        adapter.notifyDataSetChanged();
+                    }
 
 
                 } catch (JSONException e) {
@@ -74,7 +62,7 @@ public class Category {
             }
 
             @Override
-            public void failure(Request request, Response response, FuelError fuelError) {
+            public void failure(@NonNull Request request, @NonNull Response response, @NonNull FuelError fuelError) {
                 fetchingProducts = false;
             }
         });

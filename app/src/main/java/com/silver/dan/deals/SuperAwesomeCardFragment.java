@@ -29,7 +29,6 @@ public class SuperAwesomeCardFragment extends ListFragment {
     int position;
 
     public static SuperAwesomeCardFragment newInstance(int position) {
-//        MainActivity.fragments.get()
 
         SuperAwesomeCardFragment f = new SuperAwesomeCardFragment();
         Bundle b = new Bundle();
@@ -47,10 +46,6 @@ public class SuperAwesomeCardFragment extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        if (cat.products.size() == 0) {
-//            cat.getProducts();
-//        }
-
         setListAdapter(cat.adapter);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
