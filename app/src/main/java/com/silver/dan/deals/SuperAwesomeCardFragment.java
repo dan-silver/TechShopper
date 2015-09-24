@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.melnykov.fab.FloatingActionButton;
 
 public class SuperAwesomeCardFragment extends Fragment {
@@ -57,6 +58,20 @@ public class SuperAwesomeCardFragment extends Fragment {
         productsList.setAdapter(cat.adapter);
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.attachToListView(productsList);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MaterialDialog.Builder(getContext())
+                        .title("Filter by Price")
+                        .items(R.array.items)
+                        .itemsCallback(new MaterialDialog.ListCallback() {
+                            @Override
+                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                            }
+                        })
+                        .show();
+            }
+        });
 
 //        fab.setImageResource();
         return view;

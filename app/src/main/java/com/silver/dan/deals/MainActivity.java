@@ -105,10 +105,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 adapter.notifyDataSetChanged();
                 //update the homescreen
-                HomeScreen.adapter.notifyDataSetChanged();
+//                HomeScreen.adapter.notifyDataSetChanged();
 
 
-                pager.setCurrentItem(1);
+                pager.setCurrentItem(0);
             }
 
             @Override
@@ -145,24 +145,24 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if (position > 0)
-                return MainActivity.categories.get(position - 1).name;
-            else
-                return "Home";
+//            if (position > 0)
+                return MainActivity.categories.get(position).name;
+//            else
+//                return "Home";
         }
 
         @Override
         public int getCount() {
-            return 1 + MainActivity.categories.size();
+            return MainActivity.categories.size();
         }
 
         @Override
         public Fragment getItem(int position) {
-            if (position > 0) {
-                return SuperAwesomeCardFragment.newInstance(position - 1);
-            } else {
-                return new HomeScreen();
-            }
+//            if (position > 0) {
+                return SuperAwesomeCardFragment.newInstance(position);
+//            } else {
+//                return new HomeScreen();
+//            }
         }
     }
 }
