@@ -48,7 +48,7 @@ public class SuperAwesomeCardFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
-        cat = MainActivity.categories.get(position);
+        cat = DrawerMainActivity.tab_labels.get(position);
     }
 
     @Override
