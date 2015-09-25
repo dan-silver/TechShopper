@@ -144,10 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-//            if (position > 0)
             return MainActivity.tab_labels.get(position).name;
-//            else
-//                return "Home";
         }
 
         @Override
@@ -157,11 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-//            if (position > 0) {
             return SuperAwesomeCardFragment.newInstance(position);
-//            } else {
-//                return new HomeScreen();
-//            }
         }
     }
 }
