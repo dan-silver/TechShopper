@@ -16,12 +16,8 @@
 
 package com.silver.dan.deals;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +44,7 @@ public class SuperAwesomeCardFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
-        cat = DrawerMainActivity.tab_labels.get(position);
+        cat = MainActivity.tab_labels.get(position);
     }
 
     @Override

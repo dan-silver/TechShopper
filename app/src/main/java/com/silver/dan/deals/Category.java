@@ -25,9 +25,11 @@ public class Category {
     public ProductArrayAdapter adapter;
     public boolean fetchingProducts = false;
     int index;
+    private Context context;
     Category(String name, int index, Context c) {
         this.name = name;
         this.index = index;
+        context = c;
         products = new ArrayList<>();
         adapter = new ProductArrayAdapter(c,
                 R.layout.list_item,
@@ -38,7 +40,7 @@ public class Category {
         Log.v(MainActivity.TAG, "getProducts() " + this.index);
         if (fetchingProducts) return; //don't run this method multiple times
         fetchingProducts = true;
-        Fuel.get("http://104.131.119.4/data/" + this.index + ".json").responseJson(new Handler<JSONObject>() {
+        Fuel.get(context.getResources().getString(R.string.APP_URL) + "/data/" + this.index + ".json").responseJson(new Handler<JSONObject>() {
             @Override
             public void success(@NonNull Request request, @NonNull Response response, JSONObject jsonObject) {
                 //parse response

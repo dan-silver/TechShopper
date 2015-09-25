@@ -1,44 +1,21 @@
-/*
- * Copyright (C) 2013 Andreas Stuetz <andreas.stuetz@gmail.com>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.silver.dan.deals;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-
 
 import com.astuetz.PagerSlidingTabStrip;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,69 +23,75 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import fuel.Fuel;
 import fuel.core.FuelError;
 import fuel.core.Handler;
 import fuel.core.Request;
 import fuel.core.Response;
+import butterknife.ButterKnife;
 
+/**
+ * Created by dan on 9/24/15.
+ */
 public class MainActivity extends AppCompatActivity {
+    public static final String TAG = "SILVER_APP";
+    private DrawerLayout mDrawer;
 
-    public static final String TAG = "SILVER_TAG";
     @InjectView(R.id.tabs)
     PagerSlidingTabStrip tabs;
+
     @InjectView(R.id.pager)
     ViewPager pager;
 
 
     private MyPagerAdapter adapter;
-    private int currentColor;
-    private SystemBarTintManager mTintManager;
-    static ArrayList<Category> categories = new ArrayList<>();
-
+    static ArrayList<Category> tab_labels = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.drawer_main);
         ButterKnife.inject(this);
-        // create our manager instance after the content view is set
-        mTintManager = new SystemBarTintManager(this);
-        // enable status bar tint
-        mTintManager.setStatusBarTintEnabled(true);
+
         adapter = new MyPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
         tabs.setViewPager(pager);
-        final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
-                .getDisplayMetrics());
-        pager.setPageMargin(pageMargin);
-        changeColor(getResources().getColor(R.color.green));
+
+        // Set a Toolbar to replace the ActionBar.
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
+        // Find our drawer view
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        // Set the menu icon instead of the launcher icon.
+        final ActionBar ab = getSupportActionBar();
+        assert ab != null;
+        ab.setHomeAsUpIndicator(R.mipmap.ic_menu_white_36dp);
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setDisplayShowTitleEnabled(false);
+        final NavigationView navView = (NavigationView) findViewById(R.id.nvView);
+        final Menu m = navView.getMenu();
+
+        setupDrawerContent(navView);
 
 
-        Fuel.get("http://104.131.119.4/data/categories.json").responseJson(new Handler<JSONObject>() {
+        Fuel.get(getResources().getString(R.string.APP_URL) + "/data/categories.json").responseJson(new Handler<JSONObject>() {
             @Override
             public void success(@NonNull Request request, @NonNull Response response, JSONObject jsonObject) {
-                categories.clear();
-                //parse response
                 try {
                     JSONArray categoriesJSON = jsonObject.getJSONArray("categories");
-                    for (int i=0; i< categoriesJSON.length(); i++) {
+                    for (int i = 0; i < categoriesJSON.length(); i++) {
                         JSONObject o = (JSONObject) categoriesJSON.get(i);
+                        m.add(o.getString("name"));
                         Category category = new Category(o.getString("name"), o.getInt("index"), getApplicationContext());
                         category.getProducts();
-                        categories.add(category);
+                        tab_labels.add(category);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 adapter.notifyDataSetChanged();
-                //update the homescreen
-//                HomeScreen.adapter.notifyDataSetChanged();
-
-
-                pager.setCurrentItem(0);
             }
 
             @Override
@@ -118,22 +101,38 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void changeColor(int newColor) {
-        tabs.setBackgroundColor(newColor);
-        mTintManager.setTintColor(newColor);
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        selectDrawerItem(menuItem);
+                        return true;
+                    }
+                });
+    }
+
+    private void selectDrawerItem(MenuItem menuItem) {
+        int selected = menuItem.getItemId();
+        mDrawer.closeDrawers();
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // The action bar home/up action should open or close the drawer.
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawer.openDrawer(GravityCompat.START);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("currentColor", currentColor);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        currentColor = savedInstanceState.getInt("currentColor");
-        changeColor(currentColor);
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
     }
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
@@ -146,20 +145,20 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
 //            if (position > 0)
-                return MainActivity.categories.get(position).name;
+            return MainActivity.tab_labels.get(position).name;
 //            else
 //                return "Home";
         }
 
         @Override
         public int getCount() {
-            return MainActivity.categories.size();
+            return MainActivity.tab_labels.size();
         }
 
         @Override
         public Fragment getItem(int position) {
 //            if (position > 0) {
-                return SuperAwesomeCardFragment.newInstance(position);
+            return SuperAwesomeCardFragment.newInstance(position);
 //            } else {
 //                return new HomeScreen();
 //            }
