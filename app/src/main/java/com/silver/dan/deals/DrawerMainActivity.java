@@ -74,6 +74,9 @@ public class DrawerMainActivity extends AppCompatActivity {
         final NavigationView navView = (NavigationView) findViewById(R.id.nvView);
         final Menu m = navView.getMenu();
 
+        setupDrawerContent(navView);
+
+
         Fuel.get("http://104.131.119.4/data/categories.json").responseJson(new Handler<JSONObject>() {
             @Override
             public void success(@NonNull Request request, @NonNull Response response, JSONObject jsonObject) {
@@ -98,6 +101,23 @@ public class DrawerMainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        selectDrawerItem(menuItem);
+                        return true;
+                    }
+                });
+    }
+
+    private void selectDrawerItem(MenuItem menuItem) {
+        int selected = menuItem.getItemId();
+        mDrawer.closeDrawers();
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
