@@ -3,5 +3,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="APP_URL">http://45.55.227.8</string>
+    <string name="APP_URL">https://ffcqeyoovg.localtunnel.me</string>
+    <string name="AppName">Tech Shopper Pro</string>
 </resources>

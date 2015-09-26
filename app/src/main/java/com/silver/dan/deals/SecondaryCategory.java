@@ -19,42 +19,40 @@ import fuel.core.Response;
 /**
  * Created by dan on 9/19/15.
  */
-public class Category {
+public class SecondaryCategory {
     public String name;
     public ArrayList<Product> products;
     public ProductArrayAdapter adapter;
     public boolean fetchingProducts = false;
-    int index;
+    int id;
     private Context context;
-    Category(String name, int index, Context c) {
-        this.name = name;
-        this.index = index;
-        context = c;
+
+    public SecondaryCategory(int id, String title, Context context) {
+        this.name = title;
+        this.id = id;
+        this.context = context;
         products = new ArrayList<>();
-        adapter = new ProductArrayAdapter(c,
+        adapter = new ProductArrayAdapter(context,
                 R.layout.list_item,
                 products);
     }
 
     public void getProducts() {
-        Log.v(MainActivity.TAG, "getProducts() " + this.index);
         if (fetchingProducts) return; //don't run this method multiple times
         fetchingProducts = true;
-        Fuel.get(context.getResources().getString(R.string.APP_URL) + "/data/" + this.index + ".json").responseJson(new Handler<JSONObject>() {
+        Fuel.get(context.getResources().getString(R.string.APP_URL) + "/secondary_categories/" + this.id + ".json").responseJson(new Handler<JSONObject>() {
             @Override
             public void success(@NonNull Request request, @NonNull Response response, JSONObject jsonObject) {
-                //parse response
                 try {
                     JSONArray productsJSON = jsonObject.getJSONArray("products");
                     for (int i = 0; i < productsJSON.length(); i++) {
                         JSONObject o = (JSONObject) productsJSON.get(i);
-                        products.add(new Product(o.getString("title"), o.getString("link"), o.getString("img"), o.getDouble("price"), o.getString("source")));
+                        products.add(new Product(o.getString("title"), o.getString("detailPageURL"), o.getString("image"), o.getDouble("price"), o.getString("source"), o.getString("thumbnail")));
                     }
 
                     if (adapter != null) {
                         adapter.notifyDataSetChanged();
                     }
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();

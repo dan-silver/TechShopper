@@ -27,15 +27,19 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.melnykov.fab.FloatingActionButton;
 
 public class SuperAwesomeCardFragment extends Fragment {
-    private static final String ARG_POSITION = "position";
-    Category cat;
-    int position;
+    private static final String SECONDARY_CAT_ID = "sec_cat_id";
+    private static final String PRIMARY_CAT_ID = "pri_cat_id";
+    PrimaryCategory pri_cat;
+    SecondaryCategory sec_cat;
+    int sec_cat_id;
+    int pri_cat_id;
 
-    public static SuperAwesomeCardFragment newInstance(int position) {
+    public static SuperAwesomeCardFragment newInstance(int sec_cat_id, int pri_cat_id) {
 
         SuperAwesomeCardFragment f = new SuperAwesomeCardFragment();
         Bundle b = new Bundle();
-        b.putInt(ARG_POSITION, position);
+        b.putInt(SECONDARY_CAT_ID, sec_cat_id);
+        b.putInt(PRIMARY_CAT_ID, pri_cat_id);
         f.setArguments(b);
         return f;
     }
@@ -43,15 +47,18 @@ public class SuperAwesomeCardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        position = getArguments().getInt(ARG_POSITION);
-        cat = MainActivity.tab_labels.get(position);
+        sec_cat_id = getArguments().getInt(SECONDARY_CAT_ID);
+        pri_cat_id = getArguments().getInt(PRIMARY_CAT_ID);
+        pri_cat = PrimaryCategory.findById(pri_cat_id);
+        sec_cat = pri_cat.findSecondaryCatById(sec_cat_id);
+        sec_cat.getProducts();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.products_list, container, false);
         ListView productsList = (ListView) view.findViewById(R.id.products_list);
-        productsList.setAdapter(cat.adapter);
+        productsList.setAdapter(sec_cat.adapter);
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.attachToListView(productsList);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -68,8 +75,6 @@ public class SuperAwesomeCardFragment extends Fragment {
                         .show();
             }
         });
-
-//        fab.setImageResource();
         return view;
     }
 }

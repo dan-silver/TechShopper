@@ -59,15 +59,21 @@ public class ProductArrayAdapter extends ArrayAdapter<Product> {
         }
 
         holder.txtProductPrice.setText("$" + rowItem.price);
-        Picasso.with(context).load(rowItem.image).into(holder.imageView);
+        Picasso.with(context).load(rowItem.thumbnail).into(holder.imageView);
 
-        int resource = 0;
-        if (rowItem.source.equals("newegg")) {
-            resource = R.mipmap.newegg;
-        } else if (rowItem.source.equals("techbargains")) {
-            resource = R.mipmap.techbargains;
+        int imageResource = 0;
+        switch (rowItem.source) {
+            case "newegg":
+                imageResource = R.mipmap.newegg;
+                break;
+            case "techbargains":
+                imageResource = R.mipmap.techbargains;
+                break;
+            case "amazon":
+                imageResource = R.mipmap.amazon;
+                break;
         }
-        holder.sourceLogo.setImageResource(resource);
+        holder.sourceLogo.setImageResource(imageResource);
         holder.flowTextView.setText(rowItem.name);
 
 
