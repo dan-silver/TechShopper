@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingTop="5dp"
+    android:paddingBottom="5dp"
     android:background="@color/white"
     android:descendantFocusability="blocksDescendants"
     android:elevation="@dimen/cardview_default_elevation">
@@ -34,10 +35,17 @@
             android:textSize="14sp"
             android:text="abv abv abv abv abv abv abv abv abv abv abv abv ">
         </TextView>
-        <LinearLayout
+        <RelativeLayout
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end">
+            android:layout_height="wrap_content">
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/foodRatingBar"
+                android:stepSize="0.01"
+                android:rating="3.75"
+                android:id="@+id/product_rating"/>
             <TextView
                 android:id="@+id/price"
                 android:layout_width="wrap_content"
@@ -45,10 +53,11 @@
                 android:gravity="end"
                 android:typeface="sans"
                 android:text="$109.99"
+                android:layout_alignParentEnd="true"
                 android:textColor="#72BA46"
                 android:textAlignment="textEnd"
                 android:textSize="14sp" />
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 </LinearLayout>

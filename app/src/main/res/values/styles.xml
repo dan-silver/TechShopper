@@ -7,4 +7,9 @@
         <item name="android:windowBackground">@color/background_window</item>
 
     </style>
+    <style name="foodRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ratingstars</item>
+        <item name="android:minHeight">18dp</item>
+        <item name="android:maxHeight">18dp</item>
+    </style>
 </resources>

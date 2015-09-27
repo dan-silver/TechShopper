@@ -2,20 +2,18 @@ package com.silver.dan.deals;
 
 import android.app.Activity;
 import android.content.Context;
-import android.text.Html;
-import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
 
-import uk.co.deanwild.flowtextview.FlowTextView;
+import java.util.List;
 
 /**
  * Created by dan on 9/19/15.
@@ -34,6 +32,7 @@ public class ProductArrayAdapter extends ArrayAdapter<Product> {
         ImageView imageView;
         TextView flowTextView;
         TextView txtProductPrice;
+        RatingBar ratingBar;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -49,6 +48,7 @@ public class ProductArrayAdapter extends ArrayAdapter<Product> {
             holder.flowTextView = (TextView) convertView.findViewById(R.id.product_title);
             holder.txtProductPrice = (TextView) convertView.findViewById(R.id.price);
             holder.imageView = (ImageView) convertView.findViewById(R.id.list_image);
+            holder.ratingBar = (RatingBar) convertView.findViewById(R.id.product_rating);
 
 
             convertView.setTag(holder);
@@ -61,24 +61,7 @@ public class ProductArrayAdapter extends ArrayAdapter<Product> {
 
         Picasso.with(context).load(rowItem.image).into(holder.imageView);
 
-//        int imageResource = 0;
-//        switch (rowItem.source) {
-//            case "newegg":
-//                imageResource = R.mipmap.newegg;
-//                break;
-//            case "techbargains":
-//                imageResource = R.mipmap.techbargains;
-//                break;
-//            case "amazon":
-//                imageResource = R.mipmap.amazon;
-//                break;
-//        }
-//        holder.sourceLogo.setImageResource(imageResource);
-
-
-//        holder.flowTextView.setTextSize(55);
-
-
+        holder.ratingBar.setRating((float) rowItem.getRating());
         return convertView;
     }
 
