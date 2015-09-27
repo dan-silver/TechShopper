@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 /**
@@ -32,7 +34,7 @@ public class ProductArrayAdapter extends ArrayAdapter<Product> {
         ImageView imageView;
         TextView flowTextView;
         TextView txtProductPrice;
-        RatingBar ratingBar;
+        TextView rating;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -48,7 +50,7 @@ public class ProductArrayAdapter extends ArrayAdapter<Product> {
             holder.flowTextView = (TextView) convertView.findViewById(R.id.product_title);
             holder.txtProductPrice = (TextView) convertView.findViewById(R.id.price);
             holder.imageView = (ImageView) convertView.findViewById(R.id.list_image);
-            holder.ratingBar = (RatingBar) convertView.findViewById(R.id.product_rating);
+            holder.rating = (TextView) convertView.findViewById(R.id.product_rating);
 
 
             convertView.setTag(holder);
@@ -61,7 +63,7 @@ public class ProductArrayAdapter extends ArrayAdapter<Product> {
 
         Picasso.with(context).load(rowItem.image).into(holder.imageView);
 
-        holder.ratingBar.setRating((float) rowItem.getRating());
+        holder.rating.setText(rowItem.getRating() + "/5");
         return convertView;
     }
 

@@ -32,7 +32,7 @@ public class Product {
         this.listings.add(l);
     }
 
-    public double getRating() {
+    public String getRating() {
         int maxReviews = Integer.MIN_VALUE;
         double rating = 0;
         for (Listing l : listings) {
@@ -42,6 +42,7 @@ public class Product {
                 Log.v(MainActivity.TAG, "rating: "+rating);
             }
         }
-        return rating;
+
+        return String.format("%.2f", rating );
     }
 }
