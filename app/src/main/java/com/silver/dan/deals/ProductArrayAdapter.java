@@ -32,8 +32,7 @@ public class ProductArrayAdapter extends ArrayAdapter<Product> {
     /*private view holder class*/
     private class ViewHolder {
         ImageView imageView;
-        ImageView sourceLogo;
-        FlowTextView flowTextView;
+        TextView flowTextView;
         TextView txtProductPrice;
     }
 
@@ -47,10 +46,9 @@ public class ProductArrayAdapter extends ArrayAdapter<Product> {
             convertView = mInflater.inflate(R.layout.list_row, null);
 
             holder = new ViewHolder();
-            holder.flowTextView = (FlowTextView) convertView.findViewById(R.id.menu_name);
+            holder.flowTextView = (TextView) convertView.findViewById(R.id.product_title);
             holder.txtProductPrice = (TextView) convertView.findViewById(R.id.price);
             holder.imageView = (ImageView) convertView.findViewById(R.id.list_image);
-            holder.sourceLogo = (ImageView) convertView.findViewById(R.id.source_logo);
 
 
             convertView.setTag(holder);
@@ -58,26 +56,27 @@ public class ProductArrayAdapter extends ArrayAdapter<Product> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.txtProductPrice.setText("$" + rowItem.price);
-        Picasso.with(context).load(rowItem.thumbnail).into(holder.imageView);
-
-        int imageResource = 0;
-        switch (rowItem.source) {
-            case "newegg":
-                imageResource = R.mipmap.newegg;
-                break;
-            case "techbargains":
-                imageResource = R.mipmap.techbargains;
-                break;
-            case "amazon":
-                imageResource = R.mipmap.amazon;
-                break;
-        }
-        holder.sourceLogo.setImageResource(imageResource);
+        holder.txtProductPrice.setText("$" + rowItem.getMinPrice());
         holder.flowTextView.setText(rowItem.name);
 
+        Picasso.with(context).load(rowItem.image).into(holder.imageView);
 
-        holder.flowTextView.setTextSize(55);
+//        int imageResource = 0;
+//        switch (rowItem.source) {
+//            case "newegg":
+//                imageResource = R.mipmap.newegg;
+//                break;
+//            case "techbargains":
+//                imageResource = R.mipmap.techbargains;
+//                break;
+//            case "amazon":
+//                imageResource = R.mipmap.amazon;
+//                break;
+//        }
+//        holder.sourceLogo.setImageResource(imageResource);
+
+
+//        holder.flowTextView.setTextSize(55);
 
 
         return convertView;

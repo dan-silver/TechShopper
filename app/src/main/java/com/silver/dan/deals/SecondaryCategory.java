@@ -23,7 +23,6 @@ public class SecondaryCategory {
     public String name;
     public ArrayList<Product> products;
     public ProductArrayAdapter adapter;
-    public boolean fetchingProducts = false;
     int id;
     private Context context;
 
@@ -38,8 +37,6 @@ public class SecondaryCategory {
     }
 
     public void getProducts() {
-        if (fetchingProducts) return; //don't run this method multiple times
-        fetchingProducts = true;
         Fuel.get(context.getResources().getString(R.string.APP_URL) + "/secondary_categories/" + this.id + ".json").responseJson(new Handler<JSONObject>() {
             @Override
             public void success(@NonNull Request request, @NonNull Response response, JSONObject jsonObject) {
@@ -47,7 +44,13 @@ public class SecondaryCategory {
                     JSONArray productsJSON = jsonObject.getJSONArray("products");
                     for (int i = 0; i < productsJSON.length(); i++) {
                         JSONObject o = (JSONObject) productsJSON.get(i);
-                        products.add(new Product(o.getString("title"), o.getString("detailPageURL"), o.getString("image"), o.getDouble("price"), o.getString("source"), o.getString("thumbnail")));
+                        Product product = new Product(o.getString("title"), o.getString("image"), o.getString("thumbnail"));
+                        JSONArray listings = o.getJSONArray("listings");
+                        for (int j=0; j<listings.length(); j++) {
+                            JSONObject l = (JSONObject) listings.get(j);
+                            product.addListing(new Listing(l.getDouble("price"), l.getString("url"), l.getString("store"), false));
+                        }
+                        products.add(product);
                     }
 
                     if (adapter != null) {
@@ -57,12 +60,10 @@ public class SecondaryCategory {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                fetchingProducts = false;
             }
 
             @Override
             public void failure(@NonNull Request request, @NonNull Response response, @NonNull FuelError fuelError) {
-                fetchingProducts = false;
             }
         });
     }

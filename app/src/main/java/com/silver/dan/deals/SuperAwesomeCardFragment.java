@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.etsy.android.grid.StaggeredGridView;
 import com.melnykov.fab.FloatingActionButton;
 
 public class SuperAwesomeCardFragment extends Fragment {
@@ -57,7 +58,7 @@ public class SuperAwesomeCardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.products_list, container, false);
-        ListView productsList = (ListView) view.findViewById(R.id.products_list);
+        StaggeredGridView productsList = (StaggeredGridView) view.findViewById(R.id.products_list);
         productsList.setAdapter(sec_cat.adapter);
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.attachToListView(productsList);
