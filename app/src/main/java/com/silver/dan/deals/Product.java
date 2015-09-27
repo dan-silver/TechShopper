@@ -8,6 +8,8 @@ import java.util.ArrayList;
  * Created by dan on 9/19/15.
  */
 public class Product {
+    public static String PRODUCT_ID = "PRODUCT_ID";
+    public static String PRODUCT_IMAGE = "PRODUCT_IMAGE";
     public String name;
     public String image;
     public String thumbnail;

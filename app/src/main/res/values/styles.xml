@@ -6,10 +6,17 @@
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:windowBackground">@color/background_window</item>
 
-    </style>
-    <style name="foodRatingBar" parent="@android:style/Widget.RatingBar">
-        <item name="android:progressDrawable">@drawable/ratingstars</item>
-        <item name="android:minHeight">18dp</item>
-        <item name="android:maxHeight">18dp</item>
+        <!-- enable window content transitions -->
+        <item name="android:windowContentTransitions">true</item>
+
+        <!-- specify enter and exit transitions -->
+        <item name="android:windowEnterTransition">@transition/explode</item>
+        <item name="android:windowExitTransition">@transition/explode</item>
+
+        <!-- specify shared element transitions -->
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/change_image_transform</item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/change_image_transform</item>
     </style>
 </resources>

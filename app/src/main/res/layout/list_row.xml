@@ -13,6 +13,7 @@
         android:id="@+id/list_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:transitionName="robot"
         android:src="@mipmap/sample_product"
         android:contentDescription="@string/product_image" />
 

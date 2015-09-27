@@ -16,11 +16,16 @@
 
 package com.silver.dan.deals;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -57,9 +62,26 @@ public class SuperAwesomeCardFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.products_list, container, false);
+        final View view = inflater.inflate(R.layout.products_list, container, false);
         StaggeredGridView productsList = (StaggeredGridView) view.findViewById(R.id.products_list);
         productsList.setAdapter(sec_cat.adapter);
+        productsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // get the common element for the transition in this activity
+                View androidRobotView = view.findViewById(R.id.list_image);
+
+                Intent intent = new Intent(view.getContext(), ProductDetail.class);
+                intent.putExtra(Product.PRODUCT_IMAGE, sec_cat.products.get(position).image);
+                // create the transition animation - the images in the layouts
+                // of both activities are defined with android:transitionName="robot"
+                ActivityOptionsCompat options = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation(getActivity(), androidRobotView, "robot");
+                // start the new activity
+
+                getActivity().startActivity(intent, options.toBundle());
+            }
+        });
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.attachToListView(productsList);
         fab.setOnClickListener(new View.OnClickListener() {
