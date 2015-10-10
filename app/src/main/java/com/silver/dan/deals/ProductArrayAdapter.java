@@ -30,7 +30,7 @@ public class ProductArrayAdapter extends ArrayAdapter<Product> {
     }
 
     /*private view holder class*/
-    private class ViewHolder {
+    static class ViewHolder {
         @Bind(R.id.list_image) ImageView imageView;
         @Bind(R.id.product_title) TextView flowTextView;
         @Bind(R.id.price) TextView txtProductPrice;
