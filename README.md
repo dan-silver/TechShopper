@@ -3,6 +3,6 @@
 Electronics shopping app for Android
 
 Compare prices and reviews from multiple retailers
-![Screenshot showing laptops](https://raw.githubusercontent.com/dan-silver/TechShopperPro/master/screenshot_laptops.png)
+![Screenshot showing laptops](https://raw.githubusercontent.com/dan-silver/TechShopperPro/master/screenshots/screenshot_laptops_small.png)
 
-![Screenshot showing wristbands](https://raw.githubusercontent.com/dan-silver/TechShopperPro/master/screenshot_wristbands.png)
+![Screenshot showing wristbands](https://raw.githubusercontent.com/dan-silver/TechShopperPro/master/screenshots/screenshot_wristbands_small.png)
