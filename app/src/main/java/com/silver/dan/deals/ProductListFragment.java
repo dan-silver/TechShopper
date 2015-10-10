@@ -1,19 +1,16 @@
 package com.silver.dan.deals;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.etsy.android.grid.StaggeredGridView;
 import com.melnykov.fab.FloatingActionButton;
 
-import butterknife.ButterKnife;
 
 public class ProductListFragment extends Fragment {
     private static final String SECONDARY_CAT_ID = "sec_cat_id";
@@ -22,6 +19,10 @@ public class ProductListFragment extends Fragment {
     SecondaryCategory sec_cat;
     int sec_cat_id;
     int pri_cat_id;
+
+
+    private RecyclerView mRecyclerView;
+    private StaggeredGridLayoutManager staggeredGridLayoutManager;
 
     public static ProductListFragment newInstance(int sec_cat_id, int pri_cat_id) {
         ProductListFragment f = new ProductListFragment();
@@ -45,18 +46,25 @@ public class ProductListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.products_list, container, false);
-        StaggeredGridView productsList = (StaggeredGridView) view.findViewById(R.id.products_list);
-        productsList.setAdapter(sec_cat.adapter);
-        productsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(view.getContext(), ProductDetail.class);
-                intent.putExtra(Product.PRODUCT_SERIALIZED, sec_cat.products.get(position));
-                getActivity().startActivity(intent);
-            }
-        });
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.products_list);
+
+        mRecyclerView.setHasFixedSize(true);
+        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
+        mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+
+
+        mRecyclerView.setAdapter(sec_cat.adapter);
+
+//                ;.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent = new Intent(view.getContext(), ProductDetail.class);
+//                intent.putExtra(Product.PRODUCT_SERIALIZED, sec_cat.products.get(position));
+//                getActivity().startActivity(intent);
+//            }
+//        });
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.attachToListView(productsList);
+        fab.attachToRecyclerView(mRecyclerView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

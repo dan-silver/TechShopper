@@ -2,7 +2,11 @@ package com.silver.dan.deals;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,6 +15,8 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import fuel.Fuel;
 import fuel.core.FuelError;
 import fuel.core.Handler;
@@ -21,6 +27,7 @@ import fuel.core.Response;
  * Created by dan on 9/19/15.
  */
 public class Product implements Serializable {
+
     public static String PRODUCT_SERIALIZED = "PRODUCT_SERIALIZED";
 
     public String title;
@@ -113,5 +120,17 @@ public class Product implements Serializable {
             }
         });
 
+    }
+
+    public static class Holder extends RecyclerView.ViewHolder{
+        @Bind(R.id.list_image) ImageView imageView;
+        @Bind(R.id.product_title) TextView flowTextView;
+        @Bind(R.id.price) TextView txtProductPrice;
+        @Bind(R.id.product_rating) TextView rating;
+
+        public Holder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
     }
 }

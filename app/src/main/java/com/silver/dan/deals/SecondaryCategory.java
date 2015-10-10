@@ -3,6 +3,7 @@ package com.silver.dan.deals;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,9 +32,7 @@ public class SecondaryCategory {
         this.id = id;
         this.context = context;
         products = new ArrayList<>();
-        adapter = new ProductArrayAdapter(context,
-                R.layout.list_item,
-                products);
+        adapter = new ProductArrayAdapter(context, products);
     }
 
     public void getProducts() {
