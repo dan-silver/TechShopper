@@ -41,10 +41,17 @@ public class Product {
             if (l.number_of_reviews > maxReviews) {
                 maxReviews = l.number_of_reviews;
                 rating = l.average_review;
-                Log.v(MainActivity.TAG, "rating: "+rating);
             }
         }
 
         return String.format("%.2f", rating );
+    }
+
+    public boolean hasReviewData() {
+        for (Listing l : listings) {
+            if (l.hasReviewData)
+                return true;
+        }
+        return false;
     }
 }

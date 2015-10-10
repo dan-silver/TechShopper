@@ -63,7 +63,11 @@ public class ProductArrayAdapter extends ArrayAdapter<Product> {
 
         Picasso.with(context).load(rowItem.image).into(holder.imageView);
 
-        holder.rating.setText(rowItem.getRating() + "/5");
+        if (rowItem.hasReviewData()) {
+            holder.rating.setText(rowItem.getRating() + "/5");
+        } else {
+            holder.rating.setVisibility(View.GONE);
+        }
         return convertView;
     }
 

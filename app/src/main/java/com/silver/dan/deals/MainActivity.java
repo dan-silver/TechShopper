@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -17,7 +16,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.astuetz.PagerSlidingTabStrip;
 
@@ -43,13 +41,13 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
 
     @InjectView(R.id.tabs)
-    PagerSlidingTabStrip tabs;
+    PagerSlidingTabStrip slidingTabs;
 
     @InjectView(R.id.pager)
-    ViewPager pager;
+    ViewPager slidingTabsPager;
 
 
-    private MyPagerAdapter adapter;
+    private SlidingTabsAdapter slidingTabsAdapter;
     static ArrayList<PrimaryCategory> primary_categories = new ArrayList<>();
 
     public void updateDrawerWithPrimaryCategories(Menu menu) {
@@ -64,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.drawer_main);
         ButterKnife.inject(this);
 
-        adapter = new MyPagerAdapter(getSupportFragmentManager());
-        pager.setAdapter(adapter);
-        tabs.setViewPager(pager);
+        slidingTabsAdapter = new SlidingTabsAdapter(getSupportFragmentManager());
+        slidingTabsPager.setAdapter(slidingTabsAdapter);
+        slidingTabs.setViewPager(slidingTabsPager);
 
         // Set a Toolbar to replace the ActionBar.
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
@@ -94,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                     JSONArray categoriesJSON = jsonObject.getJSONArray("categories");
                     for (int i = 0; i < categoriesJSON.length(); i++) {
                         JSONObject primaryCategory = (JSONObject) categoriesJSON.get(i);
-                        PrimaryCategory category = new PrimaryCategory(primaryCategory.getString("title"), primaryCategory.getInt("id"), context);
+                        PrimaryCategory category = new PrimaryCategory(primaryCategory.getString("title"), primaryCategory.getInt("id"));
                         JSONArray secondaryCategories = primaryCategory.getJSONArray("secondaryCategories");
                         for (int j=0;j<secondaryCategories.length();j++) {
                             JSONObject secondaryCategory = (JSONObject) secondaryCategories.get(j);
@@ -106,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                adapter.notifyDataSetChanged();
+                slidingTabsAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -132,17 +130,10 @@ public class MainActivity extends AppCompatActivity {
         mDrawer.closeDrawers();
 
         final PrimaryCategory category = PrimaryCategory.findById(selected);
-//        new Runnable() {
-//
-//            @Override
-//            public void run() {
-        adapter = new MyPagerAdapter(getSupportFragmentManager());
-        adapter.setCategory(category);
-        pager.setAdapter(adapter);
-        tabs.setViewPager(pager);
-//            }
-//        }.run();
-
+        slidingTabsAdapter = new SlidingTabsAdapter(getSupportFragmentManager());
+        slidingTabsAdapter.setCategory(category);
+        slidingTabsPager.setAdapter(slidingTabsAdapter);
+        slidingTabs.setViewPager(slidingTabsPager);
     }
 
 
@@ -163,10 +154,10 @@ public class MainActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
     }
 
-    public class MyPagerAdapter extends FragmentStatePagerAdapter {
+    public class SlidingTabsAdapter extends FragmentStatePagerAdapter {
         PrimaryCategory category;
 
-        public MyPagerAdapter(FragmentManager fm) {
+        public SlidingTabsAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -191,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             SecondaryCategory sec_cat = category.secondaryCategories.get(position);
-            return SuperAwesomeCardFragment.newInstance(sec_cat.id, category.id);
+            return ProductListFragment.newInstance(sec_cat.id, category.id);
         }
     }
 }

@@ -10,13 +10,11 @@ import java.util.ArrayList;
 public class PrimaryCategory {
     public String name;
     public int id;
-    private Context context;
     public ArrayList<SecondaryCategory> secondaryCategories;
 
-    public PrimaryCategory(String name, int id, Context applicationContext) {
+    public PrimaryCategory(String name, int id) {
         this.name = name;
         this.id = id;
-        this.context = applicationContext;
         secondaryCategories = new ArrayList<>();
     }
 

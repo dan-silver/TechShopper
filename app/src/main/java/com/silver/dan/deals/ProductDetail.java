@@ -28,7 +28,6 @@ public class ProductDetail extends AppCompatActivity {
         String imageURL = intent.getStringExtra(Product.PRODUCT_IMAGE);
         Picasso.with(getApplicationContext()).load(imageURL).into(productImage);
 
-
     }
 
 }

@@ -10,13 +10,13 @@ public class Listing {
     public boolean freeShipping;
     public double average_review;
     public int number_of_reviews;
+    public boolean hasReviewData;
 
-    Listing(double price, String url, String store, boolean freeShipping, int number_of_reviews, double average_review) {
+    Listing(double price, String url, String store, boolean freeShipping) {
+        hasReviewData = false; //default to no review data
         this.price = price;
         this.url = url;
         this.store = store;
         this.freeShipping = freeShipping;
-        this.number_of_reviews = number_of_reviews;
-        this.average_review = average_review;
     }
 }

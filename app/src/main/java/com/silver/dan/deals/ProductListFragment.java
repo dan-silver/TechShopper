@@ -16,8 +16,6 @@
 
 package com.silver.dan.deals;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -26,13 +24,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.etsy.android.grid.StaggeredGridView;
 import com.melnykov.fab.FloatingActionButton;
 
-public class SuperAwesomeCardFragment extends Fragment {
+public class ProductListFragment extends Fragment {
     private static final String SECONDARY_CAT_ID = "sec_cat_id";
     private static final String PRIMARY_CAT_ID = "pri_cat_id";
     PrimaryCategory pri_cat;
@@ -40,9 +37,8 @@ public class SuperAwesomeCardFragment extends Fragment {
     int sec_cat_id;
     int pri_cat_id;
 
-    public static SuperAwesomeCardFragment newInstance(int sec_cat_id, int pri_cat_id) {
-
-        SuperAwesomeCardFragment f = new SuperAwesomeCardFragment();
+    public static ProductListFragment newInstance(int sec_cat_id, int pri_cat_id) {
+        ProductListFragment f = new ProductListFragment();
         Bundle b = new Bundle();
         b.putInt(SECONDARY_CAT_ID, sec_cat_id);
         b.putInt(PRIMARY_CAT_ID, pri_cat_id);
