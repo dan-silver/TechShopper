@@ -36,9 +36,15 @@ public class Product implements Serializable {
         this.id = id;
     }
 
+    public String getPriceString() {
+        return "$" + getMinPrice();
+    }
+
     //define callback interface
     interface Callback {
         void onDetailsLoaded();
+
+        void onDetailsError();
     }
 
     public double getMinPrice() {
@@ -51,7 +57,9 @@ public class Product implements Serializable {
     }
 
     public void addListing(Listing l) {
-        this.listings.add(l);
+        if (listings == null)
+            listings = new ArrayList<>();
+        listings.add(l);
     }
 
     public String getRating() {
@@ -76,30 +84,32 @@ public class Product implements Serializable {
     }
 
     protected void fetchDetailData(Context context, final Callback callback) {
-        Fuel.get(context.getResources().getString(R.string.APP_URL) + "/secondary_categories/" + id + ".json").responseJson(new Handler<JSONObject>() {
+        Fuel.get(context.getResources().getString(R.string.APP_URL) + "/products/" + id + ".json").responseJson(new Handler<JSONObject>() {
             @Override
             public void success(@NonNull Request request, @NonNull Response response, JSONObject productJSON) {
                 try {
-                        JSONArray listings = productJSON.getJSONArray("listings");
-                        for (int j=0; j<listings.length(); j++) {
-                            JSONObject l = (JSONObject) listings.get(j);
-                            Listing listing = new Listing(l.getDouble("price"), l.getString("url"), l.getString("store"), false);
-                            if (!l.isNull("number_of_reviews")) {
-                                listing.hasReviewData = true;
-                                listing.number_of_reviews = l.getInt("number_of_reviews");
-                                listing.average_review = l.getDouble("average_review");
-                            }
-                            addListing(listing);
-                            callback.onDetailsLoaded();
+                    JSONArray listings = productJSON.getJSONArray("listings");
+                    for (int j=0; j<listings.length(); j++) {
+                        JSONObject l = (JSONObject) listings.get(j);
+                        Listing listing = new Listing(l.getDouble("price"), l.getString("url"), l.getString("store"), false);
+                        if (!l.isNull("number_of_reviews")) {
+                            listing.hasReviewData = true;
+                            listing.number_of_reviews = l.getInt("number_of_reviews");
+                            listing.average_review = l.getDouble("average_review");
                         }
-                    } catch (JSONException e1) {
+                        addListing(listing);
+                        callback.onDetailsLoaded();
+                    }
+                } catch (JSONException e1) {
                     e1.printStackTrace();
+                    callback.onDetailsError();
                 }
             }
 
             @Override
             public void failure(@NonNull Request request, @NonNull Response response, @NonNull FuelError fuelError) {
                 Log.e(MainActivity.TAG, fuelError.toString());
+                callback.onDetailsError();
             }
         });
 

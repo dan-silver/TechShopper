@@ -17,9 +17,6 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
-/**
- * Created by dan on 9/19/15.
- */
 public class ProductArrayAdapter extends ArrayAdapter<Product> {
 
     Context context;
@@ -58,7 +55,7 @@ public class ProductArrayAdapter extends ArrayAdapter<Product> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.txtProductPrice.setText("$" + rowItem.getMinPrice());
+        holder.txtProductPrice.setText(rowItem.getPriceString());
         holder.flowTextView.setText(rowItem.title);
 
         Picasso.with(context).load(rowItem.image).into(holder.imageView);
