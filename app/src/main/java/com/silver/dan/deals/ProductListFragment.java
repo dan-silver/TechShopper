@@ -1,5 +1,6 @@
 package com.silver.dan.deals;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -52,17 +53,16 @@ public class ProductListFragment extends Fragment {
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
-
         mRecyclerView.setAdapter(sec_cat.adapter);
+        sec_cat.adapter.setOnItemClickListener(new ProductArrayAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View itemView, int position) {
+                Intent intent = new Intent(view.getContext(), ProductDetail.class);
+                intent.putExtra(Product.PRODUCT_SERIALIZED, sec_cat.products.get(position));
+                getActivity().startActivity(intent);
+            }
+        });
 
-//                ;.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(view.getContext(), ProductDetail.class);
-//                intent.putExtra(Product.PRODUCT_SERIALIZED, sec_cat.products.get(position));
-//                getActivity().startActivity(intent);
-//            }
-//        });
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.attachToRecyclerView(mRecyclerView);
         fab.setOnClickListener(new View.OnClickListener() {

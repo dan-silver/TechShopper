@@ -122,15 +122,4 @@ public class Product implements Serializable {
 
     }
 
-    public static class Holder extends RecyclerView.ViewHolder{
-        @Bind(R.id.list_image) ImageView imageView;
-        @Bind(R.id.product_title) TextView flowTextView;
-        @Bind(R.id.price) TextView txtProductPrice;
-        @Bind(R.id.product_rating) TextView rating;
-
-        public Holder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
-    }
 }
