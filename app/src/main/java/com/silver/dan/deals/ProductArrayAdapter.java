@@ -17,6 +17,9 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class ProductArrayAdapter extends ArrayAdapter<Product> {
 
     Context context;
@@ -28,33 +31,31 @@ public class ProductArrayAdapter extends ArrayAdapter<Product> {
 
     /*private view holder class*/
     private class ViewHolder {
-        ImageView imageView;
-        TextView flowTextView;
-        TextView txtProductPrice;
-        TextView rating;
+        @Bind(R.id.list_image) ImageView imageView;
+        @Bind(R.id.product_title) TextView flowTextView;
+        @Bind(R.id.price) TextView txtProductPrice;
+        @Bind(R.id.product_rating) TextView rating;
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        Product rowItem = getItem(position);
 
-        LayoutInflater mInflater = (LayoutInflater) context
-                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.list_row, null);
+            LayoutInflater mInflater = (LayoutInflater) context
+                    .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            convertView = mInflater.inflate(R.layout.list_row, parent, false);
 
-            holder = new ViewHolder();
-            holder.flowTextView = (TextView) convertView.findViewById(R.id.product_title);
-            holder.txtProductPrice = (TextView) convertView.findViewById(R.id.price);
-            holder.imageView = (ImageView) convertView.findViewById(R.id.list_image);
-            holder.rating = (TextView) convertView.findViewById(R.id.product_rating);
-
-
+            holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        Product rowItem = getItem(position);
         holder.txtProductPrice.setText(rowItem.getPriceString());
         holder.flowTextView.setText(rowItem.title);
 

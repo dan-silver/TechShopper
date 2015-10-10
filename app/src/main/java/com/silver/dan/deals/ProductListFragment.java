@@ -13,6 +13,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.etsy.android.grid.StaggeredGridView;
 import com.melnykov.fab.FloatingActionButton;
 
+import butterknife.ButterKnife;
+
 public class ProductListFragment extends Fragment {
     private static final String SECONDARY_CAT_ID = "sec_cat_id";
     private static final String PRIMARY_CAT_ID = "pri_cat_id";
