@@ -59,7 +59,7 @@ public class ProductArrayAdapter extends ArrayAdapter<Product> {
         }
 
         holder.txtProductPrice.setText("$" + rowItem.getMinPrice());
-        holder.flowTextView.setText(rowItem.name);
+        holder.flowTextView.setText(rowItem.title);
 
         Picasso.with(context).load(rowItem.image).into(holder.imageView);
 

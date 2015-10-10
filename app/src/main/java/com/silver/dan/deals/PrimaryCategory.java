@@ -1,12 +1,7 @@
 package com.silver.dan.deals;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 
-/**
- * Created by dan on 9/25/15.
- */
 public class PrimaryCategory {
     public String name;
     public int id;

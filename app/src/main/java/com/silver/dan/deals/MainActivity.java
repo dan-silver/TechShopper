@@ -25,7 +25,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import butterknife.InjectView;
+import butterknife.Bind;
 import fuel.Fuel;
 import fuel.core.FuelError;
 import fuel.core.Handler;
@@ -33,18 +33,13 @@ import fuel.core.Request;
 import fuel.core.Response;
 import butterknife.ButterKnife;
 
-/**
- * Created by dan on 9/24/15.
- */
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "SILVER_APP";
     private DrawerLayout mDrawer;
 
-    @InjectView(R.id.tabs)
-    PagerSlidingTabStrip slidingTabs;
+    @Bind(R.id.tabs) PagerSlidingTabStrip slidingTabs;
 
-    @InjectView(R.id.pager)
-    ViewPager slidingTabsPager;
+    @Bind(R.id.pager) ViewPager slidingTabsPager;
 
 
     private SlidingTabsAdapter slidingTabsAdapter;
@@ -60,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
         slidingTabsAdapter = new SlidingTabsAdapter(getSupportFragmentManager());
         slidingTabsPager.setAdapter(slidingTabsAdapter);
