@@ -18,7 +18,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ProductDetail">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.silver.dan.deals.MainActivity" />
         </activity>
     </application>
-
 </manifest>

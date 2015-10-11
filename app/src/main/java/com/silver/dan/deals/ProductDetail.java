@@ -2,10 +2,13 @@ package com.silver.dan.deals;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +25,7 @@ public class ProductDetail extends AppCompatActivity {
     @Bind(R.id.productDetailTitle) TextView productDetailTitle;
     @Bind(R.id.productDetailPrice) TextView productDetailPrice;
     @Bind(R.id.productDetailListings) RecyclerView productListings;
+    @Bind(R.id.product_detail_toolbar) Toolbar toolbar;
 
     private RecyclerView.Adapter mAdapter;
 
@@ -30,6 +34,13 @@ public class ProductDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_detail);
         ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
+
+        //Your toolbar is now an action bar and you can use it like you always do, for example:
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         Intent intent = getIntent();
         final Product product = (Product) intent.getSerializableExtra(Product.PRODUCT_SERIALIZED);
 
@@ -71,6 +82,17 @@ public class ProductDetail extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
