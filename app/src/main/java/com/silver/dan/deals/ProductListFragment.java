@@ -21,10 +21,6 @@ public class ProductListFragment extends Fragment {
     int sec_cat_id;
     int pri_cat_id;
 
-
-    private RecyclerView mRecyclerView;
-    private StaggeredGridLayoutManager staggeredGridLayoutManager;
-
     public static ProductListFragment newInstance(int sec_cat_id, int pri_cat_id) {
         ProductListFragment f = new ProductListFragment();
         Bundle b = new Bundle();
@@ -47,10 +43,10 @@ public class ProductListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.products_list, container, false);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.products_list);
+        RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.products_list);
 
         mRecyclerView.setHasFixedSize(true);
-        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
         mRecyclerView.setAdapter(sec_cat.adapter);

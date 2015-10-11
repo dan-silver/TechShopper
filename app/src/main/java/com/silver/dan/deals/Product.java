@@ -2,11 +2,7 @@ package com.silver.dan.deals;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,17 +11,12 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import fuel.Fuel;
 import fuel.core.FuelError;
 import fuel.core.Handler;
 import fuel.core.Request;
 import fuel.core.Response;
 
-/**
- * Created by dan on 9/19/15.
- */
 public class Product implements Serializable {
 
     public static String PRODUCT_SERIALIZED = "PRODUCT_SERIALIZED";
@@ -44,14 +35,13 @@ public class Product implements Serializable {
     }
 
     public String getPriceString() {
-        return "$" + getMinPrice();
+        return "$" + String.format( "%.2f", getMinPrice() );
     }
 
-    //define callback interface
-    interface Callback {
-        void onDetailsLoaded();
+    interface DetailsCallback {
+        void onLoaded();
 
-        void onDetailsError();
+        void onError();
     }
 
     public double getMinPrice() {
@@ -63,7 +53,7 @@ public class Product implements Serializable {
         return minPrice;
     }
 
-    public void addListing(Listing l) {
+    public void addOrUpdateListing(Listing l) {
         if (listings == null)
             listings = new ArrayList<>();
         listings.add(l);
@@ -90,7 +80,7 @@ public class Product implements Serializable {
         return false;
     }
 
-    protected void fetchDetailData(Context context, final Callback callback) {
+    protected void fetchDetailData(Context context, final DetailsCallback callback) {
         Fuel.get(context.getResources().getString(R.string.APP_URL) + "/products/" + id + ".json").responseJson(new Handler<JSONObject>() {
             @Override
             public void success(@NonNull Request request, @NonNull Response response, JSONObject productJSON) {
@@ -98,25 +88,25 @@ public class Product implements Serializable {
                     JSONArray listings = productJSON.getJSONArray("listings");
                     for (int j=0; j<listings.length(); j++) {
                         JSONObject l = (JSONObject) listings.get(j);
-                        Listing listing = new Listing(l.getDouble("price"), l.getString("url"), l.getString("store"), false);
+                        Listing listing = new Listing(l.getInt("id"), l.getDouble("price"), l.getString("url"), l.getString("store"), false);
                         if (!l.isNull("number_of_reviews")) {
                             listing.hasReviewData = true;
                             listing.number_of_reviews = l.getInt("number_of_reviews");
                             listing.average_review = l.getDouble("average_review");
                         }
-                        addListing(listing);
-                        callback.onDetailsLoaded();
+                        addOrUpdateListing(listing);
+                        callback.onLoaded();
                     }
                 } catch (JSONException e1) {
                     e1.printStackTrace();
-                    callback.onDetailsError();
+                    callback.onError();
                 }
             }
 
             @Override
             public void failure(@NonNull Request request, @NonNull Response response, @NonNull FuelError fuelError) {
                 Log.e(MainActivity.TAG, fuelError.toString());
-                callback.onDetailsError();
+                callback.onError();
             }
         });
 

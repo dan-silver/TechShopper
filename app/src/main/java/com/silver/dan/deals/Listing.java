@@ -11,12 +11,18 @@ public class Listing {
     public double average_review;
     public int number_of_reviews;
     public boolean hasReviewData;
+    private int id;
 
-    Listing(double price, String url, String store, boolean freeShipping) {
+    Listing(int id, double price, String url, String store, boolean freeShipping) {
         hasReviewData = false; //default to no review data
         this.price = price;
         this.url = url;
         this.store = store;
         this.freeShipping = freeShipping;
+        this.id = id;
+    }
+
+    public String getPriceString() {
+        return "$" + String.format( "%.2f", price);
     }
 }

@@ -3,7 +3,6 @@ package com.silver.dan.deals;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.View;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,13 +46,13 @@ public class SecondaryCategory {
                         JSONArray listings = o.getJSONArray("listings");
                         for (int j=0; j<listings.length(); j++) {
                             JSONObject l = (JSONObject) listings.get(j);
-                            Listing listing = new Listing(l.getDouble("price"), l.getString("url"), l.getString("store"), false);
+                            Listing listing = new Listing(l.getInt("id"), l.getDouble("price"), l.getString("url"), l.getString("store"), false);
                             if (!l.isNull("number_of_reviews")) {
                                 listing.hasReviewData = true;
                                 listing.number_of_reviews = l.getInt("number_of_reviews");
                                 listing.average_review = l.getDouble("average_review");
                             }
-                            product.addListing(listing);
+                            product.addOrUpdateListing(listing);
                         }
                         products.add(product);
                     }
