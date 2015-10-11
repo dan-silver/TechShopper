@@ -93,6 +93,10 @@ public class Product implements Serializable {
                     for (int j=0; j<listings.length(); j++) {
                         JSONObject l = (JSONObject) listings.get(j);
                         Listing listing = new Listing(l.getInt("id"), l.getDouble("price"), l.getString("url"), l.getString("store"), false);
+
+                        if (!l.isNull("shippingCost")) listing.shippingCost = l.getDouble("shippingCost");
+                        if (!l.isNull("freeShipping")) listing.freeShipping = l.getBoolean("freeShipping");
+
                         if (!l.isNull("number_of_reviews")) {
                             listing.hasReviewData = true;
                             listing.number_of_reviews = l.getInt("number_of_reviews");

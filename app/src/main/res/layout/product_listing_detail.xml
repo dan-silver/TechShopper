@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardUseCompatPadding="true"
-        card_view:cardCornerRadius="4dp">
+        card_view:cardCornerRadius="0dp">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="horizontal"
@@ -55,8 +55,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="3.4/5"
                         android:id="@+id/product_listing_average_review" />
-
                 </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/product_listing_shipping_info"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:text="Amazon Prime eligible"/>
 
             </LinearLayout>
         </LinearLayout>

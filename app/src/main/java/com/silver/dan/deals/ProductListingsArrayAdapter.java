@@ -41,6 +41,15 @@ public class ProductListingsArrayAdapter extends RecyclerView.Adapter<ProductLis
         } else {
             holder.product_listing_review_info.setVisibility(View.GONE);
         }
+
+
+        if (rowItem.freeShipping) {
+            holder.product_listing_shipping_info.setText("Free shipping");
+        } else if (rowItem.shippingCost != 0.0){
+            holder.product_listing_shipping_info.setText(rowItem.getShippingCostStr());
+        } else {
+            holder.product_listing_shipping_info.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -63,6 +72,10 @@ public class ProductListingsArrayAdapter extends RecyclerView.Adapter<ProductLis
 
         @Bind(R.id.product_listing_review_info)
         LinearLayout product_listing_review_info;
+
+
+        @Bind(R.id.product_listing_shipping_info)
+        TextView product_listing_shipping_info;
 
         public Holder(View view) {
             super(view);

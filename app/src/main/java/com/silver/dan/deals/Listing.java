@@ -1,8 +1,5 @@
 package com.silver.dan.deals;
 
-/**
- * Created by dan on 9/26/15.
- */
 public class Listing {
     public double price;
     public String url;
@@ -11,6 +8,7 @@ public class Listing {
     public double average_review;
     public int number_of_reviews;
     public boolean hasReviewData;
+    public double shippingCost;
     private int id;
 
     Listing(int id, double price, String url, String store, boolean freeShipping) {
@@ -32,5 +30,9 @@ public class Listing {
 
     public String getRatingString() {
         return String.format("%.2f/5", average_review);
+    }
+
+    public String getShippingCostStr() {
+        return String.format("$%.2f shipping", shippingCost);
     }
 }
