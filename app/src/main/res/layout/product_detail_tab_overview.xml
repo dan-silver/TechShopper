@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <com.silver.dan.deals.HackyViewPager
+            android:layout_width="match_parent"
+            android:layout_height="235dp"
+            android:id="@+id/productsDetailViewPages"/>
+
+        <ImageView
+            android:id="@+id/list_image"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/example_product_image"
+            android:contentDescription="@string/product_image" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearance"
+                android:text="Product Title Product Title Product Title Product Title Product Title Product Title Product Title Product Title"
+                android:id="@+id/productDetailTitle"
+                android:layout_gravity="left|top"
+                android:textColor="@color/cardview_dark_background"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="$150.33"
+                android:id="@+id/productDetailPrice"
+                android:layout_gravity="left|top"
+                android:layout_below="@+id/productDetailTitle"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/productDetailListings"
+        android:padding="5dp">
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

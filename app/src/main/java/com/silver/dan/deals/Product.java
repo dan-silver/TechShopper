@@ -26,14 +26,19 @@ public class Product implements Serializable {
     public String thumbnail;
     public int id;
     public transient ArrayList<Listing> listings = new ArrayList<>();
-    public ArrayList<String> features;
-    public ArrayList<String> images;
+    public transient ArrayList<String> features = new ArrayList<>();
+    public transient ArrayList<String> images = new ArrayList<>();
+    public int secondaryCategoryId;
+    public int primaryCategoryId;
+    public boolean detailsLoaded = false;
 
-    Product (String title, String image, String thumbnail, int id) {
+    Product (String title, String image, String thumbnail, int id, int primaryCategoryId, int secondaryCategoryId) {
         this.title = title;
         this.image = image;
         this.thumbnail = thumbnail;
         this.id = id;
+        this.primaryCategoryId = primaryCategoryId;
+        this.secondaryCategoryId = secondaryCategoryId;
     }
 
     public String getPriceString() {
@@ -59,10 +64,21 @@ public class Product implements Serializable {
         return minPrice;
     }
 
-    public void addOrUpdateListing(Listing l) {
+    public void addOrUpdateListing(Listing newListing) {
         if (listings == null)
             listings = new ArrayList<>();
-        listings.add(l);
+
+        //remove the old listing if one exists
+        ArrayList<Listing> toRemove = new ArrayList<>();
+
+        for (Listing oldListing : listings)
+            if (oldListing.store.equals(newListing.store)) {
+                toRemove.add(oldListing);
+            }
+        listings.removeAll(toRemove);
+
+        //regardless, add the new data
+        listings.add(newListing);
     }
 
     public String getRating() {
@@ -87,6 +103,10 @@ public class Product implements Serializable {
     }
 
     protected void fetchDetailData(Context context, final DetailsCallback callback) {
+        if (detailsLoaded) {
+            callback.onLoaded();
+            return;
+        }
         Fuel.get(context.getResources().getString(R.string.APP_URL) + "/products/" + id + ".json").responseJson(new Handler<JSONObject>() {
             @Override
             public void success(@NonNull Request request, @NonNull Response response, JSONObject productJSON) {
@@ -113,9 +133,11 @@ public class Product implements Serializable {
                     dumpJSONArrayToArrayList(productJSON, "images", images);
 
                     callback.onLoaded();
+                    detailsLoaded = true;
                 } catch (JSONException e1) {
                     e1.printStackTrace();
                     callback.onError();
+                    detailsLoaded = false;
                 }
             }
 
@@ -130,7 +152,10 @@ public class Product implements Serializable {
     // given a JSON object with a JSONArray, dump its elements into an ArrayList
     private static void dumpJSONArrayToArrayList(JSONObject json, String jsonKey, ArrayList<String> arrayList) throws JSONException {
         JSONArray arrayElements = json.getJSONArray(jsonKey);
-        for(int i = 0; i < arrayElements.length(); i++)
+        for(int i = 0; i < arrayElements.length(); i++) {
+            if (arrayList == null)
+                arrayList = new ArrayList<>();
             arrayList.add(arrayElements.getString(i));
+        }
     }
 }

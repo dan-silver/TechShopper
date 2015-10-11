@@ -35,6 +35,10 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "SILVER_APP";
+    public static final String PRIMARY_CAT_ID = "PRIMARY_CAT_ID";
+    public static final String SECONDARY_CAT_ID = "SECONDARY_CAT_ID";
+    public static final String PRODUCT_ID = "PRODUCT_ID";
+
     private DrawerLayout mDrawer;
 
     @Bind(R.id.tabs) PagerSlidingTabStrip slidingTabs;
@@ -92,7 +96,9 @@ public class MainActivity extends AppCompatActivity {
                             JSONArray secondaryCategories = primaryCategory.getJSONArray("secondaryCategories");
                             for (int j = 0; j < secondaryCategories.length(); j++) {
                                 JSONObject secondaryCategory = (JSONObject) secondaryCategories.get(j);
-                                category.addSecondaryCategory(new SecondaryCategory(secondaryCategory.getInt("id"), secondaryCategory.getString("title"), context));
+                                SecondaryCategory secCategory = new SecondaryCategory(secondaryCategory.getInt("id"), secondaryCategory.getString("title"), context, category.id);
+//                                secCategory.primaryCategory = category;
+                                category.addSecondaryCategory(secCategory);
                             }
                             primary_categories.add(category);
                         }
@@ -152,6 +158,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+    }
+
+    public static Product findProduct(int pri_cat_id, int sec_cat_id, int product_id) {
+        PrimaryCategory primaryCategory = PrimaryCategory.findById(pri_cat_id);
+        SecondaryCategory secondaryCategory = primaryCategory.findSecondaryCatById(sec_cat_id);
+        return secondaryCategory.findProductById(product_id);
     }
 
     public class SlidingTabsAdapter extends FragmentStatePagerAdapter {

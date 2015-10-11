@@ -25,13 +25,22 @@ public class SecondaryCategory {
     public ProductArrayAdapter adapter;
     int id;
     private Context context;
+    int primaryCategoryId;
 
-    public SecondaryCategory(int id, String title, Context context) {
+    public SecondaryCategory(int id, String title, Context context, int primaryCategoryId) {
         this.name = title;
         this.id = id;
         this.context = context;
         products = new ArrayList<>();
         adapter = new ProductArrayAdapter(context, products);
+        this.primaryCategoryId = primaryCategoryId;
+    }
+
+    public Product findProductById(int id) {
+        for (Product p : products)
+            if (p.id == id)
+                return p;
+        return null;
     }
 
     public void getProducts() {
@@ -42,7 +51,7 @@ public class SecondaryCategory {
                     JSONArray productsJSON = jsonObject.getJSONArray("products");
                     for (int i = 0; i < productsJSON.length(); i++) {
                         JSONObject o = (JSONObject) productsJSON.get(i);
-                        Product product = new Product(o.getString("title"), o.getString("image"), o.getString("thumbnail"), o.getInt("id"));
+                        Product product = new Product(o.getString("title"), o.getString("image"), o.getString("thumbnail"), o.getInt("id"), primaryCategoryId, id);
                         JSONArray listings = o.getJSONArray("listings");
                         for (int j=0; j<listings.length(); j++) {
                             JSONObject l = (JSONObject) listings.get(j);
