@@ -26,6 +26,8 @@ public class Product implements Serializable {
     public String thumbnail;
     public int id;
     public transient ArrayList<Listing> listings = new ArrayList<>();
+    public ArrayList<String> features;
+    public ArrayList<String> images;
 
     Product (String title, String image, String thumbnail, int id) {
         this.title = title;
@@ -103,8 +105,17 @@ public class Product implements Serializable {
                             listing.average_review = l.getDouble("average_review");
                         }
                         addOrUpdateListing(listing);
-                        callback.onLoaded();
                     }
+
+                    JSONArray features = productJSON.getJSONArray("features");
+                    for(int i = 0; i < features.length(); i++)
+                        addFeature(features.getString(i));
+
+                    JSONArray images = productJSON.getJSONArray("images");
+                    for(int i = 0; i < images.length(); i++)
+                        addImage(images.getString(i));
+
+                    callback.onLoaded();
                 } catch (JSONException e1) {
                     e1.printStackTrace();
                     callback.onError();
@@ -117,7 +128,14 @@ public class Product implements Serializable {
                 callback.onError();
             }
         });
+    }
 
+    private void addImage(String imageStr) {
+        this.images.add(imageStr);
+    }
+
+    private void addFeature(String featureStr) {
+        this.features.add(featureStr);
     }
 
 }

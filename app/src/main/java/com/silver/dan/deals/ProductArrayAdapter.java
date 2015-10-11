@@ -57,8 +57,6 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
         } else {
             holder.rating.setVisibility(View.GONE);
         }
-
-
     }
 
     @Override
@@ -81,9 +79,9 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Triggers click upwards to the adapter on click
-                    if (listener != null)
-                        listener.onItemClick(itemView, getLayoutPosition());
+                // Triggers click upwards to the adapter on click
+                if (listener != null)
+                    listener.onItemClick(itemView, getLayoutPosition());
                 }
             });
         }

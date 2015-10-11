@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -26,6 +27,7 @@ public class ProductDetail extends AppCompatActivity {
     @Bind(R.id.productDetailPrice) TextView productDetailPrice;
     @Bind(R.id.productDetailListings) RecyclerView productListings;
     @Bind(R.id.product_detail_toolbar) Toolbar toolbar;
+    @Bind(R.id.productDetailFeatures) TextView productDetailFeatures;
 
     private RecyclerView.Adapter mAdapter;
 
@@ -44,12 +46,13 @@ public class ProductDetail extends AppCompatActivity {
         Intent intent = getIntent();
         final Product product = (Product) intent.getSerializableExtra(Product.PRODUCT_SERIALIZED);
 
-        //recreate the empty listings array
+        //recreate the empty arrays
         product.listings = new ArrayList<>();
+        product.features = new ArrayList<>();
+        product.images = new ArrayList<>();
 
         productDetailTitle.setText(product.title);
         Picasso.with(getApplicationContext()).load(product.image).into(productImage);
-
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -71,8 +74,17 @@ public class ProductDetail extends AppCompatActivity {
                 Log.v(MainActivity.TAG, product.title + " has loaded details");
                 productDetailPrice.setText(product.getPriceString());
 
-                mAdapter.notifyDataSetChanged();
+                // convert the arraylist of features into a bullet point list
+                StringBuilder sb = new StringBuilder();
+                for (String s : product.features) {
+                    sb.append("&#8226; ");
+                    sb.append(s);
+                    sb.append("<br/>");
+                    sb.append("<br/>");
+                }
+                productDetailFeatures.setText(Html.fromHtml(sb.toString()));
 
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override
