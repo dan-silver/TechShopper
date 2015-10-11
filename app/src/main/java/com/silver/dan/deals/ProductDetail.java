@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 
@@ -20,7 +19,6 @@ import butterknife.ButterKnife;
 
 public class ProductDetail extends AppCompatActivity {
     @Bind(R.id.product_detail_toolbar) Toolbar toolbar;
-    @Bind(R.id.productDetailFeatures) TextView productDetailFeatures;
     @Bind(R.id.productDetailTabs) PagerSlidingTabStrip productDetailTabs;
     @Bind(R.id.productDetailTabsPager) ViewPager slidingTabsPager;
 
@@ -58,7 +56,7 @@ public class ProductDetail extends AppCompatActivity {
 
 
     public class SlidingTabsAdapter extends FragmentStatePagerAdapter {
-        String[] pages = {"Overview"};//, "Details"};
+        String[] pages = {"Overview", "Details"};
         Product product;
         public SlidingTabsAdapter(FragmentManager fm, Product product) {
             super(fm);
@@ -79,12 +77,12 @@ public class ProductDetail extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             switch (pages[position]) {
-                default: //"Overview":
+                case "Overview":
                     return ProductDetailsTabOverview.newInstance(product);
-//                case "Details":
-//                    return ProductDetailsTabDetails.newInstance();
+                case "Details":
+                    return ProductDetailsTabDetails.newInstance(product);
             }
-//            return null;
+            return null;
         }
     }
 }

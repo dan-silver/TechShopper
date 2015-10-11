@@ -83,17 +83,6 @@ public class ProductDetailsTabOverview extends Fragment {
                 Log.v(MainActivity.TAG, product.title + " has loaded details");
                 productDetailPrice.setText(product.getPriceString());
 
-                // convert the arraylist of features into a bullet point list
-                StringBuilder sb = new StringBuilder();
-                for (String s : product.features) {
-                    sb.append("&#8226; ");
-                    sb.append(s);
-                    sb.append("<br/>");
-                    sb.append("<br/>");
-                }
-
-                // @todo
-                // productDetailFeatures.setText(Html.fromHtml(sb.toString()));
                 mImagesViewPager.getAdapter().notifyDataSetChanged();
                 mAdapter.notifyDataSetChanged();
             }
