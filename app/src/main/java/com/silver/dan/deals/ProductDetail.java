@@ -139,27 +139,23 @@ public class ProductDetail extends AppCompatActivity {
             // Now just add PhotoView to ViewPager and return it
             container.addView(photoView, ViewPager.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT);
 
-
-            Callback imageLoadedCallback = new Callback() {
-                @Override
-                public void onSuccess() {
-                    if (mAttacher!=null) {
-                        mAttacher.update();
-                    } else {
-                        mAttacher = new PhotoViewAttacher(photoView);
-                    }
-                }
-
-                @Override
-                public void onError() {
-                    // TODO Auto-generated method stub
-
-                }
-            };
-
             Picasso.with(container.getContext())
                     .load(product.images.get(position))
-                    .into(photoView, imageLoadedCallback);
+                    .into(photoView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            if (mAttacher!=null) {
+                                mAttacher.update();
+                            } else {
+                                mAttacher = new PhotoViewAttacher(photoView);
+                            }
+                        }
+
+                        @Override
+                        public void onError() {
+                            // TODO Auto-generated method stub
+                        }
+                    });
 
             return photoView;
         }
