@@ -78,35 +78,40 @@ public class MainActivity extends AppCompatActivity {
 
         setupDrawerContent(navView);
 
-
-        Fuel.get(getResources().getString(R.string.APP_URL) + "/primary_categories.json").responseJson(new Handler<JSONObject>() {
-            @Override
-            public void success(@NonNull Request request, @NonNull Response response, JSONObject jsonObject) {
-                Context context = getApplicationContext();
-                try {
-                    JSONArray categoriesJSON = jsonObject.getJSONArray("categories");
-                    for (int i = 0; i < categoriesJSON.length(); i++) {
-                        JSONObject primaryCategory = (JSONObject) categoriesJSON.get(i);
-                        PrimaryCategory category = new PrimaryCategory(primaryCategory.getString("title"), primaryCategory.getInt("id"));
-                        JSONArray secondaryCategories = primaryCategory.getJSONArray("secondaryCategories");
-                        for (int j=0;j<secondaryCategories.length();j++) {
-                            JSONObject secondaryCategory = (JSONObject) secondaryCategories.get(j);
-                            category.addSecondaryCategory(new SecondaryCategory(secondaryCategory.getInt("id"), secondaryCategory.getString("title"), context));
+        //only fetch category structure if not already loaded
+        if (primary_categories.size() == 0) {
+            Fuel.get(getResources().getString(R.string.APP_URL) + "/primary_categories.json").responseJson(new Handler<JSONObject>() {
+                @Override
+                public void success(@NonNull Request request, @NonNull Response response, JSONObject jsonObject) {
+                    Context context = getApplicationContext();
+                    try {
+                        JSONArray categoriesJSON = jsonObject.getJSONArray("categories");
+                        for (int i = 0; i < categoriesJSON.length(); i++) {
+                            JSONObject primaryCategory = (JSONObject) categoriesJSON.get(i);
+                            PrimaryCategory category = new PrimaryCategory(primaryCategory.getString("title"), primaryCategory.getInt("id"));
+                            JSONArray secondaryCategories = primaryCategory.getJSONArray("secondaryCategories");
+                            for (int j = 0; j < secondaryCategories.length(); j++) {
+                                JSONObject secondaryCategory = (JSONObject) secondaryCategories.get(j);
+                                category.addSecondaryCategory(new SecondaryCategory(secondaryCategory.getInt("id"), secondaryCategory.getString("title"), context));
+                            }
+                            primary_categories.add(category);
                         }
-                        primary_categories.add(category);
+                        updateDrawerWithPrimaryCategories(drawerMenu);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    updateDrawerWithPrimaryCategories(drawerMenu);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    slidingTabsAdapter.notifyDataSetChanged();
                 }
-                slidingTabsAdapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void failure(@NonNull Request request, @NonNull Response response, @NonNull FuelError fuelError) {
-                Log.e(MainActivity.TAG, fuelError.toString());
-            }
-        });
+                @Override
+                public void failure(@NonNull Request request, @NonNull Response response, @NonNull FuelError fuelError) {
+                    Log.e(MainActivity.TAG, fuelError.toString());
+                }
+            });
+        } else if (drawerMenu.size() == 0) {
+            updateDrawerWithPrimaryCategories(drawerMenu);
+            slidingTabsAdapter.notifyDataSetChanged();
+        }
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
