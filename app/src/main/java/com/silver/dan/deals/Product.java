@@ -92,12 +92,14 @@ public class Product implements Serializable {
             public void success(@NonNull Request request, @NonNull Response response, JSONObject productJSON) {
                 try {
                     JSONArray listings = productJSON.getJSONArray("listings");
-                    for (int j=0; j<listings.length(); j++) {
+                    for (int j = 0; j < listings.length(); j++) {
                         JSONObject l = (JSONObject) listings.get(j);
                         Listing listing = new Listing(l.getInt("id"), l.getDouble("price"), l.getString("url"), l.getString("store"), false);
 
-                        if (!l.isNull("shippingCost")) listing.shippingCost = l.getDouble("shippingCost");
-                        if (!l.isNull("freeShipping")) listing.freeShipping = l.getBoolean("freeShipping");
+                        if (!l.isNull("shippingCost"))
+                            listing.shippingCost = l.getDouble("shippingCost");
+                        if (!l.isNull("freeShipping"))
+                            listing.freeShipping = l.getBoolean("freeShipping");
 
                         if (!l.isNull("number_of_reviews")) {
                             listing.hasReviewData = true;
@@ -107,13 +109,8 @@ public class Product implements Serializable {
                         addOrUpdateListing(listing);
                     }
 
-                    JSONArray features = productJSON.getJSONArray("features");
-                    for(int i = 0; i < features.length(); i++)
-                        addFeature(features.getString(i));
-
-                    JSONArray images = productJSON.getJSONArray("images");
-                    for(int i = 0; i < images.length(); i++)
-                        addImage(images.getString(i));
+                    dumpJSONArrayToArrayList(productJSON, "features", features);
+                    dumpJSONArrayToArrayList(productJSON, "images", images);
 
                     callback.onLoaded();
                 } catch (JSONException e1) {
@@ -130,12 +127,10 @@ public class Product implements Serializable {
         });
     }
 
-    private void addImage(String imageStr) {
-        this.images.add(imageStr);
+    // given a JSON object with a JSONArray, dump its elements into an ArrayList
+    private static void dumpJSONArrayToArrayList(JSONObject json, String jsonKey, ArrayList<String> arrayList) throws JSONException {
+        JSONArray arrayElements = json.getJSONArray(jsonKey);
+        for(int i = 0; i < arrayElements.length(); i++)
+            arrayList.add(arrayElements.getString(i));
     }
-
-    private void addFeature(String featureStr) {
-        this.features.add(featureStr);
-    }
-
 }
