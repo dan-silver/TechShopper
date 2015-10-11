@@ -25,4 +25,12 @@ public class Listing {
     public String getPriceString() {
         return "$" + String.format( "%.2f", price);
     }
+
+    public String getStoreCapitalized() {
+        return store.substring(0, 1).toUpperCase() + store.substring(1); //uppercase the first char
+    }
+
+    public String getRatingString() {
+        return String.format("%.2f/5", average_review);
+    }
 }

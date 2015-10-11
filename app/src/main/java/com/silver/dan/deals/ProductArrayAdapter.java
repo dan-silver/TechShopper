@@ -53,7 +53,7 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
         Picasso.with(context).load(rowItem.image).into(holder.imageView);
 
         if (rowItem.hasReviewData()) {
-            holder.rating.setText(rowItem.getRating() + "/5");
+            holder.rating.setText(rowItem.getRatingString());
         } else {
             holder.rating.setVisibility(View.GONE);
         }

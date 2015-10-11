@@ -38,6 +38,10 @@ public class Product implements Serializable {
         return "$" + String.format( "%.2f", getMinPrice() );
     }
 
+    public String getRatingString() {
+        return String.format("%s/5", getRating());
+    }
+
     interface DetailsCallback {
         void onLoaded();
 
