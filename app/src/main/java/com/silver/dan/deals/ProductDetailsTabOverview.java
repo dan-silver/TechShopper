@@ -62,7 +62,7 @@ public class ProductDetailsTabOverview extends Fragment {
 
         productDetailTitle.setText(product.title);
 
-//        mImagesViewPager.setAdapter(new SamplePagerAdapter(product));
+        mImagesViewPager.setAdapter(new SamplePagerAdapter(product));
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -94,7 +94,7 @@ public class ProductDetailsTabOverview extends Fragment {
 
                 // @todo
                 // productDetailFeatures.setText(Html.fromHtml(sb.toString()));
-//                mImagesViewPager.getAdapter().notifyDataSetChanged();
+                mImagesViewPager.getAdapter().notifyDataSetChanged();
                 mAdapter.notifyDataSetChanged();
             }
 
