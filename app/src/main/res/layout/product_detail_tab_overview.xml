@@ -9,11 +9,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="0dp">
-
-        <com.silver.dan.deals.HackyViewPager
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="235dp"
-            android:id="@+id/productsDetailViewPages"/>
+            android:layout_height="wrap_content">
+            <com.silver.dan.deals.HackyViewPager
+                android:layout_width="match_parent"
+                android:layout_height="235dp"
+                android:id="@+id/productsDetailViewPages"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/productsDetailPageCounter"
+                android:text="3/5"
+                android:layout_gravity="end"
+                android:textSize="12sp"
+                android:padding="4dp"
+                android:layout_alignEnd="@+id/productsDetailViewPages"
+                android:layout_alignBottom="@+id/productsDetailViewPages"/>
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"

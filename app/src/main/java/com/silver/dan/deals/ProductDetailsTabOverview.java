@@ -33,6 +33,7 @@ public class ProductDetailsTabOverview extends Fragment {
     @Bind(R.id.productDetailPrice) TextView productDetailPrice;
     @Bind(R.id.productDetailListings) RecyclerView productListings;
     @Bind(R.id.productsDetailViewPages) HackyViewPager mImagesViewPager;
+    @Bind(R.id.productsDetailPageCounter) TextView productsDetailPageCounter;
 
     public static ProductDetailsTabOverview newInstance(Product product) {
         ProductDetailsTabOverview f = new ProductDetailsTabOverview();
@@ -71,6 +72,22 @@ public class ProductDetailsTabOverview extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         productListings.setLayoutManager(mLayoutManager);
 
+        mImagesViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                productsDetailPageCounter.setText((position + 1) + "/" + mImagesViewPager.getAdapter().getCount());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         product.addDetailsLoadedCallback(new Product.DetailsCallback() {
             @Override
@@ -79,6 +96,7 @@ public class ProductDetailsTabOverview extends Fragment {
                 productDetailPrice.setText(product.getPriceString());
 
                 mImagesViewPager.getAdapter().notifyDataSetChanged();
+                productsDetailPageCounter.setText("1/" + mImagesViewPager.getAdapter().getCount());
 
                 mAdapter = new ProductListingsArrayAdapter(getContext(), product.listings);
                 productListings.setAdapter(mAdapter);
