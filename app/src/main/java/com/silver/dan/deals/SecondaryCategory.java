@@ -82,4 +82,8 @@ public class SecondaryCategory {
             }
         });
     }
+
+    public boolean usingFilter() {
+        return adapter.products.size() < adapter.allProducts().size();
+    }
 }

@@ -80,13 +80,22 @@ public class ProductListFragment extends Fragment {
             public void onClick(View v) {
                 //build dialog
                 HashMap<String, Integer> brandCounts = sec_cat.adapter.getBrandCounts();
+                final HashMap<String, Integer> brandPositionNameMap = new HashMap<>();
 
                 ArrayList<String> brandLabels = new ArrayList<>();
                 Iterator it = brandCounts.entrySet().iterator();
+                int position = 0;
+
+                //if a filter is currently being used, add the option "Remove Filter" at the top
+                if (sec_cat.usingFilter()) {
+                    brandLabels.add("Remove Filter");
+                }
+
                 while (it.hasNext()) {
                     Map.Entry pair = (Map.Entry) it.next();
                     brandLabels.add(pair.getKey() + " (" + pair.getValue() + ")");
-
+                    brandPositionNameMap.put((String) pair.getKey(), position);
+                    position++;
                     it.remove(); // avoids a ConcurrentModificationException
                 }
 
@@ -96,6 +105,22 @@ public class ProductListFragment extends Fragment {
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
                             public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+
+
+                                if (text == "Remove Filter") {
+                                    sec_cat.adapter.animateTo(sec_cat.adapter.allProducts());
+                                    return;
+                                }
+                                int position = sec_cat.usingFilter() ? which - 1 : which;
+
+                                //find the selected brand's products
+                                ArrayList<Product> filteredProductsList = new ArrayList<>();
+                                for (Product product : sec_cat.adapter.allProducts()) {
+                                    if (brandPositionNameMap.get(product.brand) == position)
+                                        filteredProductsList.add(product);
+                                }
+
+                                sec_cat.adapter.animateTo(filteredProductsList);
                             }
                         })
                         .show();
