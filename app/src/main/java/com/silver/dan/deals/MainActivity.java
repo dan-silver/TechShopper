@@ -41,12 +41,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String SECONDARY_CAT_ID = "SECONDARY_CAT_ID";
     public static final String PRODUCT_ID = "PRODUCT_ID";
 
-    private DrawerLayout mDrawer;
-
     @Bind(R.id.tabs) PagerSlidingTabStrip slidingTabs;
-
     @Bind(R.id.pager) ViewPager slidingTabsPager;
-
+    @Bind(R.id.nvView) NavigationView navView;
+    @Bind(R.id.drawer_layout) DrawerLayout mDrawer;
 
     private SlidingTabsAdapter slidingTabsAdapter;
     static ArrayList<PrimaryCategory> primary_categories = new ArrayList<>();
@@ -80,16 +78,12 @@ public class MainActivity extends AppCompatActivity {
         // Set a Toolbar to replace the ActionBar.
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
-        // Find our drawer view
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
         // Set the menu icon instead of the launcher icon.
         final ActionBar ab = getSupportActionBar();
         assert ab != null;
         ab.setHomeAsUpIndicator(R.mipmap.ic_menu_white_36dp);
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowTitleEnabled(false);
-        final NavigationView navView = (NavigationView) findViewById(R.id.nvView);
         final Menu drawerMenu = navView.getMenu();
 
         setupDrawerContent(navView);
@@ -109,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
                             for (int j = 0; j < secondaryCategories.length(); j++) {
                                 JSONObject secondaryCategory = (JSONObject) secondaryCategories.get(j);
                                 SecondaryCategory secCategory = new SecondaryCategory(secondaryCategory.getInt("id"), secondaryCategory.getString("title"), context, category.id);
-//                                secCategory.primaryCategory = category;
                                 category.addSecondaryCategory(secCategory);
                             }
                             primary_categories.add(category);
@@ -188,7 +181,6 @@ public class MainActivity extends AppCompatActivity {
         public void setCategory(PrimaryCategory category) {
             this.category = category;
         }
-
 
         @Override
         public CharSequence getPageTitle(int position) {
