@@ -96,7 +96,6 @@ public class ProductDetailsTabOverview extends Fragment {
             public void onLoaded() {
                 Log.v(MainActivity.TAG, "details callback tab overview");
                 productDetailPrice.setText(product.getPriceString());
-                progressWheel.stopSpinning();
 
                 mImagesViewPager.getAdapter().notifyDataSetChanged();
                 productsDetailPageCounter.setText("1/" + mImagesViewPager.getAdapter().getCount());
@@ -136,7 +135,17 @@ public class ProductDetailsTabOverview extends Fragment {
 
             Picasso.with(container.getContext())
                     .load(product.images.get(position))
-                    .into(image);
+                    .into(image, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            progressWheel.stopSpinning();
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+                    });
 
             return image;
         }
