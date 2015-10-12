@@ -5,27 +5,18 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        android:paddingTop="0dp">
 
         <com.silver.dan.deals.HackyViewPager
             android:layout_width="match_parent"
             android:layout_height="235dp"
             android:id="@+id/productsDetailViewPages"/>
 
-        <ImageView
-            android:id="@+id/list_image"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/example_product_image"
-            android:contentDescription="@string/product_image" />
-
         <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp">
 
