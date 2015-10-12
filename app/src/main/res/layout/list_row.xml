@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#4a4a4a"
                     android:typeface="sans"
-                    android:maxLines="4"
+                    android:maxLines="5"
                     android:ellipsize="end"
                     android:textSize="14sp"
                     android:text="abv abv abv abv abv abv abv abv abv abv abv abv ">
@@ -53,15 +53,6 @@
                     android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <!--<ImageView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:src="@drawable/star_off_22"-->
-                        <!--android:layout_toRightOf="@+id/product_rating"-->
-                        <!--android:id="@+id/product_star_symbol"-->
-                        <!--android:layout_alignBottom="@+id/product_rating"-->
-                        <!--android:layout_alignTop="@id/product_rating"-->
-                        <!--/>-->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -82,7 +73,6 @@
                         android:textColor="#72BA46"
                         android:textSize="13sp" />
                 </RelativeLayout>
-    
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

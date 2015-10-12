@@ -33,7 +33,7 @@
         app:headerLayout="@layout/nav_header"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:itemTextAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:itemTextAppearance="@style/TextAppearance.AppCompat.Menu"
         android:background="@android:color/white"
         app:itemTextColor="@color/greenDark"/>
 
