@@ -53,8 +53,14 @@ public class ProductListFragment extends Fragment {
         sec_cat.adapter.setOnItemClickListener(new ProductArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
+                Product product = sec_cat.products.get(position);
+
                 Intent intent = new Intent(view.getContext(), ProductDetail.class);
-                intent.putExtra(Product.PRODUCT_SERIALIZED, sec_cat.products.get(position));
+
+                intent.putExtra(MainActivity.PRIMARY_CAT_ID, product.primaryCategoryId);
+                intent.putExtra(MainActivity.SECONDARY_CAT_ID, product.secondaryCategoryId);
+                intent.putExtra(MainActivity.PRODUCT_ID, product.id);
+
                 getActivity().startActivity(intent);
             }
         });

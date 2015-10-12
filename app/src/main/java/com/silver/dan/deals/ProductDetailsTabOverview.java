@@ -51,7 +51,6 @@ public class ProductDetailsTabOverview extends Fragment {
         int sec_cat_id = getArguments().getInt(MainActivity.SECONDARY_CAT_ID);
         int product_id = getArguments().getInt(MainActivity.PRODUCT_ID);
 
-
         product = MainActivity.findProduct(pri_cat_id, sec_cat_id, product_id);
     }
 
@@ -77,10 +76,10 @@ public class ProductDetailsTabOverview extends Fragment {
         mAdapter = new ProductListingsArrayAdapter(getContext(), product.listings);
         productListings.setAdapter(mAdapter);
 
-        product.fetchDetailData(getContext(), new Product.DetailsCallback() {
+        product.addDetailsLoadedCallback(new Product.DetailsCallback() {
             @Override
             public void onLoaded() {
-                Log.v(MainActivity.TAG, product.title + " has loaded details");
+                Log.v(MainActivity.TAG, "details callback tab overview");
                 productDetailPrice.setText(product.getPriceString());
 
                 mImagesViewPager.getAdapter().notifyDataSetChanged();
@@ -95,8 +94,6 @@ public class ProductDetailsTabOverview extends Fragment {
 
         return view;
     }
-
-
 
     class SamplePagerAdapter extends PagerAdapter {
         private final Product product;

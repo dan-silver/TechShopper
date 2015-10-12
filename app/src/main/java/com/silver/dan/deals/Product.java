@@ -31,6 +31,7 @@ public class Product implements Serializable {
     public int secondaryCategoryId;
     public int primaryCategoryId;
     public boolean detailsLoaded = false;
+    private ArrayList<DetailsCallback> callbacks = new ArrayList<>();
 
     Product (String title, String image, String thumbnail, int id, int primaryCategoryId, int secondaryCategoryId) {
         this.title = title;
@@ -102,9 +103,24 @@ public class Product implements Serializable {
         return false;
     }
 
+    public void addDetailsLoadedCallback(DetailsCallback callback) {
+        //if details are already saved, execute the callback right away, otherwise save it
+        if (detailsLoaded) {
+            callback.onLoaded();
+        } else {
+            callbacks.add(callback);
+        }
+    }
+
+    private void executeDetailsLoadedCallbacks() {
+        for (DetailsCallback callback : callbacks)
+            callback.onLoaded();
+    }
+
     protected void fetchDetailData(Context context, final DetailsCallback callback) {
         if (detailsLoaded) {
             callback.onLoaded();
+            executeDetailsLoadedCallbacks();
             return;
         }
         Fuel.get(context.getResources().getString(R.string.APP_URL) + "/products/" + id + ".json").responseJson(new Handler<JSONObject>() {
@@ -132,8 +148,9 @@ public class Product implements Serializable {
                     dumpJSONArrayToArrayList(productJSON, "features", features);
                     dumpJSONArrayToArrayList(productJSON, "images", images);
 
-                    callback.onLoaded();
                     detailsLoaded = true;
+                    executeDetailsLoadedCallbacks();
+                    callback.onLoaded();
                 } catch (JSONException e1) {
                     e1.printStackTrace();
                     callback.onError();

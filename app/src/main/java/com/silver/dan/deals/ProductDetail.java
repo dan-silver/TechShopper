@@ -8,6 +8,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -32,15 +33,32 @@ public class ProductDetail extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final Product product = (Product) getIntent().getSerializableExtra(Product.PRODUCT_SERIALIZED);
-        //recreate the empty arrays
-        product.listings = new ArrayList<>();
-        product.features = new ArrayList<>();
-        product.images = new ArrayList<>();
+        int pri_cat_id = getIntent().getIntExtra(MainActivity.PRIMARY_CAT_ID, -1);
+        int sec_cat_id = getIntent().getIntExtra(MainActivity.SECONDARY_CAT_ID, -1);
+        int product_id = getIntent().getIntExtra(MainActivity.PRODUCT_ID, -1);
 
-        SlidingTabsAdapter slidingTabsAdapter = new SlidingTabsAdapter(getSupportFragmentManager(), product);
+
+        final Product product = MainActivity.findProduct(pri_cat_id, sec_cat_id, product_id);
+
+        final SlidingTabsAdapter slidingTabsAdapter = new SlidingTabsAdapter(getSupportFragmentManager(), product);
         slidingTabsPager.setAdapter(slidingTabsAdapter);
         productDetailTabs.setViewPager(slidingTabsPager);
+
+        product.fetchDetailData(getApplicationContext(), new Product.DetailsCallback() {
+            @Override
+            public void onLoaded() {
+                Log.v(MainActivity.TAG, product.title + " has loaded details");
+
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+
+
+
     }
 
     @Override
