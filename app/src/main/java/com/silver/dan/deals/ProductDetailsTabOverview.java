@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
@@ -22,8 +23,6 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import uk.co.senab.photoview.PhotoView;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class ProductDetailsTabOverview extends Fragment {
     Product product;
@@ -32,7 +31,7 @@ public class ProductDetailsTabOverview extends Fragment {
     @Bind(R.id.productDetailTitle) TextView productDetailTitle;
     @Bind(R.id.productDetailPrice) TextView productDetailPrice;
     @Bind(R.id.productDetailListings) RecyclerView productListings;
-    @Bind(R.id.productsDetailViewPages) HackyViewPager mImagesViewPager;
+    @Bind(R.id.productsDetailViewPages) ViewPager mImagesViewPager;
     @Bind(R.id.productsDetailPageCounter) TextView productsDetailPageCounter;
 
     public static ProductDetailsTabOverview newInstance(Product product) {
@@ -113,7 +112,6 @@ public class ProductDetailsTabOverview extends Fragment {
 
     class SamplePagerAdapter extends PagerAdapter {
         private final Product product;
-        private PhotoViewAttacher mAttacher;
 
         SamplePagerAdapter(Product product) {
             this.product = product;
@@ -128,29 +126,15 @@ public class ProductDetailsTabOverview extends Fragment {
 
         @Override
         public View instantiateItem(ViewGroup container, int position) {
-            final PhotoView photoView = new PhotoView(container.getContext());
+            final ImageView image = new ImageView(container.getContext());
 
-            container.addView(photoView, ViewPager.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT);
+            container.addView(image, ViewPager.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT);
 
             Picasso.with(container.getContext())
                     .load(product.images.get(position))
-                    .into(photoView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            if (mAttacher != null) {
-                                mAttacher.update();
-                            } else {
-                                mAttacher = new PhotoViewAttacher(photoView);
-                            }
-                        }
+                    .into(image);
 
-                        @Override
-                        public void onError() {
-                            // TODO Auto-generated method stub
-                        }
-                    });
-
-            return photoView;
+            return image;
         }
 
         @Override
