@@ -51,7 +51,7 @@ public class SecondaryCategory {
                     JSONArray productsJSON = jsonObject.getJSONArray("products");
                     for (int i = 0; i < productsJSON.length(); i++) {
                         JSONObject o = (JSONObject) productsJSON.get(i);
-                        Product product = new Product(o.getString("title"), o.getString("image"), o.getString("thumbnail"), o.getInt("id"), primaryCategoryId, id);
+                        Product product = new Product(o.getString("title"), o.getString("image"), o.getString("thumbnail"), o.getInt("id"), o.getString("brand"), primaryCategoryId, id);
                         JSONArray listings = o.getJSONArray("listings");
                         for (int j=0; j<listings.length(); j++) {
                             JSONObject l = (JSONObject) listings.get(j);

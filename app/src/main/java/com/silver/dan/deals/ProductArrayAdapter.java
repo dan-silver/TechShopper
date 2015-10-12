@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -26,9 +27,23 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
         this.products = products;
     }
 
-
     // Define listener member variable
     private OnItemClickListener listener;
+
+    //count how many products for each brand
+    public HashMap<String, Integer> getBrandCounts() {
+        HashMap<String, Integer> brandCounts = new HashMap<>();
+        for (Product p : products) {
+            Integer count = 1;
+            if (brandCounts.containsKey(p.brand)) {
+                count = brandCounts.get(p.brand);
+                count++;
+            }
+            brandCounts.put(p.brand, count);
+        }
+        return brandCounts;
+    }
+
     // Define the listener interface
     public interface OnItemClickListener {
         void onItemClick(View itemView, int position);
@@ -66,10 +81,8 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
 
 
     public class Holder extends RecyclerView.ViewHolder {
-        @Bind(R.id.list_image)
-        ImageView imageView;
-        @Bind(R.id.product_title)
-        TextView flowTextView;
+        @Bind(R.id.list_image) ImageView imageView;
+        @Bind(R.id.product_title) TextView flowTextView;
         @Bind(R.id.price) TextView txtProductPrice;
         @Bind(R.id.product_rating) TextView rating;
 

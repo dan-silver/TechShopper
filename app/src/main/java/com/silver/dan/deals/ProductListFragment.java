@@ -12,6 +12,11 @@ import android.view.ViewGroup;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.melnykov.fab.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -73,9 +78,21 @@ public class ProductListFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //build dialog
+                HashMap<String, Integer> brandCounts = sec_cat.adapter.getBrandCounts();
+
+                ArrayList<String> brandLabels = new ArrayList<>();
+                Iterator it = brandCounts.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry pair = (Map.Entry) it.next();
+                    brandLabels.add(pair.getKey() + " (" + pair.getValue() + ")");
+
+                    it.remove(); // avoids a ConcurrentModificationException
+                }
+
                 new MaterialDialog.Builder(getContext())
-                        .title("Filter by Price")
-                        .items(R.array.items)
+                        .title("Filter by Brand")
+                        .items(brandLabels.toArray(new CharSequence[brandLabels.size()]))
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
                             public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {

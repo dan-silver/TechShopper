@@ -17,27 +17,23 @@ import fuel.core.Handler;
 import fuel.core.Request;
 import fuel.core.Response;
 
-public class Product implements Serializable {
+public class Product {
 
-    public static String PRODUCT_SERIALIZED = "PRODUCT_SERIALIZED";
-
-    public String title;
-    public String image;
-    public String thumbnail;
+    public String title, image, thumbnail, brand;
     public int id;
-    public transient ArrayList<Listing> listings = new ArrayList<>();
-    public transient ArrayList<String> features = new ArrayList<>();
-    public transient ArrayList<String> images = new ArrayList<>();
-    public int secondaryCategoryId;
-    public int primaryCategoryId;
+    public ArrayList<Listing> listings = new ArrayList<>();
+    public ArrayList<String> features = new ArrayList<>();
+    public ArrayList<String> images = new ArrayList<>();
+    public int primaryCategoryId, secondaryCategoryId;
     public boolean detailsLoaded = false;
     private ArrayList<DetailsCallback> callbacks = new ArrayList<>();
 
-    Product (String title, String image, String thumbnail, int id, int primaryCategoryId, int secondaryCategoryId) {
+    Product(String title, String image, String thumbnail, int id, String brand, int primaryCategoryId, int secondaryCategoryId) {
         this.title = title;
         this.image = image;
         this.thumbnail = thumbnail;
         this.id = id;
+        this.brand = brand;
         this.primaryCategoryId = primaryCategoryId;
         this.secondaryCategoryId = secondaryCategoryId;
     }

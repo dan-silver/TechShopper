@@ -1,9 +1,5 @@
 package com.silver.dan.deals;
 
-/**
- * Created by dan on 10/11/15.
- */
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
