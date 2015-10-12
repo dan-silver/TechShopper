@@ -63,6 +63,13 @@
                     android:textAppearance="?android:textAppearanceSmall"
                     android:text="Amazon Prime eligible"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/product_listing_other_attributes"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:text="Some other information"/>
+
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

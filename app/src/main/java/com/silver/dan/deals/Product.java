@@ -115,11 +115,11 @@ public class Product implements Serializable {
     private void executeDetailsLoadedCallbacks() {
         for (DetailsCallback callback : callbacks)
             callback.onLoaded();
+        callbacks.clear();
     }
 
-    protected void fetchDetailData(Context context, final DetailsCallback callback) {
+    protected void fetchDetailData(Context context) {
         if (detailsLoaded) {
-            callback.onLoaded();
             executeDetailsLoadedCallbacks();
             return;
         }
@@ -129,39 +129,39 @@ public class Product implements Serializable {
                 try {
                     JSONArray listings = productJSON.getJSONArray("listings");
                     for (int j = 0; j < listings.length(); j++) {
-                        JSONObject l = (JSONObject) listings.get(j);
-                        Listing listing = new Listing(l.getInt("id"), l.getDouble("price"), l.getString("url"), l.getString("store"), false);
+                        JSONObject listingJSON = (JSONObject) listings.get(j);
+                        Listing listing = new Listing(listingJSON.getInt("id"), listingJSON.getDouble("price"), listingJSON.getString("url"), listingJSON.getString("store"), false);
 
-                        if (!l.isNull("shippingCost"))
-                            listing.shippingCost = l.getDouble("shippingCost");
-                        if (!l.isNull("freeShipping"))
-                            listing.freeShipping = l.getBoolean("freeShipping");
+                        if (!listingJSON.isNull("shippingCost"))
+                            listing.shippingCost = listingJSON.getDouble("shippingCost");
+                        if (!listingJSON.isNull("freeShipping"))
+                            listing.freeShipping = listingJSON.getBoolean("freeShipping");
 
-                        if (!l.isNull("number_of_reviews")) {
+                        if (!listingJSON.isNull("number_of_reviews")) {
                             listing.hasReviewData = true;
-                            listing.number_of_reviews = l.getInt("number_of_reviews");
-                            listing.average_review = l.getDouble("average_review");
+                            listing.number_of_reviews = listingJSON.getInt("number_of_reviews");
+                            listing.average_review = listingJSON.getDouble("average_review");
                         }
+
+                        dumpJSONArrayToArrayList(listingJSON, "otherAttrs", listing.otherAttrs);
+
                         addOrUpdateListing(listing);
                     }
 
                     dumpJSONArrayToArrayList(productJSON, "features", features);
                     dumpJSONArrayToArrayList(productJSON, "images", images);
 
+
                     detailsLoaded = true;
                     executeDetailsLoadedCallbacks();
-                    callback.onLoaded();
                 } catch (JSONException e1) {
                     e1.printStackTrace();
-                    callback.onError();
-                    detailsLoaded = false;
                 }
             }
 
             @Override
             public void failure(@NonNull Request request, @NonNull Response response, @NonNull FuelError fuelError) {
                 Log.e(MainActivity.TAG, fuelError.toString());
-                callback.onError();
             }
         });
     }

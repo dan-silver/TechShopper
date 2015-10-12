@@ -1,5 +1,7 @@
 package com.silver.dan.deals;
 
+import java.util.ArrayList;
+
 public class Listing {
     public double price;
     public String url;
@@ -10,6 +12,7 @@ public class Listing {
     public boolean hasReviewData;
     public double shippingCost;
     private int id;
+    public ArrayList<String> otherAttrs = new ArrayList<>();
 
     Listing(int id, double price, String url, String store, boolean freeShipping) {
         hasReviewData = false; //default to no review data
@@ -21,11 +24,7 @@ public class Listing {
     }
 
     public String getPriceString() {
-        return "$" + String.format( "%.2f", price);
-    }
-
-    public String getStoreCapitalized() {
-        return store.substring(0, 1).toUpperCase() + store.substring(1); //uppercase the first char
+        return "$" + String.format("%.2f", price);
     }
 
     public String getRatingString() {

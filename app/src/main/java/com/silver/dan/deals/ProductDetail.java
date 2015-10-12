@@ -44,18 +44,7 @@ public class ProductDetail extends AppCompatActivity {
         slidingTabsPager.setAdapter(slidingTabsAdapter);
         productDetailTabs.setViewPager(slidingTabsPager);
 
-        product.fetchDetailData(getApplicationContext(), new Product.DetailsCallback() {
-            @Override
-            public void onLoaded() {
-                Log.v(MainActivity.TAG, product.title + " has loaded details");
-
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        });
+        product.fetchDetailData(getApplicationContext());
 
 
 

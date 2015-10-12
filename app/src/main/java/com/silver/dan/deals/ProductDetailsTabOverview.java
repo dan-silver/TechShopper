@@ -71,10 +71,6 @@ public class ProductDetailsTabOverview extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         productListings.setLayoutManager(mLayoutManager);
 
-        // specify an adapter (see also next example)
-
-        mAdapter = new ProductListingsArrayAdapter(getContext(), product.listings);
-        productListings.setAdapter(mAdapter);
 
         product.addDetailsLoadedCallback(new Product.DetailsCallback() {
             @Override
@@ -83,7 +79,9 @@ public class ProductDetailsTabOverview extends Fragment {
                 productDetailPrice.setText(product.getPriceString());
 
                 mImagesViewPager.getAdapter().notifyDataSetChanged();
-                mAdapter.notifyDataSetChanged();
+
+                mAdapter = new ProductListingsArrayAdapter(getContext(), product.listings);
+                productListings.setAdapter(mAdapter);
             }
 
             @Override

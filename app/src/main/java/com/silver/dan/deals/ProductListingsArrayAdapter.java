@@ -34,14 +34,13 @@ public class ProductListingsArrayAdapter extends RecyclerView.Adapter<ProductLis
     public void onBindViewHolder(ProductListingsArrayAdapter.Holder holder, int position) {
         Listing rowItem = listings.get(position);
         holder.product_listing_price.setText(rowItem.getPriceString());
-        holder.product_listing_store.setText(rowItem.getStoreCapitalized());
+        holder.product_listing_store.setText(rowItem.store);
         if (rowItem.hasReviewData) {
             holder.product_listing_number_reviews.setText(rowItem.number_of_reviews + " reviews");
             holder.product_listing_average_review.setText(rowItem.getRatingString());
         } else {
             holder.product_listing_review_info.setVisibility(View.GONE);
         }
-
 
         if (rowItem.freeShipping) {
             holder.product_listing_shipping_info.setText("Free shipping");
@@ -50,6 +49,16 @@ public class ProductListingsArrayAdapter extends RecyclerView.Adapter<ProductLis
         } else {
             holder.product_listing_shipping_info.setVisibility(View.GONE);
         }
+
+        if (rowItem.otherAttrs.size() > 0) {
+            StringBuilder sb = new StringBuilder();
+            for (String s : rowItem.otherAttrs)
+                sb.append(s);
+            holder.product_listing_other_attributes.setText(sb);
+        } else {
+            holder.product_listing_other_attributes.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -73,9 +82,12 @@ public class ProductListingsArrayAdapter extends RecyclerView.Adapter<ProductLis
         @Bind(R.id.product_listing_review_info)
         LinearLayout product_listing_review_info;
 
-
         @Bind(R.id.product_listing_shipping_info)
         TextView product_listing_shipping_info;
+
+
+        @Bind(R.id.product_listing_other_attributes)
+        TextView product_listing_other_attributes;
 
         public Holder(View view) {
             super(view);
