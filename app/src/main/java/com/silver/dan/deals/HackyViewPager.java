@@ -5,11 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-/**
- * Created by dan on 10/11/15.
- */
 public class HackyViewPager extends ViewPager {
-
     private boolean isLocked;
 
     public HackyViewPager(Context context) {
@@ -39,17 +35,4 @@ public class HackyViewPager extends ViewPager {
     public boolean onTouchEvent(MotionEvent event) {
         return !isLocked && super.onTouchEvent(event);
     }
-
-    public void toggleLock() {
-        isLocked = !isLocked;
-    }
-
-    public void setLocked(boolean isLocked) {
-        this.isLocked = isLocked;
-    }
-
-    public boolean isLocked() {
-        return isLocked;
-    }
-
 }
