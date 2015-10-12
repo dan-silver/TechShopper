@@ -46,7 +46,9 @@ public class ProductListFragment extends Fragment {
         pri_cat_id = getArguments().getInt(MainActivity.PRIMARY_CAT_ID);
         pri_cat = PrimaryCategory.findById(pri_cat_id);
         sec_cat = pri_cat.findSecondaryCatById(sec_cat_id);
-        sec_cat.getProducts();
+
+        if (sec_cat.adapter.allProducts().size() == 0)
+            sec_cat.getProducts();
     }
 
     @Override

@@ -32,7 +32,6 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
     // Define listener member variable
     private OnItemClickListener listener;
 
-
     public List<Product> allProducts() {
         List<Product> l = new ArrayList<>();
         l.addAll(products);
@@ -52,12 +51,6 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
             brandCounts.put(p.brand, count);
         }
         return brandCounts;
-    }
-
-    public void removeFilter() {
-        products = allProducts();
-        removedProducts.clear();
-        animateTo(products);
     }
 
     // Define the listener interface
@@ -116,6 +109,7 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
             }
         }
     }
+
     public void moveItem(int fromPosition, int toPosition) {
         final Product model = products.remove(fromPosition);
         products.add(toPosition, model);
@@ -131,7 +125,6 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
             }
         }
     }
-
 
     private void applyAndAnimateAdditions(List<Product> newModels) {
         for (int i = 0, count = newModels.size(); i < count; i++) {

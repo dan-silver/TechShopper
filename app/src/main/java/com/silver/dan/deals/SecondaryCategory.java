@@ -16,9 +16,6 @@ import fuel.core.Handler;
 import fuel.core.Request;
 import fuel.core.Response;
 
-/**
- * Created by dan on 9/19/15.
- */
 public class SecondaryCategory {
     public String name;
     public ArrayList<Product> products;
