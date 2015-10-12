@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.melnykov.fab.FloatingActionButton;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 public class ProductListFragment extends Fragment {
     private static final String SECONDARY_CAT_ID = "sec_cat_id";
@@ -20,6 +23,9 @@ public class ProductListFragment extends Fragment {
     SecondaryCategory sec_cat;
     int sec_cat_id;
     int pri_cat_id;
+    
+    @Bind(R.id.products_list) RecyclerView mRecyclerView;
+    @Bind(R.id.fab) FloatingActionButton fab;
 
     public static ProductListFragment newInstance(int sec_cat_id, int pri_cat_id) {
         ProductListFragment f = new ProductListFragment();
@@ -43,7 +49,7 @@ public class ProductListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.products_list, container, false);
-        RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.products_list);
+        ButterKnife.bind(this, view);
 
         mRecyclerView.setHasFixedSize(true);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
@@ -65,7 +71,6 @@ public class ProductListFragment extends Fragment {
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.attachToRecyclerView(mRecyclerView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
