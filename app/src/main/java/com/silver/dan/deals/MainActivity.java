@@ -12,10 +12,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.astuetz.PagerSlidingTabStrip;
 
@@ -64,6 +66,16 @@ public class MainActivity extends AppCompatActivity {
         slidingTabsAdapter = new SlidingTabsAdapter(getSupportFragmentManager());
         slidingTabsPager.setAdapter(slidingTabsAdapter);
         slidingTabs.setViewPager(slidingTabsPager);
+
+        // When a tab is reselected (current tab only), then scroll to the top
+        slidingTabs.setOnTabReselectedListener(new PagerSlidingTabStrip.OnTabReselectedListener() {
+            @Override
+            public void onTabReselected(int position) {
+                View view = slidingTabsPager.getFocusedChild();
+                RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.products_list);
+                mRecyclerView.smoothScrollToPosition(0);
+            }
+        });
 
         // Set a Toolbar to replace the ActionBar.
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
