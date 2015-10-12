@@ -18,6 +18,7 @@ import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.pnikosis.materialishprogress.ProgressWheel;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -33,6 +34,7 @@ public class ProductDetailsTabOverview extends Fragment {
     @Bind(R.id.productDetailListings) RecyclerView productListings;
     @Bind(R.id.productsDetailViewPages) ViewPager mImagesViewPager;
     @Bind(R.id.productsDetailPageCounter) TextView productsDetailPageCounter;
+    @Bind(R.id.progress_wheel) ProgressWheel progressWheel;
 
     public static ProductDetailsTabOverview newInstance(Product product) {
         ProductDetailsTabOverview f = new ProductDetailsTabOverview();
@@ -58,6 +60,7 @@ public class ProductDetailsTabOverview extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.product_detail_tab_overview, container, false);
         ButterKnife.bind(this, view);
+        progressWheel.spin();
 
         productDetailTitle.setText(product.title);
 
@@ -93,6 +96,7 @@ public class ProductDetailsTabOverview extends Fragment {
             public void onLoaded() {
                 Log.v(MainActivity.TAG, "details callback tab overview");
                 productDetailPrice.setText(product.getPriceString());
+                progressWheel.stopSpinning();
 
                 mImagesViewPager.getAdapter().notifyDataSetChanged();
                 productsDetailPageCounter.setText("1/" + mImagesViewPager.getAdapter().getCount());
