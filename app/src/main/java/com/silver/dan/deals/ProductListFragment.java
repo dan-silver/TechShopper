@@ -17,21 +17,19 @@ import butterknife.ButterKnife;
 
 
 public class ProductListFragment extends Fragment {
-    private static final String SECONDARY_CAT_ID = "sec_cat_id";
-    private static final String PRIMARY_CAT_ID = "pri_cat_id";
     PrimaryCategory pri_cat;
     SecondaryCategory sec_cat;
     int sec_cat_id;
     int pri_cat_id;
-    
+
     @Bind(R.id.products_list) RecyclerView mRecyclerView;
     @Bind(R.id.fab) FloatingActionButton fab;
 
     public static ProductListFragment newInstance(int sec_cat_id, int pri_cat_id) {
         ProductListFragment f = new ProductListFragment();
         Bundle b = new Bundle();
-        b.putInt(SECONDARY_CAT_ID, sec_cat_id);
-        b.putInt(PRIMARY_CAT_ID, pri_cat_id);
+        b.putInt(MainActivity.SECONDARY_CAT_ID, sec_cat_id);
+        b.putInt(MainActivity.PRIMARY_CAT_ID, pri_cat_id);
         f.setArguments(b);
         return f;
     }
@@ -39,8 +37,8 @@ public class ProductListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sec_cat_id = getArguments().getInt(SECONDARY_CAT_ID);
-        pri_cat_id = getArguments().getInt(PRIMARY_CAT_ID);
+        sec_cat_id = getArguments().getInt(MainActivity.SECONDARY_CAT_ID);
+        pri_cat_id = getArguments().getInt(MainActivity.PRIMARY_CAT_ID);
         pri_cat = PrimaryCategory.findById(pri_cat_id);
         sec_cat = pri_cat.findSecondaryCatById(sec_cat_id);
         sec_cat.getProducts();
