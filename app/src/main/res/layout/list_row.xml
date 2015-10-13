@@ -68,8 +68,8 @@
                         android:gravity="end"
                         android:typeface="sans"
                         android:text="$109.99"
+                        android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:textAlignment="textEnd"
                         android:textColor="#72BA46"
                         android:textSize="13sp" />
                 </RelativeLayout>
