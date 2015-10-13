@@ -28,6 +28,7 @@ public class ProductListFragment extends Fragment {
     SecondaryCategory sec_cat;
     int sec_cat_id;
     int pri_cat_id;
+    public ProductArrayAdapter adapter;
 
     @Bind(R.id.products_list) RecyclerView mRecyclerView;
     @Bind(R.id.fab) FloatingActionButton fab;
@@ -50,8 +51,10 @@ public class ProductListFragment extends Fragment {
         pri_cat = PrimaryCategory.findById(pri_cat_id);
         sec_cat = pri_cat.findSecondaryCatById(sec_cat_id);
 
-        if (sec_cat.adapter.allProducts().size() == 0)
-            sec_cat.getProducts();
+        adapter = new ProductArrayAdapter(getContext(), sec_cat.products);
+
+        if (adapter.allProducts().size() == 0)
+            sec_cat.getProducts(adapter);
     }
 
     @Override
@@ -64,8 +67,8 @@ public class ProductListFragment extends Fragment {
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
-        mRecyclerView.setAdapter(sec_cat.adapter);
-        sec_cat.adapter.setOnProductsLoadedListener(new ProductArrayAdapter.ProductsLoadedCallback() {
+        mRecyclerView.setAdapter(adapter);
+        adapter.setOnProductsLoadedListener(new ProductArrayAdapter.ProductsLoadedCallback() {
             @Override
             public void onLoaded() {
                 progressWheel.stopSpinning();
@@ -76,7 +79,7 @@ public class ProductListFragment extends Fragment {
 
             }
         });
-        sec_cat.adapter.setOnItemClickListener(new ProductArrayAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new ProductArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
                 Product product = sec_cat.products.get(position);
@@ -96,7 +99,7 @@ public class ProductListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //build dialog
-                HashMap<String, Integer> brandCounts = sec_cat.adapter.getBrandCounts();
+                HashMap<String, Integer> brandCounts = adapter.getBrandCounts();
                 final HashMap<String, Integer> brandPositionNameMap = new HashMap<>();
 
                 ArrayList<String> brandLabels = new ArrayList<>();
@@ -104,7 +107,7 @@ public class ProductListFragment extends Fragment {
                 int position = 0;
 
                 //if a filter is currently being used, add the option "Remove Filter" at the top
-                if (sec_cat.usingFilter()) {
+                if (usingFilter()) {
                     brandLabels.add("Remove Filter");
                 }
 
@@ -123,27 +126,31 @@ public class ProductListFragment extends Fragment {
                             @Override
                             public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                                 if (text == "Remove Filter") {
-                                    ArrayList<Product> newProductsList = (ArrayList<Product>) sec_cat.adapter.allProducts();
+                                    ArrayList<Product> newProductsList = (ArrayList<Product>) adapter.allProducts();
                                     Collections.shuffle(newProductsList);
-                                    sec_cat.adapter.animateTo(newProductsList);
+                                    adapter.animateTo(newProductsList);
                                     return;
                                 }
 
-                                int position = sec_cat.usingFilter() ? which - 1 : which;
+                                int position = usingFilter() ? which - 1 : which;
 
                                 // find the selected brand's products
                                 ArrayList<Product> filteredProductsList = new ArrayList<>();
-                                for (Product product : sec_cat.adapter.allProducts()) {
+                                for (Product product : adapter.allProducts()) {
                                     if (brandPositionNameMap.get(product.brand) == position)
                                         filteredProductsList.add(product);
                                 }
 
-                                sec_cat.adapter.animateTo(filteredProductsList);
+                                adapter.animateTo(filteredProductsList);
                             }
                         })
                         .show();
             }
         });
         return view;
+    }
+
+    public boolean usingFilter() {
+        return adapter.products.size() < adapter.allProducts().size();
     }
 }

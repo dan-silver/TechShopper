@@ -60,7 +60,11 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
     }
 
     public void setOnProductsLoadedListener(ProductsLoadedCallback productsLoadedCallback) {
-        this.productsLoadedCallback = productsLoadedCallback;
+        //if products are already loaded, execute callback right away
+        if (products.size() > 0)
+            productsLoadedCallback.onLoaded();
+        else
+            this.productsLoadedCallback = productsLoadedCallback;
     }
 
     public void productsLoaded() {

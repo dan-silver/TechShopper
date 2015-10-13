@@ -18,8 +18,7 @@ import fuel.core.Response;
 
 public class SecondaryCategory {
     public String name;
-    public ArrayList<Product> products;
-    public ProductArrayAdapter adapter;
+    public ArrayList<Product> products = new ArrayList<>();
     int id;
     private Context context;
     int primaryCategoryId;
@@ -28,8 +27,6 @@ public class SecondaryCategory {
         this.name = title;
         this.id = id;
         this.context = context;
-        products = new ArrayList<>();
-        adapter = new ProductArrayAdapter(context, products);
         this.primaryCategoryId = primaryCategoryId;
     }
 
@@ -40,7 +37,7 @@ public class SecondaryCategory {
         return null;
     }
 
-    public void getProducts() {
+    public void getProducts(final ProductArrayAdapter adapter) {
         Fuel.get(context.getResources().getString(R.string.APP_URL) + "/secondary_categories/" + this.id + ".json").responseJson(new Handler<JSONObject>() {
             @Override
             public void success(@NonNull Request request, @NonNull Response response, JSONObject jsonObject) {
@@ -81,7 +78,4 @@ public class SecondaryCategory {
         });
     }
 
-    public boolean usingFilter() {
-        return adapter.products.size() < adapter.allProducts().size();
-    }
 }
