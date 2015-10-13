@@ -65,6 +65,7 @@ public class SecondaryCategory {
 
                     if (adapter != null) {
                         adapter.notifyDataSetChanged();
+                        adapter.productsLoaded();
                     }
 
                 } catch (JSONException e) {

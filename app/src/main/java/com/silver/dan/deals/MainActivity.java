@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     slidingTabsAdapter.notifyDataSetChanged();
+                    displayCategory(primary_categories.get(0));
                 }
 
                 @Override
@@ -123,6 +124,13 @@ public class MainActivity extends AppCompatActivity {
             updateDrawerWithPrimaryCategories(drawerMenu);
             slidingTabsAdapter.notifyDataSetChanged();
         }
+    }
+
+    private void displayCategory(PrimaryCategory category) {
+        slidingTabsAdapter = new SlidingTabsAdapter(getSupportFragmentManager());
+        slidingTabsAdapter.setCategory(category);
+        slidingTabsPager.setAdapter(slidingTabsAdapter);
+        slidingTabs.setViewPager(slidingTabsPager);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -141,10 +149,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawer.closeDrawers();
 
         final PrimaryCategory category = PrimaryCategory.findById(selected);
-        slidingTabsAdapter = new SlidingTabsAdapter(getSupportFragmentManager());
-        slidingTabsAdapter.setCategory(category);
-        slidingTabsPager.setAdapter(slidingTabsAdapter);
-        slidingTabs.setViewPager(slidingTabsPager);
+        displayCategory(category);
     }
 
 

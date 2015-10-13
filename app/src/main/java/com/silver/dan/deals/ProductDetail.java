@@ -45,9 +45,6 @@ public class ProductDetail extends AppCompatActivity {
         productDetailTabs.setViewPager(slidingTabsPager);
 
         product.fetchDetailData(getApplicationContext());
-
-
-
     }
 
     @Override

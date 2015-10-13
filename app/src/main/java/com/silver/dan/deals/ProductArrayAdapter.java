@@ -19,10 +19,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapter.Holder> {
-
     Context context;
     public List<Product> products;
     public List<Product> removedProducts = new ArrayList<>();
+    private ProductsLoadedCallback productsLoadedCallback;
 
     public ProductArrayAdapter(Context context, List<Product> products) {
         this.context = context;
@@ -51,6 +51,20 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
             brandCounts.put(p.brand, count);
         }
         return brandCounts;
+    }
+
+    interface ProductsLoadedCallback {
+        void onLoaded();
+
+        void onError();
+    }
+
+    public void setOnProductsLoadedListener(ProductsLoadedCallback productsLoadedCallback) {
+        this.productsLoadedCallback = productsLoadedCallback;
+    }
+
+    public void productsLoaded() {
+        this.productsLoadedCallback.onLoaded();
     }
 
     // Define the listener interface

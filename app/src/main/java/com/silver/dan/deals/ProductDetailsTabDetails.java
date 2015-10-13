@@ -15,7 +15,6 @@ import butterknife.ButterKnife;
 public class ProductDetailsTabDetails extends Fragment {
     Product product;
 
-
     @Bind(R.id.productDetailFeatures) TextView productDetailFeatures;
 
     public static ProductDetailsTabDetails newInstance(Product product) {

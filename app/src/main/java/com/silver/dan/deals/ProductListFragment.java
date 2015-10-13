@@ -11,8 +11,10 @@ import android.view.ViewGroup;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.melnykov.fab.FloatingActionButton;
+import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -29,6 +31,7 @@ public class ProductListFragment extends Fragment {
 
     @Bind(R.id.products_list) RecyclerView mRecyclerView;
     @Bind(R.id.fab) FloatingActionButton fab;
+    @Bind(R.id.progress_wheel) ProgressWheel progressWheel;
 
     public static ProductListFragment newInstance(int sec_cat_id, int pri_cat_id) {
         ProductListFragment f = new ProductListFragment();
@@ -55,12 +58,24 @@ public class ProductListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.products_list, container, false);
         ButterKnife.bind(this, view);
+        progressWheel.spin();
 
         mRecyclerView.setHasFixedSize(true);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
         mRecyclerView.setAdapter(sec_cat.adapter);
+        sec_cat.adapter.setOnProductsLoadedListener(new ProductArrayAdapter.ProductsLoadedCallback() {
+            @Override
+            public void onLoaded() {
+                progressWheel.stopSpinning();
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
         sec_cat.adapter.setOnItemClickListener(new ProductArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
@@ -107,15 +122,16 @@ public class ProductListFragment extends Fragment {
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
                             public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-
-
                                 if (text == "Remove Filter") {
-                                    sec_cat.adapter.animateTo(sec_cat.adapter.allProducts());
+                                    ArrayList<Product> newProductsList = (ArrayList<Product>) sec_cat.adapter.allProducts();
+                                    Collections.shuffle(newProductsList);
+                                    sec_cat.adapter.animateTo(newProductsList);
                                     return;
                                 }
+
                                 int position = sec_cat.usingFilter() ? which - 1 : which;
 
-                                //find the selected brand's products
+                                // find the selected brand's products
                                 ArrayList<Product> filteredProductsList = new ArrayList<>();
                                 for (Product product : sec_cat.adapter.allProducts()) {
                                     if (brandPositionNameMap.get(product.brand) == position)
