@@ -43,6 +43,13 @@ public class ProductListFragment extends Fragment {
         return f;
     }
 
+
+    interface ProductsListenerCallback {
+        void onLoaded();
+
+        void onError();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,32 +60,39 @@ public class ProductListFragment extends Fragment {
 
         adapter = new ProductArrayAdapter(getContext(), sec_cat.products);
 
-        if (adapter.allProducts().size() == 0)
-            sec_cat.getProducts(adapter);
+        if (adapter.allProducts().size() == 0) {
+            sec_cat.getProducts(new ProductsListenerCallback() {
+                @Override
+                public void onLoaded() {
+                    if (adapter != null) {
+                        adapter.notifyDataSetChanged();
+                        progressWheel.stopSpinning();
+                    }
+                }
+
+                @Override
+                public void onError() {
+
+                }
+            });
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.products_list, container, false);
         ButterKnife.bind(this, view);
-        progressWheel.spin();
+
+        if (adapter.allProducts().size() > 0)
+            progressWheel.stopSpinning();
+        else
+            progressWheel.spin();
 
         mRecyclerView.setHasFixedSize(true);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
         mRecyclerView.setAdapter(adapter);
-        adapter.setOnProductsLoadedListener(new ProductArrayAdapter.ProductsLoadedCallback() {
-            @Override
-            public void onLoaded() {
-                progressWheel.stopSpinning();
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        });
         adapter.setOnItemClickListener(new ProductArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {

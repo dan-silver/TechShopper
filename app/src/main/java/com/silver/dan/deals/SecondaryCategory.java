@@ -37,7 +37,7 @@ public class SecondaryCategory {
         return null;
     }
 
-    public void getProducts(final ProductArrayAdapter adapter) {
+    public void getProducts(final ProductListFragment.ProductsListenerCallback callback) {
         Fuel.get(context.getResources().getString(R.string.APP_URL) + "/secondary_categories/" + this.id + ".json").responseJson(new Handler<JSONObject>() {
             @Override
             public void success(@NonNull Request request, @NonNull Response response, JSONObject jsonObject) {
@@ -60,20 +60,19 @@ public class SecondaryCategory {
                         products.add(product);
                     }
 
-                    if (adapter != null) {
-                        adapter.notifyDataSetChanged();
-                        adapter.productsLoaded();
-                    }
+                    callback.onLoaded();
 
                 } catch (JSONException e) {
                     Log.e(MainActivity.TAG, e.getMessage());
                     e.printStackTrace();
+                    callback.onError();
                 }
             }
 
             @Override
             public void failure(@NonNull Request request, @NonNull Response response, @NonNull FuelError fuelError) {
                 Log.e(MainActivity.TAG, fuelError.toString());
+                callback.onError();
             }
         });
     }

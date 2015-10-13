@@ -22,7 +22,6 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
     Context context;
     public List<Product> products;
     public List<Product> removedProducts = new ArrayList<>();
-    private ProductsLoadedCallback productsLoadedCallback;
 
     public ProductArrayAdapter(Context context, List<Product> products) {
         this.context = context;
@@ -51,24 +50,6 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
             brandCounts.put(p.brand, count);
         }
         return brandCounts;
-    }
-
-    interface ProductsLoadedCallback {
-        void onLoaded();
-
-        void onError();
-    }
-
-    public void setOnProductsLoadedListener(ProductsLoadedCallback productsLoadedCallback) {
-        //if products are already loaded, execute callback right away
-        if (products.size() > 0)
-            productsLoadedCallback.onLoaded();
-        else
-            this.productsLoadedCallback = productsLoadedCallback;
-    }
-
-    public void productsLoaded() {
-        this.productsLoadedCallback.onLoaded();
     }
 
     // Define the listener interface
