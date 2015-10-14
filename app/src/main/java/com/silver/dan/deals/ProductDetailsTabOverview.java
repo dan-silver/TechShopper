@@ -1,5 +1,7 @@
 package com.silver.dan.deals;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -10,8 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -30,7 +32,6 @@ public class ProductDetailsTabOverview extends Fragment {
     @Bind(R.id.productDetailListings) RecyclerView productListings;
     @Bind(R.id.productsDetailViewPages) ViewPager mImagesViewPager;
     @Bind(R.id.productsDetailPageCounter) TextView productsDetailPageCounter;
-    @Bind(R.id.progress_wheel) ProgressWheel progressWheel;
 
     public static ProductDetailsTabOverview newInstance(Product product) {
         ProductDetailsTabOverview f = new ProductDetailsTabOverview();
@@ -56,7 +57,6 @@ public class ProductDetailsTabOverview extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.product_detail_tab_overview, container, false);
         ButterKnife.bind(this, view);
-        progressWheel.spin();
 
         productDetailTitle.setText(product.title);
 
@@ -125,9 +125,19 @@ public class ProductDetailsTabOverview extends Fragment {
 
         @Override
         public View instantiateItem(ViewGroup container, int position) {
-            final ImageView image = new ImageView(container.getContext());
+            RelativeLayout rl = new RelativeLayout(getContext());
 
-            container.addView(image, ViewPager.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT);
+            //Image
+            final ImageView image = new ImageView(container.getContext());
+            rl.addView(image, ViewPager.LayoutParams.MATCH_PARENT, ViewPager.LayoutParams.MATCH_PARENT);
+
+            //Progress wheel
+            LayoutInflater inflater = (LayoutInflater) container.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.progress_wheel, container, false);
+            rl.addView(view);
+
+            final ProgressWheel progressWheel = (ProgressWheel) view.findViewById(R.id.progress_wheel);
+            progressWheel.spin();
 
             Picasso.with(container.getContext())
                     .load(product.images.get(position))
@@ -142,8 +152,8 @@ public class ProductDetailsTabOverview extends Fragment {
 
                         }
                     });
-
-            return image;
+            container.addView(rl);
+            return rl;
         }
 
         @Override
