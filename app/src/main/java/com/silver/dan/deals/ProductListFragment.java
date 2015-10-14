@@ -41,7 +41,6 @@ public class ProductListFragment extends Fragment {
         return f;
     }
 
-
     interface ProductsListenerCallback {
         void onLoaded();
 

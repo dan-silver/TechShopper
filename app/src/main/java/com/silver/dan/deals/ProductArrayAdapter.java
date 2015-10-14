@@ -70,9 +70,6 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
         holder.txtProductPrice.setText(rowItem.getPriceString());
         holder.flowTextView.setText(rowItem.title);
 
-        holder.loader.setVisibility(View.VISIBLE);
-        holder.imageView.setVisibility(View.VISIBLE);
-
         final ProgressWheel progressWheel = holder.loader;
         Picasso.with(holder.imageView.getContext())
                 .load(rowItem.image)
