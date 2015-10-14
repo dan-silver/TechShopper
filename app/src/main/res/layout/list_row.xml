@@ -17,21 +17,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:padding="5dp"
             android:background="@color/white"
             android:descendantFocusability="blocksDescendants">
     
             <ImageView
                 android:id="@+id/list_image"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:transitionName="robot"
                 android:src="@mipmap/example_product_image"
+                android:layout_gravity="center"
                 android:contentDescription="@string/product_image" />
     
             <LinearLayout
-                android:id="@+id/thumbnail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingRight="5dip"
@@ -46,7 +44,7 @@
                     android:typeface="sans"
                     android:maxLines="5"
                     android:ellipsize="end"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     android:text="abv abv abv abv abv abv abv abv abv abv abv abv ">
                 </TextView>
                 <RelativeLayout

@@ -1,6 +1,5 @@
 package com.silver.dan.deals;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +18,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapter.Holder> {
-    Context context;
     public List<Product> products;
     public List<Product> removedProducts = new ArrayList<>();
 
-    public ProductArrayAdapter(Context context, List<Product> products) {
-        this.context = context;
+    public ProductArrayAdapter(List<Product> products) {
         this.products = products;
     }
 
@@ -73,7 +70,10 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
         holder.txtProductPrice.setText(rowItem.getPriceString());
         holder.flowTextView.setText(rowItem.title);
 
-        Picasso.with(context).load(rowItem.image).into(holder.imageView);
+        Picasso.with(holder.imageView.getContext())
+                .load(rowItem.image)
+                .placeholder(R.drawable.progress_animation)
+                .into(holder.imageView);
 
         if (rowItem.hasReviewData()) {
             holder.rating.setText(rowItem.getRatingString());
