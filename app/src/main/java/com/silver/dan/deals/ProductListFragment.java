@@ -26,8 +26,6 @@ import butterknife.ButterKnife;
 public class ProductListFragment extends Fragment {
     PrimaryCategory pri_cat;
     SecondaryCategory sec_cat;
-    int sec_cat_id;
-    int pri_cat_id;
     public ProductArrayAdapter adapter;
 
     @Bind(R.id.products_list) RecyclerView mRecyclerView;
@@ -53,8 +51,8 @@ public class ProductListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sec_cat_id = getArguments().getInt(MainActivity.SECONDARY_CAT_ID);
-        pri_cat_id = getArguments().getInt(MainActivity.PRIMARY_CAT_ID);
+        int sec_cat_id = getArguments().getInt(MainActivity.SECONDARY_CAT_ID);
+        int pri_cat_id = getArguments().getInt(MainActivity.PRIMARY_CAT_ID);
         pri_cat = PrimaryCategory.findById(pri_cat_id);
         sec_cat = pri_cat.findSecondaryCatById(sec_cat_id);
 

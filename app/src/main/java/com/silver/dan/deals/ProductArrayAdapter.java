@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -23,13 +22,11 @@ import butterknife.ButterKnife;
 public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapter.Holder> {
     public List<Product> products;
     public List<Product> removedProducts = new ArrayList<>();
+    private OnItemClickListener listener;
 
     public ProductArrayAdapter(List<Product> products) {
         this.products = products;
     }
-
-    // Define listener member variable
-    private OnItemClickListener listener;
 
     public List<Product> allProducts() {
         List<Product> l = new ArrayList<>();
