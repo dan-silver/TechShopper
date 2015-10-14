@@ -5,8 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.pnikosis.materialishprogress.ProgressWheel;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 
@@ -70,10 +73,24 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
         holder.txtProductPrice.setText(rowItem.getPriceString());
         holder.flowTextView.setText(rowItem.title);
 
+        holder.loader.setVisibility(View.VISIBLE);
+        holder.imageView.setVisibility(View.VISIBLE);
+
+        final ProgressWheel progressWheel = holder.loader;
         Picasso.with(holder.imageView.getContext())
                 .load(rowItem.image)
-                .placeholder(R.drawable.progress_animation)
-                .into(holder.imageView);
+                .into(holder.imageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        progressWheel.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        // TODO Auto-generated method stub
+
+                    }
+                });
 
         if (rowItem.hasReviewData()) {
             holder.rating.setText(rowItem.getRatingString());
@@ -145,6 +162,7 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
         @Bind(R.id.product_title) TextView flowTextView;
         @Bind(R.id.price) TextView txtProductPrice;
         @Bind(R.id.product_rating) TextView rating;
+        @Bind(R.id.product_image_loading) ProgressWheel loader;
 
         public Holder(View view) {
             super(view);
