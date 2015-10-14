@@ -69,9 +69,8 @@ public class MainActivity extends AppCompatActivity {
         slidingTabs.setOnTabReselectedListener(new PagerSlidingTabStrip.OnTabReselectedListener() {
             @Override
             public void onTabReselected(int position) {
-                View view = slidingTabsPager.getFocusedChild();
-                RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.products_list);
-                mRecyclerView.smoothScrollToPosition(0);
+                ProductListFragment fragment = (ProductListFragment) slidingTabsPager.getAdapter().instantiateItem(slidingTabsPager, position);
+                fragment.scrollToTop();
             }
         });
 

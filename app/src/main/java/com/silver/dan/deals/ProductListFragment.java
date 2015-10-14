@@ -78,6 +78,10 @@ public class ProductListFragment extends Fragment {
         }
     }
 
+    public void scrollToTop() {
+        mRecyclerView.smoothScrollToPosition(0);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.products_list, container, false);
