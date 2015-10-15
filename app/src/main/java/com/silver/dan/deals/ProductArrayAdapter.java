@@ -65,18 +65,18 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
     }
 
     @Override
-    public void onBindViewHolder(ProductArrayAdapter.Holder holder, int position) {
+    public void onBindViewHolder(final ProductArrayAdapter.Holder holder, int position) {
         Product rowItem = products.get(position);
         holder.txtProductPrice.setText(rowItem.getPriceString());
         holder.flowTextView.setText(rowItem.title);
+        holder.loader.spin();
 
-        final ProgressWheel progressWheel = holder.loader;
         Picasso.with(holder.imageView.getContext())
                 .load(rowItem.image)
                 .into(holder.imageView, new Callback() {
                     @Override
                     public void onSuccess() {
-                        progressWheel.setVisibility(View.GONE);
+                        holder.loader.stopSpinning();
                     }
 
                     @Override
