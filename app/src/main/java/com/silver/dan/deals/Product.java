@@ -19,7 +19,7 @@ import fuel.core.Response;
 
 public class Product {
 
-    public String title, image, thumbnail, brand;
+    public String title, image, brand;
     public int id;
     public ArrayList<Listing> listings = new ArrayList<>();
     public ArrayList<String> features = new ArrayList<>();
@@ -28,10 +28,9 @@ public class Product {
     public boolean detailsLoaded = false;
     private ArrayList<DetailsCallback> callbacks = new ArrayList<>();
 
-    Product(String title, String image, String thumbnail, int id, String brand, int primaryCategoryId, int secondaryCategoryId) {
+    Product(String title, String image, int id, String brand, int primaryCategoryId, int secondaryCategoryId) {
         this.title = title;
         this.image = image;
-        this.thumbnail = thumbnail;
         this.id = id;
         this.brand = brand;
         this.primaryCategoryId = primaryCategoryId;
