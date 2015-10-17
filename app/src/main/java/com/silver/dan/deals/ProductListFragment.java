@@ -143,6 +143,7 @@ public class ProductListFragment extends Fragment {
                                 if (text == "Remove Filter") {
                                     ArrayList<Product> newProductsList = (ArrayList<Product>) adapter.allProducts();
                                     Collections.shuffle(newProductsList);
+                                    scrollToTop(); //avoids items being added above the current scroll position during shuffle/animate
                                     adapter.animateTo(newProductsList);
                                     return;
                                 }
