@@ -51,7 +51,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="$150.33"
                 android:id="@+id/productDetailPrice"
-                android:layout_gravity="left|top"
+                android:layout_gravity="start|top"
                 android:layout_below="@+id/productDetailTitle"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"/>
