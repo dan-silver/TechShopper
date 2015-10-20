@@ -73,6 +73,14 @@
                     android:text="Some other information"/>
 
             </LinearLayout>
+
+            <ImageView
+                android:layout_width="31dp"
+                android:layout_height="31dp"
+                android:src="@mipmap/ic_link"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/product_listing_link"
+                android:tint="@color/green" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

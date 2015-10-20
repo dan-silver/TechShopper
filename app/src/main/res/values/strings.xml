@@ -1,6 +1,7 @@
 <resources>
     <string name="action_settings">Settings</string>
     <string name="APP_URL">http://shop.dansilver.me/</string>
-    <string name="APP_NAME">Tech Shopper Pro</string>
+    <string name="APP_NAME">Tech Shopper</string>
     <string name="product_image">product image</string>
+    <string name="free_shipping">Free shipping</string>
 </resources>

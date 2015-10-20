@@ -32,6 +32,7 @@ public class ProductDetailsTabOverview extends Fragment {
     @Bind(R.id.productDetailListings) RecyclerView productListings;
     @Bind(R.id.productsDetailViewPages) ViewPager mImagesViewPager;
     @Bind(R.id.productsDetailPageCounter) TextView productsDetailPageCounter;
+    @Bind(R.id.progress_wheel) ProgressWheel progressWheel;
 
     public static ProductDetailsTabOverview newInstance(Product product) {
         ProductDetailsTabOverview f = new ProductDetailsTabOverview();
@@ -59,6 +60,9 @@ public class ProductDetailsTabOverview extends Fragment {
         ButterKnife.bind(this, view);
 
         productDetailTitle.setText(product.title);
+        productDetailPrice.setText(product.getPriceString());
+        productsDetailPageCounter.setText(""); //hide 3/5 until number of pictures is determined
+        progressWheel.spin();
 
         mImagesViewPager.setAdapter(new SamplePagerAdapter(product));
 
@@ -78,7 +82,7 @@ public class ProductDetailsTabOverview extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                productsDetailPageCounter.setText((position + 1) + "/" + mImagesViewPager.getAdapter().getCount());
+                productsDetailPageCounter.setText(String.format("%d/%d", position + 1, mImagesViewPager.getAdapter().getCount()));
             }
 
             @Override
@@ -90,11 +94,11 @@ public class ProductDetailsTabOverview extends Fragment {
         product.addDetailsLoadedCallback(new Product.DetailsCallback() {
             @Override
             public void onLoaded() {
-                Log.v(MainActivity.TAG, "details callback tab overview");
-                productDetailPrice.setText(product.getPriceString());
+                progressWheel.stopSpinning();
+//                productDetailPrice.setText(product.getPriceString());
 
                 mImagesViewPager.getAdapter().notifyDataSetChanged();
-                productsDetailPageCounter.setText("1/" + mImagesViewPager.getAdapter().getCount());
+                productsDetailPageCounter.setText(String.format("1/%d", mImagesViewPager.getAdapter().getCount()));
 
                 mAdapter = new ProductListingsArrayAdapter(getContext(), product.listings);
                 productListings.setAdapter(mAdapter);

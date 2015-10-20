@@ -115,6 +115,8 @@ public class Product {
         }
     }
 
+
+    //@todo modify method to handle error cases. pass boolean for success/failure?
     private void executeDetailsLoadedCallbacks() {
         for (DetailsCallback callback : callbacks)
             callback.onLoaded();
@@ -164,7 +166,7 @@ public class Product {
 
             @Override
             public void failure(@NonNull Request request, @NonNull Response response, @NonNull FuelError fuelError) {
-                Log.e(MainActivity.TAG, fuelError.toString());
+//                Log.e(MainActivity.TAG, fuelError.toString());
             }
         });
     }

@@ -58,9 +58,17 @@
                 android:layout_alignParentLeft="true"/>
         </RelativeLayout>
     </LinearLayout>
-    <android.support.v7.widget.RecyclerView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/productDetailListings">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/progress_wheel"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/productDetailListings">
+        </android.support.v7.widget.RecyclerView>
+
+    </RelativeLayout>
 </LinearLayout>

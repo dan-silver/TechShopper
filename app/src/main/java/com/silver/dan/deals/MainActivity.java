@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String SECONDARY_CAT_ID = "SECONDARY_CAT_ID";
     public static final String PRODUCT_ID = "PRODUCT_ID";
 
-    public static final String IMAGE_SERVER_URL = "http://shop.dansilver.me/";
+    public static final String IMAGE_SERVER_URL = "http://files.dansilver.me.s3-us-west-2.amazonaws.com/";
 
     @Bind(R.id.tabs) PagerSlidingTabStrip slidingTabs;
     @Bind(R.id.pager) ViewPager slidingTabsPager;
@@ -52,8 +52,9 @@ public class MainActivity extends AppCompatActivity {
     static ArrayList<PrimaryCategory> primary_categories = new ArrayList<>();
 
     public void updateDrawerWithPrimaryCategories(Menu menu) {
+        int order = 0;
         for (PrimaryCategory cat : primary_categories) {
-            menu.add(0, cat.id, cat.id, cat.name);
+            menu.add(0, cat.id, order++, cat.name);
         }
     }
 

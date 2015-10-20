@@ -1,10 +1,17 @@
 package com.silver.dan.deals;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,8 +38,8 @@ public class ProductListingsArrayAdapter extends RecyclerView.Adapter<ProductLis
     }
 
     @Override
-    public void onBindViewHolder(ProductListingsArrayAdapter.Holder holder, int position) {
-        Listing rowItem = listings.get(position);
+    public void onBindViewHolder(final ProductListingsArrayAdapter.Holder holder, int position) {
+        final Listing rowItem = listings.get(position);
         holder.product_listing_price.setText(rowItem.getPriceString());
         holder.product_listing_store.setText(rowItem.store);
         if (rowItem.hasReviewData) {
@@ -43,7 +50,7 @@ public class ProductListingsArrayAdapter extends RecyclerView.Adapter<ProductLis
         }
 
         if (rowItem.freeShipping) {
-            holder.product_listing_shipping_info.setText("Free shipping");
+            holder.product_listing_shipping_info.setText(R.string.free_shipping);
         } else if (rowItem.shippingCost != 0.0){
             holder.product_listing_shipping_info.setText(rowItem.getShippingCostStr());
         } else {
@@ -59,6 +66,14 @@ public class ProductListingsArrayAdapter extends RecyclerView.Adapter<ProductLis
             holder.product_listing_other_attributes.setVisibility(View.GONE);
         }
 
+        holder.product_listing_link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(rowItem.url));
+                v.getContext().startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -85,9 +100,10 @@ public class ProductListingsArrayAdapter extends RecyclerView.Adapter<ProductLis
         @Bind(R.id.product_listing_shipping_info)
         TextView product_listing_shipping_info;
 
-
         @Bind(R.id.product_listing_other_attributes)
         TextView product_listing_other_attributes;
+
+        @Bind(R.id.product_listing_link) ImageView product_listing_link;
 
         public Holder(View view) {
             super(view);
