@@ -22,7 +22,6 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-
 public class ProductListFragment extends Fragment {
     PrimaryCategory pri_cat;
     SecondaryCategory sec_cat;

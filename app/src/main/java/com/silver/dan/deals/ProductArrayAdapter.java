@@ -1,6 +1,7 @@
 package com.silver.dan.deals;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +73,7 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
         holder.loader.spin();
 
         Picasso.with(holder.imageView.getContext())
-                .load(rowItem.image)
+                .load(rowItem.getImageURL())
                 .into(holder.imageView, new Callback() {
                     @Override
                     public void onSuccess() {

@@ -45,6 +45,14 @@ public class Product {
         return String.format("%s/5", getRating());
     }
 
+    public String getImageURL() {
+        return MainActivity.IMAGE_SERVER_URL + this.image;
+    }
+
+    public String getImageURL(int position) {
+        return MainActivity.IMAGE_SERVER_URL + images.get(position);
+    }
+
     interface DetailsCallback {
         void onLoaded();
 

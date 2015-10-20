@@ -140,7 +140,7 @@ public class ProductDetailsTabOverview extends Fragment {
             progressWheel.spin();
 
             Picasso.with(container.getContext())
-                    .load(product.images.get(position))
+                    .load(product.getImageURL(position))
                     .into(image, new Callback() {
                         @Override
                         public void onSuccess() {
