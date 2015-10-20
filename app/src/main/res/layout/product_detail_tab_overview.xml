@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="5dp">
 
     <LinearLayout
         android:orientation="vertical"
@@ -34,7 +35,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,7 +43,7 @@
                 android:textAppearance="?android:attr/textAppearance"
                 android:text="Product Title Product Title Product Title Product Title Product Title Product Title Product Title Product Title"
                 android:id="@+id/productDetailTitle"
-                android:layout_gravity="left|top"
+                android:layout_gravity="start|top"
                 android:textColor="@color/cardview_dark_background"/>
 
             <TextView
@@ -60,7 +61,6 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/productDetailListings"
-        android:padding="5dp">
+        android:id="@+id/productDetailListings">
     </android.support.v7.widget.RecyclerView>
 </LinearLayout>
