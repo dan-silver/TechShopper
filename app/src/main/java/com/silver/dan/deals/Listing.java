@@ -34,4 +34,14 @@ public class Listing {
     public String getShippingCostStr() {
         return String.format("$%.2f shipping", shippingCost);
     }
+
+    public String getNumberReviewsStr() {
+        if (number_of_reviews > 1)
+            return String.format("%d reviews", number_of_reviews);
+        else if (number_of_reviews == 1) {
+            return "1 review";
+        } else {
+            return "No reviews"; //shouldn't be used
+        }
+    }
 }

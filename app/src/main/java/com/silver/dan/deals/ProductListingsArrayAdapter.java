@@ -43,7 +43,7 @@ public class ProductListingsArrayAdapter extends RecyclerView.Adapter<ProductLis
         holder.product_listing_price.setText(rowItem.getPriceString());
         holder.product_listing_store.setText(rowItem.store);
         if (rowItem.hasReviewData) {
-            holder.product_listing_number_reviews.setText(String.format("%d reviews", rowItem.number_of_reviews));
+            holder.product_listing_number_reviews.setText(rowItem.getNumberReviewsStr());
             holder.product_listing_average_review.setText(rowItem.getRatingString());
         } else {
             holder.product_listing_review_info.setVisibility(View.GONE);
