@@ -114,6 +114,10 @@ public class ProductDetailsTabOverview extends Fragment {
     }
 
     class SamplePagerAdapter extends PagerAdapter {
+
+        @Bind(R.id.image_slider_image) ImageView image_slider_image;
+        @Bind(R.id.progress_wheel) ProgressWheel progressWheel;
+
         private final Product product;
 
         SamplePagerAdapter(Product product) {
@@ -129,23 +133,15 @@ public class ProductDetailsTabOverview extends Fragment {
 
         @Override
         public View instantiateItem(ViewGroup container, int position) {
-            RelativeLayout rl = new RelativeLayout(getContext());
-
-            //Image
-            final ImageView image = new ImageView(container.getContext());
-            rl.addView(image, ViewPager.LayoutParams.MATCH_PARENT, ViewPager.LayoutParams.MATCH_PARENT);
-
-            //Progress wheel
             LayoutInflater inflater = (LayoutInflater) container.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.progress_wheel, container, false);
-            rl.addView(view);
+            View view = inflater.inflate(R.layout.product_detail_image_slider_image, container, false);
+            ButterKnife.bind(this, view);
 
-            final ProgressWheel progressWheel = (ProgressWheel) view.findViewById(R.id.progress_wheel);
             progressWheel.spin();
 
-            Picasso.with(container.getContext())
+            Picasso.with(view.getContext())
                     .load(product.getImageURL(position))
-                    .into(image, new Callback() {
+                    .into(image_slider_image, new Callback() {
                         @Override
                         public void onSuccess() {
                             progressWheel.stopSpinning();
@@ -156,8 +152,8 @@ public class ProductDetailsTabOverview extends Fragment {
 
                         }
                     });
-            container.addView(rl);
-            return rl;
+            container.addView(view);
+            return view;
         }
 
         @Override

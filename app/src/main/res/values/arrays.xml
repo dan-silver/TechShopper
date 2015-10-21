@@ -1,7 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="items">
-        <item>a</item>
-        <item>b</item>
-    </string-array>
 </resources>
