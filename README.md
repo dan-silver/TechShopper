@@ -1,4 +1,4 @@
-# TechShopperPro
+# TechShopper
 
 Electronics shopping app for Android
 
