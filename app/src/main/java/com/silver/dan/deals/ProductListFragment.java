@@ -3,6 +3,7 @@ package com.silver.dan.deals;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -93,6 +94,7 @@ public class ProductListFragment extends Fragment {
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
         mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         adapter.setOnItemClickListener(new ProductArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {

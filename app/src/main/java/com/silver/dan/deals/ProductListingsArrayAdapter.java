@@ -2,16 +2,11 @@ package com.silver.dan.deals;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -66,7 +61,7 @@ public class ProductListingsArrayAdapter extends RecyclerView.Adapter<ProductLis
             holder.product_listing_other_attributes.setVisibility(View.GONE);
         }
 
-        holder.product_listing_link.setOnClickListener(new View.OnClickListener() {
+        holder.product_listing_cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_VIEW);
@@ -103,7 +98,8 @@ public class ProductListingsArrayAdapter extends RecyclerView.Adapter<ProductLis
         @Bind(R.id.product_listing_other_attributes)
         TextView product_listing_other_attributes;
 
-        @Bind(R.id.product_listing_link) ImageView product_listing_link;
+        @Bind(R.id.product_listing_card_view)
+        LinearLayout product_listing_cardview;
 
         public Holder(View view) {
             super(view);

@@ -21,13 +21,14 @@
             android:padding="5dp"
             android:background="@color/white"
             android:descendantFocusability="blocksDescendants">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/list_image"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/example_product_image"
                     android:layout_centerHorizontal="true"

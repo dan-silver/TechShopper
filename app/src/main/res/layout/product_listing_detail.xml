@@ -1,86 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp">
+    android:layout_marginBottom="10dp"
+    android:id="@+id/product_listing_card_view"
+    android:padding="5dp">
+    <TextView
+        android:id="@+id/product_listing_store"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.4"
+        android:gravity="center_vertical"
+        android:text="Amazon"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_view"
-        android:layout_gravity="center"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        card_view:cardUseCompatPadding="true"
-        card_view:cardCornerRadius="0dp">
+        android:layout_weight="2"
+        android:orientation="vertical">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/product_listing_price"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp">
+            android:text="$456.78"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/product_listing_review_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1.2"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Amazon"
-                android:id="@+id/product_listing_store" />
-            <LinearLayout
+                android:id="@+id/product_listing_number_reviews"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="17sp"
-                    android:text="$456.78"
-                    android:id="@+id/product_listing_price" />
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:id="@+id/product_listing_review_info">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                        android:layout_marginRight="16dp"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="445 Reviews"
-                        android:id="@+id/product_listing_number_reviews" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="3.4/5"
-                        android:id="@+id/product_listing_average_review" />
-                </LinearLayout>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/product_listing_shipping_info"
-                    android:textAppearance="?android:textAppearanceSmall"
-                    android:text="Amazon Prime eligible"/>
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="16dp"
+                android:text="445 Reviews"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/product_listing_other_attributes"
-                    android:textAppearance="?android:textAppearanceSmall"
-                    android:text="Some other information"/>
-
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="31dp"
-                android:layout_height="31dp"
-                android:src="@mipmap/ic_link"
-                android:layout_gravity="center_vertical"
-                android:id="@+id/product_listing_link"
-                android:tint="@color/green" />
+            <TextView
+                android:id="@+id/product_listing_average_review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3.4/5"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/product_listing_shipping_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Amazon Prime eligible"
+            android:textAppearance="?android:textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/product_listing_other_attributes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Some other information"
+            android:textAppearance="?android:textAppearanceSmall" />
+    </LinearLayout>
 </LinearLayout>
