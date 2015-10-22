@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -99,14 +100,13 @@ public class ProductDetailsTabOverview extends Fragment {
             @Override
             public void onLoaded() {
                 progressWheel.stopSpinning();
-//                productDetailPrice.setText(product.getPriceString());
 
                 mImagesViewPager.getAdapter().notifyDataSetChanged();
                 productsDetailPageCounter.setText(String.format("1/%d", mImagesViewPager.getAdapter().getCount()));
 
                 mAdapter = new ProductListingsArrayAdapter(getContext(), product.listings);
                 productListings.setAdapter(mAdapter);
-                productListings.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+                productListings.addItemDecoration(new DividerItemDecoration(1, ContextCompat.getColor(getContext(), R.color.divider), 2, true));
 
                 productListings.setItemAnimator(new DefaultItemAnimator());
             }

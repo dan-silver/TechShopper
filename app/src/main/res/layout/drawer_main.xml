@@ -35,6 +35,6 @@
         android:layout_gravity="start"
         app:itemTextAppearance="@style/TextAppearance.AppCompat.Menu"
         android:background="@android:color/white"
-        app:itemTextColor="@color/greenDark"/>
+        app:itemTextColor="@color/primary_text"/>
 
 </android.support.v4.widget.DrawerLayout>

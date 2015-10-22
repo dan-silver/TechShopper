@@ -132,7 +132,7 @@ public class ProductListFragment extends Fragment {
                 new MaterialDialog.Builder(getContext())
                         .title("Filter by Brand")
                         .items(getBrandFilterLabels())
-                        .widgetColorRes(R.color.green)
+                        .widgetColorRes(R.color.primary_light)
                         .positiveColorRes(R.color.white)
                         .itemsCallbackMultiChoice(getFilteredIndices(), new MaterialDialog.ListCallbackMultiChoice() {
                             @Override

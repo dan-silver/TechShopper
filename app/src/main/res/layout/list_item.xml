@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/text_background"
     android:textAppearance="?android:attr/textAppearanceListItemSmall"
-    android:textColor="@color/greenDark"
+    android:textColor="@color/primary_text"
     android:gravity="center_vertical"
     android:paddingStart="?android:attr/listPreferredItemPaddingStart"
     android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"

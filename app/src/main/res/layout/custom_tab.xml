@@ -16,6 +16,6 @@
         android:id="@+id/psts_tab_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/green"
+        android:textColor="@color/primary_text"
         tools:text="Test" />
 </LinearLayout>

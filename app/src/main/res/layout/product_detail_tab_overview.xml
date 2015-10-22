@@ -3,7 +3,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp">
+    android:paddingTop="5dp"
+    android:paddingRight="5dp"
+    android:paddingLeft="5dp">
 
     <LinearLayout
         android:orientation="vertical"
@@ -28,7 +30,8 @@
                 android:padding="4dp"
                 android:layout_alignEnd="@+id/productsDetailViewPages"
                 android:layout_alignRight="@+id/productsDetailViewPages"
-                android:layout_alignBottom="@+id/productsDetailViewPages"/>
+                android:layout_alignBottom="@+id/productsDetailViewPages"
+                android:textColor="@color/secondary_text"/>
 
         </RelativeLayout>
 
@@ -40,16 +43,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearance"
+                android:textSize="13sp"
                 android:text="Product Title Product Title Product Title Product Title Product Title Product Title Product Title Product Title"
                 android:id="@+id/productDetailTitle"
                 android:layout_gravity="start|top"
-                android:textColor="@color/cardview_dark_background"/>
+                android:textColor="@color/primary_text"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="17sp"
                 android:text="$150.33"
                 android:id="@+id/productDetailPrice"
                 android:layout_gravity="start|top"
