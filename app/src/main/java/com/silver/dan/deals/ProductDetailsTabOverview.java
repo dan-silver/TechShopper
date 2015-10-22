@@ -2,7 +2,6 @@ package com.silver.dan.deals;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -18,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -167,7 +165,7 @@ public class ProductDetailsTabOverview extends Fragment {
                             // Get current dimensions AND the desired bounding box
                             int width = bitmap.getWidth();
                             int height = bitmap.getHeight();
-                            int bounding = utils.dpToPx(view.getContext(), 250);
+                            int bounding = Utils.dpToPx(view.getContext(), 250);
                             Log.i("Test", "original width = " + Integer.toString(width));
                             Log.i("Test", "original height = " + Integer.toString(height));
                             Log.i("Test", "bounding = " + Integer.toString(bounding));

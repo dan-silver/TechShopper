@@ -27,6 +27,7 @@ public class ProductListFragment extends Fragment {
     PrimaryCategory pri_cat;
     SecondaryCategory sec_cat;
     public ProductArrayAdapter adapter;
+    private ArrayList<FilterCategory> filteredCategories = new ArrayList<>();
 
     @Bind(R.id.products_list) RecyclerView mRecyclerView;
     @Bind(R.id.fab) FloatingActionButton fab;
@@ -115,58 +116,105 @@ public class ProductListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //build dialog
-                HashMap<String, Integer> brandCounts = adapter.getBrandCounts();
-                final HashMap<String, Integer> brandPositionNameMap = new HashMap<>();
 
-                ArrayList<String> brandLabels = new ArrayList<>();
-                Iterator it = brandCounts.entrySet().iterator();
-                int position = 0;
+                if (filteredCategories.size() == 0) { //build the filter categories array
+                    HashMap<String, Integer> brandCounts = adapter.getBrandCounts();
+                    int position = 0;
+                    Iterator it = Utils.entriesSortedByValues(brandCounts).iterator();
 
-                //if a filter is currently being used, add the option "Remove Filter" at the top
-                if (usingFilter()) {
-                    brandLabels.add("Remove Filter");
+                    while (it.hasNext()) {
+                        Map.Entry pair = (Map.Entry) it.next();
+                        filteredCategories.add(new FilterCategory(position, (String) pair.getKey(), (int) pair.getValue()));
+                        position++;
+                        it.remove(); // avoids a ConcurrentModificationException
+                    }
                 }
 
-                while (it.hasNext()) {
-                    Map.Entry pair = (Map.Entry) it.next();
-                    brandLabels.add(pair.getKey() + " (" + pair.getValue() + ")");
-                    brandPositionNameMap.put((String) pair.getKey(), position);
-                    position++;
-                    it.remove(); // avoids a ConcurrentModificationException
-                }
 
                 new MaterialDialog.Builder(getContext())
                         .title("Filter by Brand")
-                        .items(brandLabels.toArray(new CharSequence[brandLabels.size()]))
-                        .itemsCallback(new MaterialDialog.ListCallback() {
+                        .items(getBrandFilterLabels())
+                        .itemsCallbackMultiChoice(getFilteredIndices(), new MaterialDialog.ListCallbackMultiChoice() {
                             @Override
-                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                if (text == "Remove Filter") {
-                                    ArrayList<Product> newProductsList = (ArrayList<Product>) adapter.allProducts();
-                                    Collections.shuffle(newProductsList);
-                                    scrollToTop(); //avoids items being added above the current scroll position during shuffle/animate
-                                    adapter.animateTo(newProductsList);
-                                    return;
-                                }
+                            public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                                updateFilteredIndices(which);
 
-                                int position = usingFilter() ? which - 1 : which;
-
-                                // find the selected brand's products
+                                //if there are no filters, display all products
                                 ArrayList<Product> filteredProductsList = new ArrayList<>();
-                                for (Product product : adapter.allProducts()) {
-                                    if (brandPositionNameMap.get(product.brand) == position)
-                                        filteredProductsList.add(product);
+                                //if we just removed a filter, shuffle the products
+                                if (usingFilter() && which.length == 0) {
+                                    filteredProductsList = adapter.allProducts();
+                                    Collections.shuffle(filteredProductsList);
+                                    scrollToTop();
+                                } else if (which.length == 0) {
+                                    filteredProductsList = adapter.allProducts();
+                                } else {
+                                    CharSequence[] brandNames = getSelectedBrandNames();
+                                    // find the selected brand's products
+                                    for (Product product : adapter.allProducts()) {
+                                        if (Utils.contains(brandNames, product.brand)) {
+                                            filteredProductsList.add(product);
+                                        }
+                                    }
                                 }
 
                                 adapter.animateTo(filteredProductsList);
+
+                                return true;
                             }
-                        })
+                        }).positiveText(R.string.filter)
                         .show();
             }
         });
         return view;
     }
 
+    private CharSequence[] getBrandFilterLabels() {
+        ArrayList<CharSequence> labels = new ArrayList<>();
+        for (FilterCategory cat : filteredCategories)
+            labels.add(cat.getLabel());
+        return labels.toArray(new CharSequence[labels.size()]);
+    }
+
+    private CharSequence[] getSelectedBrandNames() {
+        ArrayList<CharSequence> labels = new ArrayList<>();
+        for (FilterCategory cat : filteredCategories)
+            if (cat.selected) labels.add(cat.brand);
+        return labels.toArray(new CharSequence[labels.size()]);
+    }
+
+    private class FilterCategory {
+        int position;
+        boolean selected;
+        String brand;
+        int count;
+
+        public FilterCategory(int position, String brand, int count) {
+            this.position = position;
+            this.selected = false;
+            this.count = count;
+            this.brand = brand;
+        }
+
+
+        public CharSequence getLabel() {
+            return brand + " (" + count + ")";
+        }
+    }
+
+    private Integer[] getFilteredIndices() {
+        ArrayList<Integer> indices = new ArrayList<>();
+        for (FilterCategory cat : filteredCategories) {
+            if (cat.selected) indices.add(cat.position);
+        }
+
+        return indices.toArray(new Integer[indices.size()]);
+    }
+    private void updateFilteredIndices(Integer[] which) {
+        for (FilterCategory cat : filteredCategories) {
+            cat.selected = Utils.contains(which, cat.position);
+        }
+    }
     public boolean usingFilter() {
         return adapter.products.size() < adapter.allProducts().size();
     }

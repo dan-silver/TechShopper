@@ -29,8 +29,8 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
         this.products = products;
     }
 
-    public List<Product> allProducts() {
-        List<Product> l = new ArrayList<>();
+    public ArrayList<Product> allProducts() {
+        ArrayList<Product> l = new ArrayList<>();
         l.addAll(products);
         l.addAll(removedProducts);
         return l;
