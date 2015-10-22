@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,16 +116,14 @@ public class ProductListFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //build dialog
-
                 if (filteredCategories.size() == 0) { //build the filter categories array
-                    HashMap<String, Integer> brandCounts = adapter.getBrandCounts();
-                    int position = 0;
+                    HashMap<String, Short> brandCounts = adapter.getBrandCounts();
+                    short position = 0;
                     Iterator it = Utils.entriesSortedByValues(brandCounts).iterator();
 
                     while (it.hasNext()) {
                         Map.Entry pair = (Map.Entry) it.next();
-                        filteredCategories.add(new FilterCategory(position, (String) pair.getKey(), (int) pair.getValue()));
+                        filteredCategories.add(new FilterCategory(position, (String) pair.getKey(), (short) pair.getValue()));
                         position++;
                         it.remove(); // avoids a ConcurrentModificationException
                     }
@@ -184,18 +183,17 @@ public class ProductListFragment extends Fragment {
     }
 
     private class FilterCategory {
-        int position;
+        short position;
         boolean selected;
         String brand;
-        int count;
+        short count;
 
-        public FilterCategory(int position, String brand, int count) {
+        public FilterCategory(short position, String brand, short count) {
             this.position = position;
             this.selected = false;
             this.count = count;
             this.brand = brand;
         }
-
 
         public CharSequence getLabel() {
             return brand + " (" + count + ")";
@@ -205,7 +203,7 @@ public class ProductListFragment extends Fragment {
     private Integer[] getFilteredIndices() {
         ArrayList<Integer> indices = new ArrayList<>();
         for (FilterCategory cat : filteredCategories) {
-            if (cat.selected) indices.add(cat.position);
+            if (cat.selected) indices.add((int) cat.position);
         }
 
         return indices.toArray(new Integer[indices.size()]);
