@@ -37,10 +37,10 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
     }
 
     //count how many products for each brand
-    public HashMap<String, Short> getBrandCounts() {
-        HashMap<String, Short> brandCounts = new HashMap<>();
+    public HashMap<String, Integer> getBrandCounts() {
+        HashMap<String, Integer> brandCounts = new HashMap<>();
         for (Product p : allProducts()) {
-            Short count = 1;
+            int count = 1;
             if (brandCounts.containsKey(p.brand)) {
                 count = brandCounts.get(p.brand);
                 count++;

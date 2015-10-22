@@ -3,6 +3,7 @@ package com.silver.dan.deals;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -116,22 +117,23 @@ public class ProductListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (filteredCategories.size() == 0) { //build the filter categories array
-                    HashMap<String, Short> brandCounts = adapter.getBrandCounts();
-                    short position = 0;
+                    HashMap<String, Integer> brandCounts = adapter.getBrandCounts();
+                    int position = 0;
                     Iterator it = Utils.entriesSortedByValues(brandCounts).iterator();
 
                     while (it.hasNext()) {
                         Map.Entry pair = (Map.Entry) it.next();
-                        filteredCategories.add(new FilterCategory(position, (String) pair.getKey(), (short) pair.getValue()));
+                        filteredCategories.add(new FilterCategory(position, (String) pair.getKey(), (int) pair.getValue()));
                         position++;
                         it.remove(); // avoids a ConcurrentModificationException
                     }
                 }
 
-
                 new MaterialDialog.Builder(getContext())
                         .title("Filter by Brand")
                         .items(getBrandFilterLabels())
+                        .widgetColorRes(R.color.green)
+                        .positiveColorRes(R.color.white)
                         .itemsCallbackMultiChoice(getFilteredIndices(), new MaterialDialog.ListCallbackMultiChoice() {
                             @Override
                             public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
@@ -182,12 +184,12 @@ public class ProductListFragment extends Fragment {
     }
 
     private class FilterCategory {
-        short position;
+        int position;
         boolean selected;
         String brand;
-        short count;
+        int count;
 
-        public FilterCategory(short position, String brand, short count) {
+        public FilterCategory(int position, String brand, int count) {
             this.position = position;
             this.selected = false;
             this.count = count;
@@ -202,11 +204,12 @@ public class ProductListFragment extends Fragment {
     private Integer[] getFilteredIndices() {
         ArrayList<Integer> indices = new ArrayList<>();
         for (FilterCategory cat : filteredCategories) {
-            if (cat.selected) indices.add((int) cat.position);
+            if (cat.selected) indices.add(cat.position);
         }
 
         return indices.toArray(new Integer[indices.size()]);
     }
+
     private void updateFilteredIndices(Integer[] which) {
         for (FilterCategory cat : filteredCategories) {
             cat.selected = Utils.contains(which, cat.position);
