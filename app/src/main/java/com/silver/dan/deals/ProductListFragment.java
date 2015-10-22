@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -213,6 +212,8 @@ public class ProductListFragment extends Fragment {
             cat.selected = Utils.contains(which, cat.position);
         }
     }
+
+    //@todo stop being lazy dan
     public boolean usingFilter() {
         return adapter.products.size() < adapter.allProducts().size();
     }
