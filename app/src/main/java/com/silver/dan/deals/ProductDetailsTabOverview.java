@@ -143,7 +143,7 @@ public class ProductDetailsTabOverview extends Fragment {
         @Override
         public View instantiateItem(ViewGroup container, int position) {
             LayoutInflater inflater = (LayoutInflater) container.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.product_detail_image_slider_image, container, false);
+            final View view = inflater.inflate(R.layout.product_detail_image_slider_image, container, false);
             ButterKnife.bind(this, view);
 
             progressWheel.spin();
@@ -167,7 +167,7 @@ public class ProductDetailsTabOverview extends Fragment {
                             // Get current dimensions AND the desired bounding box
                             int width = bitmap.getWidth();
                             int height = bitmap.getHeight();
-                            int bounding = utils.dpToPx(getContext(), 250);
+                            int bounding = utils.dpToPx(view.getContext(), 250);
                             Log.i("Test", "original width = " + Integer.toString(width));
                             Log.i("Test", "original height = " + Integer.toString(height));
                             Log.i("Test", "bounding = " + Integer.toString(bounding));
