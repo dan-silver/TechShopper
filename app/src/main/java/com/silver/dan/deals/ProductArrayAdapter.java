@@ -165,7 +165,7 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
         @Bind(R.id.product_title) TextView flowTextView;
         @Bind(R.id.price) TextView txtProductPrice;
         @Bind(R.id.product_rating) TextView rating;
-        @Bind(R.id.product_image_loading) ProgressWheel loader;
+        @Bind(R.id.progress_wheel) ProgressWheel loader;
 
         public Holder(View view) {
             super(view);
