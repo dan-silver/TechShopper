@@ -1,77 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="5dp"
-    android:paddingRight="5dp"
-    android:paddingLeft="5dp">
-
+    android:layout_height="match_parent">
+    <include layout="@layout/progress_wheel"/>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="0dp">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.v4.view.ViewPager
-                android:layout_width="match_parent"
-                android:layout_height="225dp"
-                android:id="@+id/productsDetailViewPages"/>
+        android:layout_height="match_parent"
+        android:paddingTop="5dp"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/productsDetailPageCounter"
-                android:text="3/5"
-                android:layout_gravity="end"
-                android:textSize="12sp"
-                android:padding="4dp"
-                android:layout_alignEnd="@+id/productsDetailViewPages"
-                android:layout_alignRight="@+id/productsDetailViewPages"
-                android:layout_alignBottom="@+id/productsDetailViewPages"
-                android:textColor="@color/secondary_text"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp">
+            android:paddingTop="0dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <android.support.v4.view.ViewPager
+                    android:layout_width="match_parent"
+                    android:layout_height="225dp"
+                    android:id="@+id/productsDetailViewPages"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/productsDetailPageCounter"
+                    android:text="3/5"
+                    android:layout_gravity="end"
+                    android:textSize="12sp"
+                    android:padding="4dp"
+                    android:layout_alignEnd="@+id/productsDetailViewPages"
+                    android:layout_alignRight="@+id/productsDetailViewPages"
+                    android:layout_alignBottom="@+id/productsDetailViewPages"
+                    android:textColor="@color/secondary_text"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:text="Product Title Product Title Product Title Product Title Product Title Product Title Product Title Product Title"
-                android:id="@+id/productDetailTitle"
-                android:layout_gravity="start|top"
-                android:textColor="@color/primary_text"/>
+                android:padding="5dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="17sp"
-                android:text="$150.33"
-                android:id="@+id/productDetailPrice"
-                android:layout_gravity="start|top"
-                android:layout_below="@+id/productDetailTitle"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"/>
-        </RelativeLayout>
-    </LinearLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:text="Product Title Product Title Product Title Product Title Product Title Product Title Product Title Product Title"
+                    android:id="@+id/productDetailTitle"
+                    android:layout_gravity="start|top"
+                    android:textColor="@color/primary_text"/>
 
-        <include layout="@layout/progress_wheel"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="17sp"
+                    android:text="$150.33"
+                    android:id="@+id/productDetailPrice"
+                    android:layout_gravity="start|top"
+                    android:layout_below="@+id/productDetailTitle"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"/>
+            </RelativeLayout>
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/productDetailListings">
         </android.support.v7.widget.RecyclerView>
-
-    </RelativeLayout>
-</LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
