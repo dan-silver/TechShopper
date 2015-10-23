@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -99,7 +100,8 @@ public class MainActivity extends AppCompatActivity {
                                 loadMainCategories();
                             }
                         })
-                        .show();
+                        .setActionTextColor(ContextCompat.getColor(getApplicationContext(), R.color.accent))
+                                .show();
             }
         });
     }
