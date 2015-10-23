@@ -2,8 +2,8 @@ package com.silver.dan.deals;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -46,7 +46,7 @@ public class ProductListFragment extends Fragment {
     interface ProductsListenerCallback {
         void onLoaded();
 
-        void onError();
+        void onError(String error);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class ProductListFragment extends Fragment {
                 }
 
                 @Override
-                public void onError() {
+                public void onError(String error) {
 
                 }
             });

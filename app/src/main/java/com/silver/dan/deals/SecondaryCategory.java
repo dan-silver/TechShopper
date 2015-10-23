@@ -49,7 +49,7 @@ public class SecondaryCategory {
                         JSONArray listings = o.getJSONArray("listings");
                         for (int j=0; j<listings.length(); j++) {
                             JSONObject l = (JSONObject) listings.get(j);
-                            Listing listing = new Listing(l.getInt("id"), l.getDouble("price"), l.getString("url"), l.getString("store"), false);
+                            Listing listing = new Listing(l.getInt("id"), l.getDouble("price"));
                             if (!l.isNull("number_of_reviews")) {
                                 listing.hasReviewData = true;
                                 listing.number_of_reviews = l.getInt("number_of_reviews");
@@ -65,14 +65,13 @@ public class SecondaryCategory {
                 } catch (JSONException e) {
                     Log.e(MainActivity.TAG, e.getMessage());
                     e.printStackTrace();
-                    callback.onError();
+                    callback.onError(e.toString());
                 }
             }
 
             @Override
             public void failure(@NonNull Request request, @NonNull Response response, @NonNull FuelError fuelError) {
-                Log.e(MainActivity.TAG, fuelError.toString());
-                callback.onError();
+                callback.onError(fuelError.toString());
             }
         });
     }

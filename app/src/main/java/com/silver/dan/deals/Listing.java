@@ -11,8 +11,8 @@ public class Listing {
     public int number_of_reviews;
     public boolean hasReviewData;
     public double shippingCost;
-    private int id;
     public ArrayList<String> otherAttrs = new ArrayList<>();
+    public int id;
 
     Listing(int id, double price, String url, String store, boolean freeShipping) {
         hasReviewData = false; //default to no review data
@@ -20,6 +20,11 @@ public class Listing {
         this.url = url;
         this.store = store;
         this.freeShipping = freeShipping;
+        this.id = id;
+    }
+
+    public Listing(int id, double price) {
+        this.price = price;
         this.id = id;
     }
 

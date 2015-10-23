@@ -76,7 +76,7 @@ public class Product {
         ArrayList<Listing> toRemove = new ArrayList<>();
 
         for (Listing oldListing : listings)
-            if (oldListing.store.equals(newListing.store)) {
+            if (oldListing.id == newListing.id) {
                 toRemove.add(oldListing);
             }
         listings.removeAll(toRemove);

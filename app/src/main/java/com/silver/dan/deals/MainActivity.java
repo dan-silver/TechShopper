@@ -3,7 +3,9 @@ package com.silver.dan.deals;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -47,15 +49,59 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.pager) ViewPager slidingTabsPager;
     @Bind(R.id.nvView) NavigationView navView;
     @Bind(R.id.drawer_layout) DrawerLayout mDrawer;
+    @Bind(R.id.snackbarPosition) CoordinatorLayout snackbarPosition;
 
     private SlidingTabsAdapter slidingTabsAdapter;
     static ArrayList<PrimaryCategory> primary_categories = new ArrayList<>();
 
-    public void updateDrawerWithPrimaryCategories(Menu menu) {
+
+    public void updateDrawerWithPrimaryCategories() {
         int order = 0;
+        Menu menu = navView.getMenu();
         for (PrimaryCategory cat : primary_categories) {
             menu.add(0, cat.id, order++, cat.name);
         }
+    }
+
+    private void loadMainCategories() {
+        Fuel.get(getResources().getString(R.string.APP_URL) + "/primary_categories.json").responseJson(new Handler<JSONObject>() {
+            @Override
+            public void success(@NonNull Request request, @NonNull Response response, JSONObject jsonObject) {
+                Context context = getApplicationContext();
+                try {
+                    JSONArray categoriesJSON = jsonObject.getJSONArray("categories");
+                    for (int i = 0; i < categoriesJSON.length(); i++) {
+                        JSONObject primaryCategory = (JSONObject) categoriesJSON.get(i);
+                        PrimaryCategory category = new PrimaryCategory(primaryCategory.getString("title"), primaryCategory.getInt("id"));
+                        JSONArray secondaryCategories = primaryCategory.getJSONArray("secondaryCategories");
+                        for (int j = 0; j < secondaryCategories.length(); j++) {
+                            JSONObject secondaryCategory = (JSONObject) secondaryCategories.get(j);
+                            SecondaryCategory secCategory = new SecondaryCategory(secondaryCategory.getInt("id"), secondaryCategory.getString("title"), context, category.id);
+                            category.addSecondaryCategory(secCategory);
+                        }
+                        primary_categories.add(category);
+                    }
+                    updateDrawerWithPrimaryCategories();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                slidingTabsAdapter.notifyDataSetChanged();
+                displayCategory(primary_categories.get(0));
+            }
+
+            @Override
+            public void failure(@NonNull Request request, @NonNull Response response, @NonNull FuelError fuelError) {
+                Log.e(MainActivity.TAG, fuelError.toString());
+                Snackbar.make(snackbarPosition, "Cannot load data.", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Retry", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                loadMainCategories();
+                            }
+                        })
+                        .show();
+            }
+        });
     }
 
     @Override
@@ -86,44 +132,13 @@ public class MainActivity extends AppCompatActivity {
         ab.setHomeAsUpIndicator(R.mipmap.ic_menu_white_36dp);
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowTitleEnabled(false);
-        final Menu drawerMenu = navView.getMenu();
-
         setupDrawerContent(navView);
 
         //only fetch category structure if not already loaded
         if (primary_categories.size() == 0) {
-            Fuel.get(getResources().getString(R.string.APP_URL) + "/primary_categories.json").responseJson(new Handler<JSONObject>() {
-                @Override
-                public void success(@NonNull Request request, @NonNull Response response, JSONObject jsonObject) {
-                    Context context = getApplicationContext();
-                    try {
-                        JSONArray categoriesJSON = jsonObject.getJSONArray("categories");
-                        for (int i = 0; i < categoriesJSON.length(); i++) {
-                            JSONObject primaryCategory = (JSONObject) categoriesJSON.get(i);
-                            PrimaryCategory category = new PrimaryCategory(primaryCategory.getString("title"), primaryCategory.getInt("id"));
-                            JSONArray secondaryCategories = primaryCategory.getJSONArray("secondaryCategories");
-                            for (int j = 0; j < secondaryCategories.length(); j++) {
-                                JSONObject secondaryCategory = (JSONObject) secondaryCategories.get(j);
-                                SecondaryCategory secCategory = new SecondaryCategory(secondaryCategory.getInt("id"), secondaryCategory.getString("title"), context, category.id);
-                                category.addSecondaryCategory(secCategory);
-                            }
-                            primary_categories.add(category);
-                        }
-                        updateDrawerWithPrimaryCategories(drawerMenu);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    slidingTabsAdapter.notifyDataSetChanged();
-                    displayCategory(primary_categories.get(0));
-                }
-
-                @Override
-                public void failure(@NonNull Request request, @NonNull Response response, @NonNull FuelError fuelError) {
-                    Log.e(MainActivity.TAG, fuelError.toString());
-                }
-            });
-        } else if (drawerMenu.size() == 0) {
-            updateDrawerWithPrimaryCategories(drawerMenu);
+            loadMainCategories();
+        } else if (navView.getMenu().size() == 0) {
+            updateDrawerWithPrimaryCategories();
             slidingTabsAdapter.notifyDataSetChanged();
         }
     }
@@ -153,7 +168,6 @@ public class MainActivity extends AppCompatActivity {
         final PrimaryCategory category = PrimaryCategory.findById(selected);
         displayCategory(category);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -166,9 +166,6 @@ public class ProductDetailsTabOverview extends Fragment {
                             int width = bitmap.getWidth();
                             int height = bitmap.getHeight();
                             int bounding = Utils.dpToPx(view.getContext(), 250);
-                            Log.i("Test", "original width = " + Integer.toString(width));
-                            Log.i("Test", "original height = " + Integer.toString(height));
-                            Log.i("Test", "bounding = " + Integer.toString(bounding));
 
                             // Determine how much to scale: the dimension requiring less scaling is
                             // closer to the its side. This way the image always stays inside your
@@ -176,9 +173,6 @@ public class ProductDetailsTabOverview extends Fragment {
                             float xScale = ((float) bounding) / width;
                             float yScale = ((float) bounding) / height;
                             float scale = (xScale <= yScale) ? xScale : yScale;
-                            Log.i("Test", "xScale = " + Float.toString(xScale));
-                            Log.i("Test", "yScale = " + Float.toString(yScale));
-                            Log.i("Test", "scale = " + Float.toString(scale));
 
                             // Create a matrix for the scaling and add the scaling data
                             Matrix matrix = new Matrix();
@@ -189,8 +183,6 @@ public class ProductDetailsTabOverview extends Fragment {
                             width = scaledBitmap.getWidth(); // re-use
                             height = scaledBitmap.getHeight(); // re-use
                             BitmapDrawable result = new BitmapDrawable(scaledBitmap);
-                            Log.i("Test", "scaled width = " + Integer.toString(width));
-                            Log.i("Test", "scaled height = " + Integer.toString(height));
 
                             // Apply the scaled bitmap
                             image_slider_image.setImageDrawable(result);
@@ -200,9 +192,6 @@ public class ProductDetailsTabOverview extends Fragment {
                             params.width = width;
                             params.height = height;
                             image_slider_image.setLayoutParams(params);
-
-
-//                            float scaleFactor = scale
 
                         }
 

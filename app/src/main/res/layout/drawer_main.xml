@@ -17,13 +17,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- The main content view -->
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            tools:context=".MainActivity"/>
+            android:layout_height="match_parent"
+            android:id="@+id/snackbarPosition">
+
+            <!-- The main content view -->
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".MainActivity"/>
+
+        </android.support.design.widget.CoordinatorLayout>
+
     </LinearLayout>
 
     <!-- The navigation drawer -->
