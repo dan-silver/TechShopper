@@ -1,7 +1,6 @@
 package com.silver.dan.deals;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,8 @@ import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
 
     public ProductArrayAdapter(List<Product> products) {
         this.products = products;
+        sortProducts();
     }
 
     public ArrayList<Product> allProducts() {
@@ -34,6 +36,10 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
         l.addAll(products);
         l.addAll(removedProducts);
         return l;
+    }
+
+    public void sortProducts() {
+        Collections.sort(products, new ProductComparator());
     }
 
     //count how many products for each brand
@@ -150,6 +156,7 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
     public void addItem(int position, Product model) {
         products.add(position, model);
         notifyItemInserted(position);
+        sortProducts();
     }
 
     public class Holder extends RecyclerView.ViewHolder {
@@ -170,6 +177,13 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
                     listener.onItemClick(itemView, getLayoutPosition());
                 }
             });
+        }
+    }
+
+    public class ProductComparator implements Comparator<Product> {
+        @Override
+        public int compare(Product o1, Product o2) {
+            return o1.images.size() - o2.images.size();
         }
     }
 }

@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String SECONDARY_CAT_ID = "SECONDARY_CAT_ID";
     public static final String PRODUCT_ID = "PRODUCT_ID";
 
-    public static final String IMAGE_SERVER_URL = "http://files.dansilver.me.s3-us-west-2.amazonaws.com/";
+    public static final String IMAGE_SERVER_URL = "http://files.dansilver.me/";
 
     @Bind(R.id.tabs) PagerSlidingTabStrip slidingTabs;
     @Bind(R.id.pager) ViewPager slidingTabsPager;
