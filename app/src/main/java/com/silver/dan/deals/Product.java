@@ -2,13 +2,11 @@ package com.silver.dan.deals;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import fuel.Fuel;
@@ -115,17 +113,20 @@ public class Product {
         }
     }
 
-
-    //@todo modify method to handle error cases. pass boolean for success/failure?
-    private void executeDetailsLoadedCallbacks() {
+    private void executeDetailsLoadedCallbacks(boolean success) {
         for (DetailsCallback callback : callbacks)
-            callback.onLoaded();
-        callbacks.clear();
+            if (success) {
+                callback.onLoaded();
+            } else {
+                callback.onError();
+            }
+
+//        callbacks.clear();
     }
 
     protected void fetchDetailData(Context context) {
         if (detailsLoaded) {
-            executeDetailsLoadedCallbacks();
+            executeDetailsLoadedCallbacks(true);
             return;
         }
         Fuel.get(context.getResources().getString(R.string.APP_URL) + "/products/" + id + ".json").responseJson(new Handler<JSONObject>() {
@@ -158,16 +159,16 @@ public class Product {
 
 
                     detailsLoaded = true;
-                    executeDetailsLoadedCallbacks();
+                    executeDetailsLoadedCallbacks(true);
                 } catch (JSONException e1) {
                     e1.printStackTrace();
+                    executeDetailsLoadedCallbacks(false);
                 }
             }
 
             @Override
             public void failure(@NonNull Request request, @NonNull Response response, @NonNull FuelError fuelError) {
-//                Log.e(MainActivity.TAG, fuelError.toString());
-            }
+                executeDetailsLoadedCallbacks(false);            }
         });
     }
 

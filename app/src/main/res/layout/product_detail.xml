@@ -23,10 +23,16 @@
             android:layout_height="?attr/actionBarSize"
             android:fillViewport="false" />
     </android.support.v7.widget.Toolbar>
-    <android.support.v4.view.ViewPager
-        android:id="@+id/productDetailTabsPager"
+
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        tools:context=".ProductDetail"/>
+        android:layout_height="match_parent"
+        android:id="@+id/snackbarPosition">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/productDetailTabsPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ProductDetail"/>
+    </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

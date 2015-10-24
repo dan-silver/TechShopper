@@ -1,15 +1,20 @@
 package com.silver.dan.deals;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.astuetz.PagerSlidingTabStrip;
 
@@ -22,6 +27,7 @@ public class ProductDetail extends AppCompatActivity {
     @Bind(R.id.product_detail_toolbar) Toolbar toolbar;
     @Bind(R.id.productDetailTabs) PagerSlidingTabStrip productDetailTabs;
     @Bind(R.id.productDetailTabsPager) ViewPager slidingTabsPager;
+    @Bind(R.id.snackbarPosition) CoordinatorLayout snackbarPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +51,26 @@ public class ProductDetail extends AppCompatActivity {
         productDetailTabs.setViewPager(slidingTabsPager);
 
         product.fetchDetailData(getApplicationContext());
+        final Context context = getApplicationContext();
+        product.addDetailsLoadedCallback(new Product.DetailsCallback() {
+            @Override
+            public void onLoaded() {
+
+            }
+
+            @Override
+            public void onError() {
+                Snackbar.make(snackbarPosition, "Cannot load data.", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Retry", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                product.fetchDetailData(context);
+                            }
+                        })
+                        .setActionTextColor(ContextCompat.getColor(getApplicationContext(), R.color.accent))
+                        .show();
+            }
+        });
     }
 
     @Override
