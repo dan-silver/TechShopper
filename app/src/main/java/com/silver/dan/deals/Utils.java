@@ -2,6 +2,10 @@ package com.silver.dan.deals;
 
 import android.content.Context;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -38,4 +42,13 @@ public class Utils {
         return sortedEntries;
     }
 
+    // given a JSON object with a JSONArray, dump its elements into an ArrayList
+    public static void dumpJSONArrayToArrayList(JSONObject json, String jsonKey, ArrayList<String> arrayList) throws JSONException {
+        JSONArray arrayElements = json.getJSONArray(jsonKey);
+        for(int i = 0; i < arrayElements.length(); i++) {
+            if (arrayList == null)
+                arrayList = new ArrayList<>();
+            arrayList.add(arrayElements.getString(i));
+        }
+    }
 }

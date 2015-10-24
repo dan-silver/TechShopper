@@ -149,13 +149,13 @@ public class Product {
                             listing.average_review = listingJSON.getDouble("average_review");
                         }
 
-                        dumpJSONArrayToArrayList(listingJSON, "otherAttrs", listing.otherAttrs);
+                        Utils.dumpJSONArrayToArrayList(listingJSON, "otherAttrs", listing.otherAttrs);
 
                         addOrUpdateListing(listing);
                     }
 
-                    dumpJSONArrayToArrayList(productJSON, "features", features);
-                    dumpJSONArrayToArrayList(productJSON, "images", images);
+                    Utils.dumpJSONArrayToArrayList(productJSON, "features", features);
+                    Utils.dumpJSONArrayToArrayList(productJSON, "images", images);
 
 
                     detailsLoaded = true;
@@ -170,15 +170,5 @@ public class Product {
             public void failure(@NonNull Request request, @NonNull Response response, @NonNull FuelError fuelError) {
                 executeDetailsLoadedCallbacks(false);            }
         });
-    }
-
-    // given a JSON object with a JSONArray, dump its elements into an ArrayList
-    private static void dumpJSONArrayToArrayList(JSONObject json, String jsonKey, ArrayList<String> arrayList) throws JSONException {
-        JSONArray arrayElements = json.getJSONArray(jsonKey);
-        for(int i = 0; i < arrayElements.length(); i++) {
-            if (arrayList == null)
-                arrayList = new ArrayList<>();
-            arrayList.add(arrayElements.getString(i));
-        }
     }
 }
