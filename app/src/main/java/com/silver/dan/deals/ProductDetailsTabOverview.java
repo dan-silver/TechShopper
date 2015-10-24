@@ -96,6 +96,7 @@ public class ProductDetailsTabOverview extends Fragment {
             }
         });
 
+        final Context context = getContext();
         product.addDetailsLoadedCallback(new Product.DetailsCallback() {
             @Override
             public void onLoaded() {
@@ -106,7 +107,7 @@ public class ProductDetailsTabOverview extends Fragment {
 
                 mAdapter = new ProductListingsArrayAdapter(getContext(), product.listings);
                 productListings.setAdapter(mAdapter);
-                productListings.addItemDecoration(new DividerItemDecoration(1, ContextCompat.getColor(getContext(), R.color.divider), 2, true));
+                productListings.addItemDecoration(new DividerItemDecoration(1, ContextCompat.getColor(context, R.color.divider), 2, true));
 
                 productListings.setItemAnimator(new DefaultItemAnimator());
 
