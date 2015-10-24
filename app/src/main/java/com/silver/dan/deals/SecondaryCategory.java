@@ -20,13 +20,11 @@ public class SecondaryCategory {
     public String name;
     public ArrayList<Product> products = new ArrayList<>();
     int id;
-    private Context context;
     int primaryCategoryId;
 
-    public SecondaryCategory(int id, String title, Context context, int primaryCategoryId) {
+    public SecondaryCategory(int id, String title, int primaryCategoryId) {
         this.name = title;
         this.id = id;
-        this.context = context;
         this.primaryCategoryId = primaryCategoryId;
     }
 

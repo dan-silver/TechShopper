@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
         Fuel.get(getAppServerUrl() + "primary_categories.json").responseJson(new Handler<JSONObject>() {
             @Override
             public void success(@NonNull Request request, @NonNull Response response, JSONObject jsonObject) {
-                Context context = getApplicationContext();
                 try {
                     JSONArray categoriesJSON = jsonObject.getJSONArray("categories");
                     for (int i = 0; i < categoriesJSON.length(); i++) {
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                         JSONArray secondaryCategories = primaryCategory.getJSONArray("secondaryCategories");
                         for (int j = 0; j < secondaryCategories.length(); j++) {
                             JSONObject secondaryCategory = (JSONObject) secondaryCategories.get(j);
-                            SecondaryCategory secCategory = new SecondaryCategory(secondaryCategory.getInt("id"), secondaryCategory.getString("title"), context, category.id);
+                            SecondaryCategory secCategory = new SecondaryCategory(secondaryCategory.getInt("id"), secondaryCategory.getString("title"), category.id);
                             category.addSecondaryCategory(secCategory);
                         }
                         primary_categories.add(category);
