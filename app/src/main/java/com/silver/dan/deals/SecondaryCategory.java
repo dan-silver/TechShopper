@@ -38,7 +38,7 @@ public class SecondaryCategory {
     }
 
     public void getProducts(final ProductListFragment.ProductsListenerCallback callback) {
-        Fuel.get(context.getResources().getString(R.string.APP_URL) + "/secondary_categories/" + this.id + ".json").responseJson(new Handler<JSONObject>() {
+        Fuel.get(MainActivity.getAppServerUrl() + "secondary_categories/" + this.id + ".json").responseJson(new Handler<JSONObject>() {
             @Override
             public void success(@NonNull Request request, @NonNull Response response, JSONObject jsonObject) {
                 try {

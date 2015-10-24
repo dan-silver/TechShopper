@@ -1,6 +1,5 @@
 package com.silver.dan.deals;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import org.json.JSONArray;
@@ -44,11 +43,11 @@ public class Product {
     }
 
     public String getImageURL() {
-        return MainActivity.IMAGE_SERVER_URL + this.image;
+        return MainActivity.getImageServerUrl() + this.image;
     }
 
     public String getImageURL(int position) {
-        return MainActivity.IMAGE_SERVER_URL + images.get(position);
+        return MainActivity.getImageServerUrl() + images.get(position);
     }
 
     interface DetailsCallback {
@@ -124,12 +123,12 @@ public class Product {
 //        callbacks.clear();
     }
 
-    protected void fetchDetailData(Context context) {
+    protected void fetchDetailData() {
         if (detailsLoaded) {
             executeDetailsLoadedCallbacks(true);
             return;
         }
-        Fuel.get(context.getResources().getString(R.string.APP_URL) + "/products/" + id + ".json").responseJson(new Handler<JSONObject>() {
+        Fuel.get(MainActivity.getAppServerUrl() + "products/" + id + ".json").responseJson(new Handler<JSONObject>() {
             @Override
             public void success(@NonNull Request request, @NonNull Response response, JSONObject productJSON) {
                 try {

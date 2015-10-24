@@ -50,8 +50,7 @@ public class ProductDetail extends AppCompatActivity {
         slidingTabsPager.setAdapter(slidingTabsAdapter);
         productDetailTabs.setViewPager(slidingTabsPager);
 
-        product.fetchDetailData(getApplicationContext());
-        final Context context = getApplicationContext();
+        product.fetchDetailData();
         product.addDetailsLoadedCallback(new Product.DetailsCallback() {
             @Override
             public void onLoaded() {
@@ -64,7 +63,7 @@ public class ProductDetail extends AppCompatActivity {
                         .setAction("Retry", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                product.fetchDetailData(context);
+                                product.fetchDetailData();
                             }
                         })
                         .setActionTextColor(ContextCompat.getColor(getApplicationContext(), R.color.accent))

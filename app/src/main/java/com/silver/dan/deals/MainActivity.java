@@ -15,7 +15,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -44,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String SECONDARY_CAT_ID = "SECONDARY_CAT_ID";
     public static final String PRODUCT_ID = "PRODUCT_ID";
 
-    public static final String IMAGE_SERVER_URL = "http://files.dansilver.me/";
+    private static final String IMAGE_SERVER_URL = "files.dansilver.me/";
+    private static final String APP_SERVER_URL = "shop-prod.dansilver.me/";
+    private static boolean USE_HTTPS = true;
 
     @Bind(R.id.tabs) PagerSlidingTabStrip slidingTabs;
     @Bind(R.id.pager) ViewPager slidingTabsPager;
@@ -55,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
     private SlidingTabsAdapter slidingTabsAdapter;
     static ArrayList<PrimaryCategory> primary_categories = new ArrayList<>();
 
+    public static String getImageServerUrl() {
+        return "http" + (USE_HTTPS ? "s" : "") + "://" + IMAGE_SERVER_URL;
+    }
+
+    public static String getAppServerUrl() {
+        return "http" + (USE_HTTPS ? "s" : "") + "://" + APP_SERVER_URL;
+    }
 
     public void updateDrawerWithPrimaryCategories() {
         int order = 0;
@@ -65,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadMainCategories() {
-        Fuel.get(getResources().getString(R.string.APP_URL) + "/primary_categories.json").responseJson(new Handler<JSONObject>() {
+        Fuel.get(getAppServerUrl() + "primary_categories.json").responseJson(new Handler<JSONObject>() {
             @Override
             public void success(@NonNull Request request, @NonNull Response response, JSONObject jsonObject) {
                 Context context = getApplicationContext();
