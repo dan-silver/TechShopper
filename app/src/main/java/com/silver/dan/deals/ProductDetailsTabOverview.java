@@ -64,9 +64,9 @@ public class ProductDetailsTabOverview extends Fragment {
         final View view = inflater.inflate(R.layout.product_detail_tab_overview, container, false);
         ButterKnife.bind(this, view);
 
-        productDetailTitle.setText(product.title);
-        productDetailPrice.setText(product.getPriceString());
         productsDetailPageCounter.setText(""); //hide 3/5 until number of pictures is determined
+        productDetailPrice.setText("");
+        productDetailTitle.setText("");
         progressWheel.spin();
 
         mImagesViewPager.setAdapter(new SamplePagerAdapter(product));
@@ -109,6 +109,9 @@ public class ProductDetailsTabOverview extends Fragment {
                 productListings.addItemDecoration(new DividerItemDecoration(1, ContextCompat.getColor(getContext(), R.color.divider), 2, true));
 
                 productListings.setItemAnimator(new DefaultItemAnimator());
+
+                productDetailTitle.setText(product.title);
+                productDetailPrice.setText(product.getPriceString());
             }
 
             @Override
