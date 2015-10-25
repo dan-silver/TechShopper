@@ -39,7 +39,6 @@
 
                 <include layout="@layout/toolbar" />
 
-
             </android.support.design.widget.CoordinatorLayout>
         </FrameLayout>
 

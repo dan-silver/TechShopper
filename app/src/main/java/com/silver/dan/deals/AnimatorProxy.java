@@ -69,7 +69,7 @@ public final class AnimatorProxy extends Animation {
         setDuration(0); //perform transformation immediately
         setFillAfter(true); //persist transformation beyond duration
         view.setAnimation(this);
-        mView = new WeakReference<View>(view);
+        mView = new WeakReference<>(view);
     }
 
     public float getAlpha() {
@@ -84,116 +84,7 @@ public final class AnimatorProxy extends Animation {
             }
         }
     }
-    public float getPivotX() {
-        return mPivotX;
-    }
-    public void setPivotX(float pivotX) {
-        if (!mHasPivot || mPivotX != pivotX) {
-            prepareForUpdate();
-            mHasPivot = true;
-            mPivotX = pivotX;
-            invalidateAfterUpdate();
-        }
-    }
-    public float getPivotY() {
-        return mPivotY;
-    }
-    public void setPivotY(float pivotY) {
-        if (!mHasPivot || mPivotY != pivotY) {
-            prepareForUpdate();
-            mHasPivot = true;
-            mPivotY = pivotY;
-            invalidateAfterUpdate();
-        }
-    }
-    public float getRotation() {
-        return mRotationZ;
-    }
-    public void setRotation(float rotation) {
-        if (mRotationZ != rotation) {
-            prepareForUpdate();
-            mRotationZ = rotation;
-            invalidateAfterUpdate();
-        }
-    }
-    public float getRotationX() {
-        return mRotationX;
-    }
-    public void setRotationX(float rotationX) {
-        if (mRotationX != rotationX) {
-            prepareForUpdate();
-            mRotationX = rotationX;
-            invalidateAfterUpdate();
-        }
-    }
-    public float getRotationY() {
-        return mRotationY;
-    }
 
-    public void setRotationY(float rotationY) {
-        if (mRotationY != rotationY) {
-            prepareForUpdate();
-            mRotationY = rotationY;
-            invalidateAfterUpdate();
-        }
-    }
-    public float getScaleX() {
-        return mScaleX;
-    }
-    public void setScaleX(float scaleX) {
-        if (mScaleX != scaleX) {
-            prepareForUpdate();
-            mScaleX = scaleX;
-            invalidateAfterUpdate();
-        }
-    }
-    public float getScaleY() {
-        return mScaleY;
-    }
-    public void setScaleY(float scaleY) {
-        if (mScaleY != scaleY) {
-            prepareForUpdate();
-            mScaleY = scaleY;
-            invalidateAfterUpdate();
-        }
-    }
-    public int getScrollX() {
-        View view = mView.get();
-        if (view == null) {
-            return 0;
-        }
-        return view.getScrollX();
-    }
-    public void setScrollX(int value) {
-        View view = mView.get();
-        if (view != null) {
-            view.scrollTo(value, view.getScrollY());
-        }
-    }
-    public int getScrollY() {
-        View view = mView.get();
-        if (view == null) {
-            return 0;
-        }
-        return view.getScrollY();
-    }
-    public void setScrollY(int value) {
-        View view = mView.get();
-        if (view != null) {
-            view.scrollTo(view.getScrollX(), value);
-        }
-    }
-
-    public float getTranslationX() {
-        return mTranslationX;
-    }
-    public void setTranslationX(float translationX) {
-        if (mTranslationX != translationX) {
-            prepareForUpdate();
-            mTranslationX = translationX;
-            invalidateAfterUpdate();
-        }
-    }
     public float getTranslationY() {
         return mTranslationY;
     }
@@ -202,32 +93,6 @@ public final class AnimatorProxy extends Animation {
             prepareForUpdate();
             mTranslationY = translationY;
             invalidateAfterUpdate();
-        }
-    }
-    public float getX() {
-        View view = mView.get();
-        if (view == null) {
-            return 0;
-        }
-        return view.getLeft() + mTranslationX;
-    }
-    public void setX(float x) {
-        View view = mView.get();
-        if (view != null) {
-            setTranslationX(x - view.getLeft());
-        }
-    }
-    public float getY() {
-        View view = mView.get();
-        if (view == null) {
-            return 0;
-        }
-        return view.getTop() + mTranslationY;
-    }
-    public void setY(float y) {
-        View view = mView.get();
-        if (view != null) {
-            setTranslationY(y - view.getTop());
         }
     }
 
