@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -51,9 +53,8 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.pager) ViewPager slidingTabsPager;
     @Bind(R.id.nvView) NavigationView navView;
     @Bind(R.id.drawer_layout) DrawerLayout mDrawer;
-//    @Bind(R.id.snackbarPosition) CoordinatorLayout snackbarPosition;
+    @Bind(R.id.snackbarPosition) CoordinatorLayout snackbarPosition;
     @Bind(R.id.top_toolbar) Toolbar top_toolbar;
-//    @Bind(R.id.categories_toolbar) Toolbar categories_toolbar;
 
     private SlidingTabsAdapter slidingTabsAdapter;
     static ArrayList<PrimaryCategory> primary_categories = new ArrayList<>();
@@ -154,15 +155,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void failure(@NonNull Request request, @NonNull Response response, @NonNull FuelError fuelError) {
                 Log.e(MainActivity.TAG, fuelError.toString());
-//                Snackbar.make(snackbarPosition, "Cannot load data.", Snackbar.LENGTH_INDEFINITE)
-//                        .setAction("Retry", new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                loadMainCategories();
-//                            }
-//                        })
-//                        .setActionTextColor(ContextCompat.getColor(getApplicationContext(), R.color.accent))
-//                                .show();
+                Snackbar.make(snackbarPosition, "Cannot load data.", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Retry", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                loadMainCategories();
+                            }
+                        })
+                        .setActionTextColor(ContextCompat.getColor(getApplicationContext(), R.color.accent))
+                                .show();
             }
         });
     }

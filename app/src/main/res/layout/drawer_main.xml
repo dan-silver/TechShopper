@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!--"actionbar"-->
+        <!-- top toolbar that never hides -->
         <android.support.v7.widget.Toolbar
             android:id="@+id/top_toolbar"
             android:layout_height="wrap_content"
@@ -20,27 +20,27 @@
             android:minHeight="?attr/actionBarSize"
             android:background="?attr/colorPrimary" />
 
-        <!--"toolbar"-->
+        <!-- category toolbar that slides up/down with scroll events -->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
-            <!--<android.support.design.widget.CoordinatorLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:id="@+id/snackbarPosition">-->
-
-                <!-- The main content view -->
-            <android.support.v4.view.ViewPager
-                android:id="@+id/pager"
+            <android.support.design.widget.CoordinatorLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".MainActivity"/>
-            <include layout="@layout/toolbar" />
+                android:id="@+id/snackbarPosition">
+
+                <!-- The main content view -->
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:context=".MainActivity"/>
+
+                <include layout="@layout/toolbar" />
 
 
-            <!--</android.support.design.widget.CoordinatorLayout>-->
+            </android.support.design.widget.CoordinatorLayout>
         </FrameLayout>
 
     </LinearLayout>
