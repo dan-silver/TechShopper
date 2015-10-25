@@ -7,9 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -182,8 +179,7 @@ public class MainActivity extends AppCompatActivity {
         slidingTabs.setOnTabReselectedListener(new PagerSlidingTabStrip.OnTabReselectedListener() {
             @Override
             public void onTabReselected(int position) {
-                ProductListFragment fragment = (ProductListFragment) slidingTabsPager.getAdapter().instantiateItem(slidingTabsPager, position);
-                fragment.scrollToTop();
+                getCurrentFragment().scrollToTop();
             }
         });
 
@@ -195,8 +191,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                ProductListFragment fragment = (ProductListFragment) slidingTabsPager.getAdapter().instantiateItem(slidingTabsPager, position);
-                showToolbar(fragment.getProductListView());
+                showToolbar(getCurrentFragment().getProductListView());
             }
 
             @Override
@@ -211,7 +206,6 @@ public class MainActivity extends AppCompatActivity {
         // Set the menu icon instead of the launcher icon.
         final ActionBar ab = getSupportActionBar();
         assert ab != null;
-        ab.setElevation(0);
         ab.setHomeAsUpIndicator(R.mipmap.ic_menu_white_36dp);
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowTitleEnabled(false);
@@ -225,8 +219,10 @@ public class MainActivity extends AppCompatActivity {
             updateDrawerWithPrimaryCategories();
             slidingTabsAdapter.notifyDataSetChanged();
         }
+    }
 
-
+    private ProductListFragment getCurrentFragment() {
+        return slidingTabsAdapter.getCurrentFragment();
     }
 
     private void displayCategory(PrimaryCategory category) {
@@ -262,6 +258,9 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 mDrawer.openDrawer(GravityCompat.START);
                 return true;
+            case R.id.action_filter:
+                getCurrentFragment().openFilterDialog();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -272,40 +271,15 @@ public class MainActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
     public static Product findProduct(int pri_cat_id, int sec_cat_id, int product_id) {
         PrimaryCategory primaryCategory = PrimaryCategory.findById(pri_cat_id);
         SecondaryCategory secondaryCategory = primaryCategory.findSecondaryCatById(sec_cat_id);
         return secondaryCategory.findProductById(product_id);
-    }
-
-    public class SlidingTabsAdapter extends FragmentStatePagerAdapter {
-        PrimaryCategory category;
-
-        public SlidingTabsAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        public void setCategory(PrimaryCategory category) {
-            this.category = category;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return category.secondaryCategories.get(position).name;
-        }
-
-        @Override
-        public int getCount() {
-            if (category == null) {
-                return 0;
-            }
-            return category.secondaryCategories.size();
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            SecondaryCategory sec_cat = category.secondaryCategories.get(position);
-            return ProductListFragment.newInstance(sec_cat.id, category.id);
-        }
     }
 }

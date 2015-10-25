@@ -48,6 +48,57 @@ public class ProductListFragment extends Fragment {
         return mRecyclerView;
     }
 
+    public void openFilterDialog() {
+        if (filteredCategories.size() == 0) { //build the filter categories array
+            HashMap<String, Integer> brandCounts = adapter.getBrandCounts();
+            int position = 0;
+            Iterator it = Utils.entriesSortedByValues(brandCounts).iterator();
+
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry) it.next();
+                filteredCategories.add(new FilterCategory(position, (String) pair.getKey(), (int) pair.getValue()));
+                position++;
+                it.remove(); // avoids a ConcurrentModificationException
+            }
+        }
+
+        new MaterialDialog.Builder(getContext())
+            .title("Filter by Brand")
+            .items(getBrandFilterLabels())
+            .widgetColorRes(R.color.primary_light)
+            .positiveColorRes(R.color.white)
+            .itemsCallbackMultiChoice(getFilteredIndices(), new MaterialDialog.ListCallbackMultiChoice() {
+                @Override
+                public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                    updateFilteredIndices(which);
+
+                    //if there are no filters, display all products
+                    ArrayList<Product> filteredProductsList = new ArrayList<>();
+                    //if we just removed a filter, shuffle the products
+                    if (usingFilter() && which.length == 0) {
+                        filteredProductsList = adapter.allProducts();
+                        Collections.shuffle(filteredProductsList);
+                        scrollToTop();
+                    } else if (which.length == 0) {
+                        filteredProductsList = adapter.allProducts();
+                    } else {
+                        CharSequence[] brandNames = getSelectedBrandNames();
+                        // find the selected brand's products
+                        for (Product product : adapter.allProducts()) {
+                            if (Utils.contains(brandNames, product.brand)) {
+                                filteredProductsList.add(product);
+                            }
+                        }
+                    }
+
+                    adapter.animateTo(filteredProductsList);
+
+                    return true;
+                }
+            }).positiveText(R.string.filter)
+            .show();
+    }
+
     interface ProductsListenerCallback {
         void onLoaded();
 
@@ -117,59 +168,6 @@ public class ProductListFragment extends Fragment {
             }
         });
 
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (filteredCategories.size() == 0) { //build the filter categories array
-//                    HashMap<String, Integer> brandCounts = adapter.getBrandCounts();
-//                    int position = 0;
-//                    Iterator it = Utils.entriesSortedByValues(brandCounts).iterator();
-//
-//                    while (it.hasNext()) {
-//                        Map.Entry pair = (Map.Entry) it.next();
-//                        filteredCategories.add(new FilterCategory(position, (String) pair.getKey(), (int) pair.getValue()));
-//                        position++;
-//                        it.remove(); // avoids a ConcurrentModificationException
-//                    }
-//                }
-//
-//                new MaterialDialog.Builder(getContext())
-//                        .title("Filter by Brand")
-//                        .items(getBrandFilterLabels())
-//                        .widgetColorRes(R.color.primary_light)
-//                        .positiveColorRes(R.color.white)
-//                        .itemsCallbackMultiChoice(getFilteredIndices(), new MaterialDialog.ListCallbackMultiChoice() {
-//                            @Override
-//                            public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
-//                                updateFilteredIndices(which);
-//
-//                                //if there are no filters, display all products
-//                                ArrayList<Product> filteredProductsList = new ArrayList<>();
-//                                //if we just removed a filter, shuffle the products
-//                                if (usingFilter() && which.length == 0) {
-//                                    filteredProductsList = adapter.allProducts();
-//                                    Collections.shuffle(filteredProductsList);
-//                                    scrollToTop();
-//                                } else if (which.length == 0) {
-//                                    filteredProductsList = adapter.allProducts();
-//                                } else {
-//                                    CharSequence[] brandNames = getSelectedBrandNames();
-//                                    // find the selected brand's products
-//                                    for (Product product : adapter.allProducts()) {
-//                                        if (Utils.contains(brandNames, product.brand)) {
-//                                            filteredProductsList.add(product);
-//                                        }
-//                                    }
-//                                }
-//
-//                                adapter.animateTo(filteredProductsList);
-//
-//                                return true;
-//                            }
-//                        }).positiveText(R.string.filter)
-//                        .show();
-//            }
-//        });
 
         mRecyclerView.setScrollViewCallbacks(new ObservableScrollViewCallbacks() {
             @Override
