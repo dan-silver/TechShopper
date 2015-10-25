@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar
+<com.astuetz.PagerSlidingTabStrip
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/toolbar"
-    android:layout_height="wrap_content"
+    android:id="@+id/tabs"
+    android:background="@color/primary"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
-    android:minHeight="?attr/actionBarSize"
-    app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-    android:background="?attr/colorPrimary"
-    android:elevation="4dp">
-
-    <com.astuetz.PagerSlidingTabStrip
-        android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:fillViewport="false" />
-</android.support.v7.widget.Toolbar>
+    android:layout_height="?attr/actionBarSize"
+    android:fillViewport="true"/>

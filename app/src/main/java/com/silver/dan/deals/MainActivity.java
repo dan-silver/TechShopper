@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.nvView) NavigationView navView;
     @Bind(R.id.drawer_layout) DrawerLayout mDrawer;
     @Bind(R.id.snackbarPosition) CoordinatorLayout snackbarPosition;
+    @Bind(R.id.top_toolbar) Toolbar top_toolbar;
 
     private SlidingTabsAdapter slidingTabsAdapter;
     static ArrayList<PrimaryCategory> primary_categories = new ArrayList<>();
@@ -133,14 +134,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Set a Toolbar to replace the ActionBar.
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        setSupportActionBar(top_toolbar);
 
         // Set the menu icon instead of the launcher icon.
         final ActionBar ab = getSupportActionBar();
         assert ab != null;
+        ab.setElevation(0);
         ab.setHomeAsUpIndicator(R.mipmap.ic_menu_white_36dp);
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowTitleEnabled(false);
+
         setupDrawerContent(navView);
 
         //only fetch category structure if not already loaded
