@@ -7,40 +7,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_width="match_parent">
-        <LinearLayout
+        android:orientation="vertical">
+
+        <!--"actionbar"-->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/top_toolbar"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-<!--"actionbar"-->
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/top_toolbar"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:minHeight="?attr/actionBarSize"
-                android:background="?attr/colorPrimary" />
+            android:minHeight="?attr/actionBarSize"
+            android:background="?attr/colorPrimary" />
 
-            <!--"toolbar"-->
-            <include layout="@layout/toolbar" />
+        <!--"toolbar"-->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <android.support.design.widget.CoordinatorLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/snackbarPosition">
+
+            <!--<android.support.design.widget.CoordinatorLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:id="@+id/snackbarPosition">-->
 
                 <!-- The main content view -->
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/pager"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:context=".MainActivity"/>
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".MainActivity"/>
+            <include layout="@layout/toolbar" />
 
-            </android.support.design.widget.CoordinatorLayout>
 
-        </LinearLayout>
-    </FrameLayout>
+            <!--</android.support.design.widget.CoordinatorLayout>-->
+        </FrameLayout>
+
+    </LinearLayout>
 
     <!-- The navigation drawer -->
     <android.support.design.widget.NavigationView
