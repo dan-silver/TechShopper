@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                rv.bringToFront();
+                rv.bringToFront(); //@todo is this required?
             }
 
             @Override
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                showToolbar(getCurrentFragment().getProductListView());
+                showToolbar(getCurrentFragment().mRecyclerView);
             }
 
             @Override
@@ -275,11 +275,5 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
-
-    public static Product findProduct(int pri_cat_id, int sec_cat_id, int product_id) {
-        PrimaryCategory primaryCategory = PrimaryCategory.findById(pri_cat_id);
-        SecondaryCategory secondaryCategory = primaryCategory.findSecondaryCatById(sec_cat_id);
-        return secondaryCategory.findProductById(product_id);
     }
 }

@@ -44,10 +44,6 @@ public class ProductListFragment extends Fragment {
         return f;
     }
 
-    public ObservableRecyclerView getProductListView() {
-        return mRecyclerView;
-    }
-
     public void openFilterDialog() {
         if (filteredCategories.size() == 0) { //build the filter categories array
             HashMap<String, Integer> brandCounts = adapter.getBrandCounts();
@@ -160,8 +156,6 @@ public class ProductListFragment extends Fragment {
 
                 Intent intent = new Intent(view.getContext(), ProductDetail.class);
 
-                intent.putExtra(MainActivity.PRIMARY_CAT_ID, product.primaryCategoryId);
-                intent.putExtra(MainActivity.SECONDARY_CAT_ID, product.secondaryCategoryId);
                 intent.putExtra(MainActivity.PRODUCT_ID, product.id);
 
                 getActivity().startActivity(intent);

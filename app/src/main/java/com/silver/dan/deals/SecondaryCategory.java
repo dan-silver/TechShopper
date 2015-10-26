@@ -1,6 +1,5 @@
 package com.silver.dan.deals;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -26,13 +25,6 @@ public class SecondaryCategory {
         this.name = title;
         this.id = id;
         this.primaryCategoryId = primaryCategoryId;
-    }
-
-    public Product findProductById(int id) {
-        for (Product p : products)
-            if (p.id == id)
-                return p;
-        return null;
     }
 
     public void getProducts(final ProductListFragment.ProductsListenerCallback callback) {

@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import fuel.Fuel;
 import fuel.core.FuelError;
@@ -24,6 +25,7 @@ public class Product {
     public int primaryCategoryId, secondaryCategoryId;
     public boolean detailsLoaded = false;
     private ArrayList<DetailsCallback> callbacks = new ArrayList<>();
+    public static HashMap<Integer, Product> products = new HashMap<>();
 
     Product(String title, String image, int id, String brand, int primaryCategoryId, int secondaryCategoryId) {
         this.title = title;
@@ -32,6 +34,7 @@ public class Product {
         this.brand = brand;
         this.primaryCategoryId = primaryCategoryId;
         this.secondaryCategoryId = secondaryCategoryId;
+        Product.add(this);
     }
 
     public String getPriceString() {
@@ -48,6 +51,11 @@ public class Product {
 
     public String getImageURL(int position) {
         return MainActivity.getImageServerUrl() + images.get(position);
+    }
+
+    public void fetchDetailData(DetailsCallback callback) {
+        addDetailsLoadedCallback(callback);
+        this.fetchDetailData();
     }
 
     interface DetailsCallback {
@@ -119,8 +127,6 @@ public class Product {
             } else {
                 callback.onError();
             }
-
-//        callbacks.clear();
     }
 
     protected void fetchDetailData() {
@@ -133,6 +139,7 @@ public class Product {
             public void success(@NonNull Request request, @NonNull Response response, JSONObject productJSON) {
                 try {
                     JSONArray listings = productJSON.getJSONArray("listings");
+                    title = productJSON.getString("title");
                     for (int j = 0; j < listings.length(); j++) {
                         JSONObject listingJSON = (JSONObject) listings.get(j);
                         Listing listing = new Listing(listingJSON.getInt("id"), listingJSON.getDouble("price"), listingJSON.getString("url"), listingJSON.getString("store"), false);
@@ -156,7 +163,6 @@ public class Product {
                     Utils.dumpJSONArrayToArrayList(productJSON, "features", features);
                     Utils.dumpJSONArrayToArrayList(productJSON, "images", images);
 
-
                     detailsLoaded = true;
                     executeDetailsLoadedCallbacks(true);
                 } catch (JSONException e1) {
@@ -167,7 +173,16 @@ public class Product {
 
             @Override
             public void failure(@NonNull Request request, @NonNull Response response, @NonNull FuelError fuelError) {
-                executeDetailsLoadedCallbacks(false);            }
+                executeDetailsLoadedCallbacks(false);
+            }
         });
+    }
+
+    public static Product find(int product_id) {
+        return products.get(product_id);
+    }
+
+    public static void add(Product p) {
+        products.put(p.id, p);
     }
 }

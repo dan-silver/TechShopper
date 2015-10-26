@@ -13,7 +13,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,11 +51,9 @@ public class ProductDetailsTabOverview extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int pri_cat_id = getArguments().getInt(MainActivity.PRIMARY_CAT_ID);
-        int sec_cat_id = getArguments().getInt(MainActivity.SECONDARY_CAT_ID);
         int product_id = getArguments().getInt(MainActivity.PRODUCT_ID);
 
-        product = MainActivity.findProduct(pri_cat_id, sec_cat_id, product_id);
+        product = Product.find(product_id);
     }
 
     @Override
