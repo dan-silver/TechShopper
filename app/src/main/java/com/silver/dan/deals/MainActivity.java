@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -72,15 +73,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void showToolbar(ObservableRecyclerView rv) {
+    public void showToolbar(RecyclerView rv) {
         moveToolbar(0, rv);
     }
 
-    public void hideToolbar(ObservableRecyclerView rv) {
-        moveToolbar(-slidingTabs.getHeight(), rv);
-    }
+//    public void hideToolbar(RecyclerView rv) {
+//        moveToolbar(-slidingTabs.getHeight(), rv);
+//    }
 
-    private void moveToolbar(float toTranslationY, final ObservableRecyclerView rv) {
+    private void moveToolbar(float toTranslationY, final RecyclerView rv) {
         if (ViewHelper.getTranslationY(slidingTabs) == toTranslationY) {
             return;
         }

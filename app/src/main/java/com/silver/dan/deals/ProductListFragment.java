@@ -6,14 +6,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
+
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
@@ -32,7 +32,7 @@ public class ProductListFragment extends Fragment {
     public ProductArrayAdapter adapter;
     private ArrayList<FilterCategory> filteredCategories = new ArrayList<>();
 
-    @Bind(R.id.products_list) ObservableRecyclerView mRecyclerView;
+    @Bind(R.id.products_list) RecyclerView mRecyclerView;
     @Bind(R.id.progress_wheel) ProgressWheel progressWheel;
 
     public static ProductListFragment newInstance(int sec_cat_id, int pri_cat_id) {
@@ -159,28 +159,6 @@ public class ProductListFragment extends Fragment {
                 intent.putExtra(MainActivity.PRODUCT_ID, product.id);
 
                 getActivity().startActivity(intent);
-            }
-        });
-
-
-        mRecyclerView.setScrollViewCallbacks(new ObservableScrollViewCallbacks() {
-            @Override
-            public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-
-            }
-
-            @Override
-            public void onDownMotionEvent() {
-
-            }
-
-            @Override
-            public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-                if (scrollState == ScrollState.UP) {
-                    ((MainActivity) getActivity()).hideToolbar(mRecyclerView);
-                } else if (scrollState == ScrollState.DOWN) {
-                    ((MainActivity) getActivity()).showToolbar(mRecyclerView);
-                }
             }
         });
 
