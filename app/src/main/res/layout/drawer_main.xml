@@ -21,26 +21,37 @@
             android:background="?attr/colorPrimary" />
 
         <!-- category toolbar that slides up/down with scroll events -->
-        <FrameLayout
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/snackbarPosition">
 
-            <android.support.design.widget.CoordinatorLayout
+            <!-- The main content view -->
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appBarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.astuetz.PagerSlidingTabStrip
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/category_toolbar"
+                    android:background="@color/primary"
+                    android:minHeight="?attr/actionBarSize"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar" />
+
+            </android.support.design.widget.AppBarLayout>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/snackbarPosition">
+                tools:context=".MainActivity"/>
 
-                <!-- The main content view -->
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/pager"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:context=".MainActivity"/>
 
-                <include layout="@layout/toolbar" />
-
-            </android.support.design.widget.CoordinatorLayout>
-        </FrameLayout>
+        </android.support.design.widget.CoordinatorLayout>
 
     </LinearLayout>
 

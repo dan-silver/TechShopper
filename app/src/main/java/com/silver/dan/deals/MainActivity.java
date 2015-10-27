@@ -1,6 +1,5 @@
 package com.silver.dan.deals;
 
-import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.astuetz.PagerSlidingTabStrip;
-import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,12 +28,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import fuel.Fuel;
 import fuel.core.FuelError;
 import fuel.core.Handler;
 import fuel.core.Request;
 import fuel.core.Response;
-import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "SILVER_APP";
