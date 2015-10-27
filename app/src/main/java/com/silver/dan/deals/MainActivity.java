@@ -1,6 +1,5 @@
 package com.silver.dan.deals;
 
-import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -13,7 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -99,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 slidingTabsAdapter.notifyDataSetChanged();
-                displayCategory(primary_categories.get(0));
+                selectDrawerItem(navView.getMenu().getItem(0));
             }
 
             @Override
@@ -134,6 +132,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        top_toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDrawer();
+            }
+        });
+
         slidingTabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -161,7 +166,14 @@ public class MainActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowTitleEnabled(false);
 
-        setupDrawerContent(navView);
+        navView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        selectDrawerItem(menuItem);
+                        return true;
+                    }
+                });
 
         //only fetch category structure if not already loaded
         if (primary_categories.size() == 0) {
@@ -183,23 +195,18 @@ public class MainActivity extends AppCompatActivity {
         slidingTabs.setViewPager(slidingTabsPager);
     }
 
-    private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        selectDrawerItem(menuItem);
-                        return true;
-                    }
-                });
-    }
-
     private void selectDrawerItem(MenuItem menuItem) {
         int selected = menuItem.getItemId();
         mDrawer.closeDrawers();
 
         final PrimaryCategory category = PrimaryCategory.findById(selected);
         displayCategory(category);
+
+        top_toolbar.setTitle(category.name);
+    }
+
+    private void openDrawer() {
+        mDrawer.openDrawer(GravityCompat.START);
     }
 
     @Override
@@ -207,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
         // The action bar home/up action should open or close the drawer.
         switch (item.getItemId()) {
             case android.R.id.home:
-                mDrawer.openDrawer(GravityCompat.START);
+                openDrawer();
                 return true;
             case R.id.action_filter:
                 getCurrentFragment().openFilterDialog();
