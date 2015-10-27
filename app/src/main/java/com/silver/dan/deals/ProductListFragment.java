@@ -162,7 +162,7 @@ public class ProductListFragment extends Fragment {
         adapter.setOnItemClickListener(new ProductArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
-                Product product = sec_cat.products.get(position);
+                Product product = adapter.products.get(position);
 
                 Intent intent = new Intent(view.getContext(), ProductDetail.class);
 

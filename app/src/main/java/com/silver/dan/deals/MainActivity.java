@@ -198,8 +198,9 @@ public class MainActivity extends AppCompatActivity {
     private void selectDrawerItem(MenuItem menuItem) {
         int selected = menuItem.getItemId();
         mDrawer.closeDrawers();
+        showToolbar();
 
-        final PrimaryCategory category = PrimaryCategory.findById(selected);
+        PrimaryCategory category = PrimaryCategory.findById(selected);
         displayCategory(category);
 
         top_toolbar.setTitle(category.name);

@@ -8,8 +8,8 @@ android {
         applicationId "com.silver.dan.deals"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 11
-        versionName "1.1.0"
+        versionCode 12
+        versionName "1.1.2"
     }
 
     buildTypes {
