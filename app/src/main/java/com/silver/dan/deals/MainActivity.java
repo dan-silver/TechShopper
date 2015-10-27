@@ -3,6 +3,7 @@ package com.silver.dan.deals;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.drawer_layout) DrawerLayout mDrawer;
     @Bind(R.id.snackbarPosition) CoordinatorLayout snackbarPosition;
     @Bind(R.id.top_toolbar) Toolbar top_toolbar;
+    @Bind(R.id.appBarLayout) AppBarLayout appBarLayout;
 
     private SlidingTabsAdapter slidingTabsAdapter;
     static ArrayList<PrimaryCategory> primary_categories = new ArrayList<>();
@@ -71,35 +73,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void showToolbar(RecyclerView rv) {
-        moveToolbar(0, rv);
-    }
-
-//    public void hideToolbar(RecyclerView rv) {
-//        moveToolbar(-slidingTabs.getHeight(), rv);
-//    }
-
-    private void moveToolbar(float toTranslationY, final RecyclerView rv) {
-        if (ViewHelper.getTranslationY(slidingTabs) == toTranslationY) {
-            return;
-        }
-        ValueAnimator animator = ValueAnimator.ofFloat(ViewHelper.getTranslationY(slidingTabs), toTranslationY).setDuration(200);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float translationY = (float) animation.getAnimatedValue();
-                ViewHelper.setTranslationY(slidingTabs, translationY);
-                ViewHelper.setTranslationY(rv, translationY);
-                CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) rv.getLayoutParams();
-                lp.height = (int) -translationY + getScreenHeight() - lp.topMargin;
-                rv.requestLayout();
-            }
-        });
-        animator.start();
-    }
-
-    protected int getScreenHeight() {
-        return findViewById(android.R.id.content).getHeight();
+    public void showToolbar() {
+        appBarLayout.setExpanded(true);
     }
 
     private void loadMainCategories() {
@@ -169,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                showToolbar(getCurrentFragment().mRecyclerView);
+                showToolbar();
             }
 
             @Override
