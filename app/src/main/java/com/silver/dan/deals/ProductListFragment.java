@@ -105,6 +105,7 @@ public class ProductListFragment extends Fragment {
             @Override
             public void onLoaded() {
                 if (adapter != null) {
+                    adapter.addProducts(sec_cat.products);
                     adapter.notifyDataSetChanged();
                     progressWheel.stopSpinning();
                 }

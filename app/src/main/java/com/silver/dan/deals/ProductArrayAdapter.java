@@ -22,13 +22,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapter.Holder> {
-    public List<Product> products;
+    public List<Product> products = new ArrayList<>();
     public List<Product> removedProducts = new ArrayList<>();
     private OnItemClickListener listener;
 
-    public ProductArrayAdapter(List<Product> products) {
-        this.products = products;
-        sortProducts();
+    public ProductArrayAdapter(ArrayList<Product> products) {
+        addProducts(products);
     }
 
     public ArrayList<Product> allProducts() {
@@ -54,6 +53,11 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
             brandCounts.put(p.brand, count);
         }
         return brandCounts;
+    }
+
+    public void addProducts(ArrayList<Product> products) {
+        this.products.addAll(products);
+        sortProducts();
     }
 
     // Define the listener interface
