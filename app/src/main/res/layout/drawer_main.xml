@@ -40,6 +40,7 @@
                     android:minHeight="?attr/actionBarSize"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
+                    app:layout_scrollFlags="scroll|enterAlways"
                     app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar" />
 
             </android.support.design.widget.AppBarLayout>
@@ -48,7 +49,8 @@
                 android:id="@+id/pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".MainActivity"/>
+                tools:context=".MainActivity"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 
         </android.support.design.widget.CoordinatorLayout>

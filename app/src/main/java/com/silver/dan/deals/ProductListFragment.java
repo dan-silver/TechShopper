@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.ArrayList;

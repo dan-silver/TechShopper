@@ -11,8 +11,7 @@
         android:layout_height="match_parent"
         android:scrollbars="none"
         android:paddingRight="4dp"
-        android:paddingLeft="4dp"
-        android:layout_marginTop="?attr/actionBarSize"/>
+        android:paddingLeft="4dp"/>
 
 
     <include layout="@layout/progress_wheel"/>
