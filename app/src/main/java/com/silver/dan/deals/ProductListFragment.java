@@ -2,10 +2,8 @@ package com.silver.dan.deals;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -100,6 +98,31 @@ public class ProductListFragment extends Fragment {
         void onError(String error);
     }
 
+    private void loadProducts() {
+        if (adapter.allProducts().size() != 0) return;
+
+        sec_cat.getProducts(new ProductsListenerCallback() {
+            @Override
+            public void onLoaded() {
+                if (adapter != null) {
+                    adapter.notifyDataSetChanged();
+                    progressWheel.stopSpinning();
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                ((MainActivity) getActivity()).showSnackBar("Cannot load data.", "Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadProducts();
+                    }
+                });
+
+            }
+        });
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,23 +133,10 @@ public class ProductListFragment extends Fragment {
 
         adapter = new ProductArrayAdapter(sec_cat.products);
 
-        if (adapter.allProducts().size() == 0) {
-            sec_cat.getProducts(new ProductsListenerCallback() {
-                @Override
-                public void onLoaded() {
-                    if (adapter != null) {
-                        adapter.notifyDataSetChanged();
-                        progressWheel.stopSpinning();
-                    }
-                }
-
-                @Override
-                public void onError(String error) {
-
-                }
-            });
-        }
+        loadProducts();
     }
+
+
 
     public void scrollToTop() {
         mRecyclerView.smoothScrollToPosition(0);

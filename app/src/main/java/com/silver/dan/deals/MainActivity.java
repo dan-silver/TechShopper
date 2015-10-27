@@ -105,15 +105,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void failure(@NonNull Request request, @NonNull Response response, @NonNull FuelError fuelError) {
                 Log.e(MainActivity.TAG, fuelError.toString());
-                Snackbar.make(snackbarPosition, "Cannot load data.", Snackbar.LENGTH_INDEFINITE)
-                        .setAction("Retry", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                loadMainCategories();
-                            }
-                        })
-                        .setActionTextColor(ContextCompat.getColor(getApplicationContext(), R.color.accent))
-                                .show();
+
+                showSnackBar("Cannot load data.", "Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadMainCategories();
+                    }
+                });
             }
         });
     }
@@ -229,4 +227,12 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
+    public void showSnackBar(String text, String action, View.OnClickListener callback) {
+        Snackbar.make(snackbarPosition, text, Snackbar.LENGTH_INDEFINITE)
+                .setAction(action, callback)
+                .setActionTextColor(ContextCompat.getColor(getApplicationContext(), R.color.accent))
+                .show();
+    }
+
 }
