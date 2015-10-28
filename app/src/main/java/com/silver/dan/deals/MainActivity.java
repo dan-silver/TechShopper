@@ -157,14 +157,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         // Set a Toolbar to replace the ActionBar.
         setSupportActionBar(top_toolbar);
 
         // Set the menu icon instead of the launcher icon.
-        final ActionBar ab = getSupportActionBar();
+        ActionBar ab = getSupportActionBar();
         assert ab != null;
-//        ab.setHomeAsUpIndicator(R.mipmap.ic_menu_white_36dp);
+
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
                 this,  mDrawer, top_toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close
