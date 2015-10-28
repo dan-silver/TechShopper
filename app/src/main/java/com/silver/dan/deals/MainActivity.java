@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -156,15 +157,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         // Set a Toolbar to replace the ActionBar.
         setSupportActionBar(top_toolbar);
 
         // Set the menu icon instead of the launcher icon.
         final ActionBar ab = getSupportActionBar();
         assert ab != null;
-        ab.setHomeAsUpIndicator(R.mipmap.ic_menu_white_36dp);
+//        ab.setHomeAsUpIndicator(R.mipmap.ic_menu_white_36dp);
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
+                this,  mDrawer, top_toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        );
+        mDrawer.setDrawerListener(mDrawerToggle);
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowTitleEnabled(false);
+        mDrawerToggle.syncState();
 
         navView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {

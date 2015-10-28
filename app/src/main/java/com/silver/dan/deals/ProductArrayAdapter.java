@@ -113,24 +113,7 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
     public void animateTo(List<Product> products) {
         applyAndAnimateRemovals(products);
         applyAndAnimateAdditions(products);
-//        applyAndAnimateMovedItems(products);
     }
-
-//    private void applyAndAnimateMovedItems(List<Product> newModels) {
-//        for (int toPosition = newModels.size() - 1; toPosition >= 0; toPosition--) {
-//            final Product product = newModels.get(toPosition);
-//            final int fromPosition = products.indexOf(product);
-//            if (fromPosition >= 0 && fromPosition != toPosition) {
-//                moveItem(fromPosition, toPosition);
-//            }
-//        }
-//    }
-//
-//    public void moveItem(int fromPosition, int toPosition) {
-//        final Product model = products.remove(fromPosition);
-//        products.add(toPosition, model);
-//        notifyItemMoved(fromPosition, toPosition);
-//    }
 
     private void applyAndAnimateRemovals(List<Product> newModels) {
         for (int i = products.size() - 1; i >= 0; i--) {

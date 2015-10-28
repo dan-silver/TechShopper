@@ -4,4 +4,6 @@
     <string name="product_image">product image</string>
     <string name="free_shipping">Free shipping</string>
     <string name="filter">Filter</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
 </resources>
