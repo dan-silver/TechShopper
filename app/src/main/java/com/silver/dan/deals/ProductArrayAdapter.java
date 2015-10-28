@@ -13,8 +13,6 @@ import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,20 +23,17 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
     public List<Product> products = new ArrayList<>();
     public List<Product> removedProducts = new ArrayList<>();
     private OnItemClickListener listener;
+    private List<Product> refOriginalProductList;
 
     public ProductArrayAdapter(ArrayList<Product> products) {
+        refOriginalProductList = products;
         addProducts(products);
     }
 
     public ArrayList<Product> allProducts() {
         ArrayList<Product> l = new ArrayList<>();
-        l.addAll(products);
-        l.addAll(removedProducts);
+        l.addAll(refOriginalProductList);
         return l;
-    }
-
-    public void sortProducts() {
-        Collections.sort(products, new ProductComparator());
     }
 
     //count how many products for each brand
@@ -57,7 +52,6 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
 
     public void addProducts(ArrayList<Product> products) {
         this.products.addAll(products);
-        sortProducts();
     }
 
     // Define the listener interface
@@ -119,24 +113,24 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
     public void animateTo(List<Product> products) {
         applyAndAnimateRemovals(products);
         applyAndAnimateAdditions(products);
-        applyAndAnimateMovedItems(products);
+//        applyAndAnimateMovedItems(products);
     }
 
-    private void applyAndAnimateMovedItems(List<Product> newModels) {
-        for (int toPosition = newModels.size() - 1; toPosition >= 0; toPosition--) {
-            final Product product = newModels.get(toPosition);
-            final int fromPosition = products.indexOf(product);
-            if (fromPosition >= 0 && fromPosition != toPosition) {
-                moveItem(fromPosition, toPosition);
-            }
-        }
-    }
-
-    public void moveItem(int fromPosition, int toPosition) {
-        final Product model = products.remove(fromPosition);
-        products.add(toPosition, model);
-        notifyItemMoved(fromPosition, toPosition);
-    }
+//    private void applyAndAnimateMovedItems(List<Product> newModels) {
+//        for (int toPosition = newModels.size() - 1; toPosition >= 0; toPosition--) {
+//            final Product product = newModels.get(toPosition);
+//            final int fromPosition = products.indexOf(product);
+//            if (fromPosition >= 0 && fromPosition != toPosition) {
+//                moveItem(fromPosition, toPosition);
+//            }
+//        }
+//    }
+//
+//    public void moveItem(int fromPosition, int toPosition) {
+//        final Product model = products.remove(fromPosition);
+//        products.add(toPosition, model);
+//        notifyItemMoved(fromPosition, toPosition);
+//    }
 
     private void applyAndAnimateRemovals(List<Product> newModels) {
         for (int i = products.size() - 1; i >= 0; i--) {
@@ -150,7 +144,7 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
 
     private void applyAndAnimateAdditions(List<Product> newModels) {
         for (int i = 0, count = newModels.size(); i < count; i++) {
-            final Product model = newModels.get(i);
+            Product model = newModels.get(i);
             if (!products.contains(model)) {
                 removedProducts.remove(model);
                 addItem(i, model);
@@ -161,7 +155,6 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
     public void addItem(int position, Product model) {
         products.add(position, model);
         notifyItemInserted(position);
-        sortProducts();
     }
 
     public class Holder extends RecyclerView.ViewHolder {
@@ -182,13 +175,6 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
                     listener.onItemClick(itemView, getLayoutPosition());
                 }
             });
-        }
-    }
-
-    public class ProductComparator implements Comparator<Product> {
-        @Override
-        public int compare(Product o1, Product o2) {
-            return o1.images.size() - o2.images.size();
         }
     }
 }

@@ -27,7 +27,7 @@ public class ProductListFragment extends Fragment {
     PrimaryCategory pri_cat;
     SecondaryCategory sec_cat;
     public ProductArrayAdapter adapter;
-    private ArrayList<FilterCategory> filteredCategories = new ArrayList<>();
+    private ArrayList<ProductFilter> filters = new ArrayList<>();
 
     @Bind(R.id.products_list) RecyclerView mRecyclerView;
     @Bind(R.id.progress_wheel) ProgressWheel progressWheel;
@@ -42,14 +42,14 @@ public class ProductListFragment extends Fragment {
     }
 
     public void openFilterDialog() {
-        if (filteredCategories.size() == 0) { //build the filter categories array
+        if (filters.size() == 0) { //build the filter categories array
             HashMap<String, Integer> brandCounts = adapter.getBrandCounts();
             int position = 0;
             Iterator it = Utils.entriesSortedByValues(brandCounts).iterator();
 
             while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry) it.next();
-                filteredCategories.add(new FilterCategory(position, (String) pair.getKey(), (int) pair.getValue()));
+                filters.add(new BrandFilter(position, (String) pair.getKey(), (int) pair.getValue()));
                 position++;
                 it.remove(); // avoids a ConcurrentModificationException
             }
@@ -75,13 +75,14 @@ public class ProductListFragment extends Fragment {
                     } else if (which.length == 0) {
                         filteredProductsList = adapter.allProducts();
                     } else {
-                        CharSequence[] brandNames = getSelectedBrandNames();
                         // find the selected brand's products
                         for (Product product : adapter.allProducts()) {
-                            if (Utils.contains(brandNames, product.brand)) {
-                                filteredProductsList.add(product);
+                            for (ProductFilter filter : activeFilters()) {
+                                if (filter.productFiltered(product))
+                                    filteredProductsList.add(product);
                             }
                         }
+                        scrollToTop();
                     }
 
                     adapter.animateTo(filteredProductsList);
@@ -90,6 +91,15 @@ public class ProductListFragment extends Fragment {
                 }
             }).positiveText(R.string.filter)
             .show();
+    }
+
+    private ArrayList<ProductFilter> activeFilters() {
+        ArrayList<ProductFilter> activeFilters = new ArrayList<>();
+        for (ProductFilter f : filters) {
+            if (f.selected)
+                activeFilters.add(f);
+        }
+        return activeFilters;
     }
 
     interface ProductsListenerCallback {
@@ -137,8 +147,6 @@ public class ProductListFragment extends Fragment {
         loadProducts();
     }
 
-
-
     public void scrollToTop() {
         mRecyclerView.smoothScrollToPosition(0);
     }
@@ -177,39 +185,50 @@ public class ProductListFragment extends Fragment {
 
     private CharSequence[] getBrandFilterLabels() {
         ArrayList<CharSequence> labels = new ArrayList<>();
-        for (FilterCategory cat : filteredCategories)
+        for (ProductFilter cat : filters)
             labels.add(cat.getLabel());
         return labels.toArray(new CharSequence[labels.size()]);
     }
 
-    private CharSequence[] getSelectedBrandNames() {
-        ArrayList<CharSequence> labels = new ArrayList<>();
-        for (FilterCategory cat : filteredCategories)
-            if (cat.selected) labels.add(cat.brand);
-        return labels.toArray(new CharSequence[labels.size()]);
-    }
-
-    private class FilterCategory {
+    private abstract class ProductFilter {
         int position;
         boolean selected;
-        String brand;
         int count;
 
-        public FilterCategory(int position, String brand, int count) {
+        public ProductFilter(int position, int count) {
             this.position = position;
             this.selected = false;
             this.count = count;
+        }
+
+        String getLabel() {
+            return " (" + count + ")";
+        }
+
+        abstract Boolean productFiltered(Product p);
+    }
+
+    private class BrandFilter extends ProductFilter {
+        String brand;
+        public BrandFilter(int position, String brand, int count) {
+            super(position, count);
             this.brand = brand;
         }
 
-        public CharSequence getLabel() {
-            return brand + " (" + count + ")";
+        @Override
+        String getLabel() {
+            return brand + super.getLabel();
+        }
+
+        @Override
+        Boolean productFiltered(Product p) {
+            return p.brand.equals(brand);
         }
     }
 
     private Integer[] getFilteredIndices() {
         ArrayList<Integer> indices = new ArrayList<>();
-        for (FilterCategory cat : filteredCategories) {
+        for (ProductFilter cat : filters) {
             if (cat.selected) indices.add(cat.position);
         }
 
@@ -217,13 +236,16 @@ public class ProductListFragment extends Fragment {
     }
 
     private void updateFilteredIndices(Integer[] which) {
-        for (FilterCategory cat : filteredCategories) {
+        for (ProductFilter cat : filters) {
             cat.selected = Utils.contains(which, cat.position);
         }
     }
 
-    //@todo stop being lazy dan
     public boolean usingFilter() {
-        return adapter.products.size() < adapter.allProducts().size();
+        for (ProductFilter f : filters) {
+            if (f.selected)
+                return true;
+        }
+        return false;
     }
 }
