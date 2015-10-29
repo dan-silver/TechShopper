@@ -3,6 +3,7 @@ package com.silver.dan.deals;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -31,6 +32,7 @@ public class ProductListFragment extends Fragment {
 
     @Bind(R.id.products_list) RecyclerView mRecyclerView;
     @Bind(R.id.progress_wheel) ProgressWheel progressWheel;
+    @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
 
     public static ProductListFragment newInstance(int sec_cat_id, int pri_cat_id) {
         ProductListFragment f = new ProductListFragment();
@@ -39,6 +41,20 @@ public class ProductListFragment extends Fragment {
         b.putInt(MainActivity.PRIMARY_CAT_ID, pri_cat_id);
         f.setArguments(b);
         return f;
+    }
+
+    private void refresh() {
+        sec_cat.getProducts(new ProductsListenerCallback() {
+            @Override
+            public void onLoaded() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onError(String error) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     public void openFilterDialog() {
@@ -92,6 +108,7 @@ public class ProductListFragment extends Fragment {
             }).positiveText(R.string.filter)
             .show();
     }
+
 
     private ArrayList<ProductFilter> activeFilters() {
         ArrayList<ProductFilter> activeFilters = new ArrayList<>();
@@ -177,6 +194,13 @@ public class ProductListFragment extends Fragment {
                 intent.putExtra(MainActivity.PRODUCT_ID, product.id);
 
                 getActivity().startActivity(intent);
+            }
+        });
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
             }
         });
 

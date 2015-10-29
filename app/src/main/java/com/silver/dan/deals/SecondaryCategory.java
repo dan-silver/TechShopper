@@ -31,11 +31,17 @@ public class SecondaryCategory {
         Fuel.get(MainActivity.getAppServerUrl() + "secondary_categories/" + this.id + ".json").responseJson(new Handler<JSONObject>() {
             @Override
             public void success(@NonNull Request request, @NonNull Response response, JSONObject jsonObject) {
+                if (products.size() > 0) {
+                    callback.onLoaded();
+                    return;
+                }
+
                 try {
                     JSONArray productsJSON = jsonObject.getJSONArray("products");
                     for (int i = 0; i < productsJSON.length(); i++) {
                         JSONObject o = (JSONObject) productsJSON.get(i);
                         Product product = new Product(o.getString("title"), o.getString("image"), o.getInt("id"), o.getString("brand"), primaryCategoryId, id);
+
                         JSONArray listings = o.getJSONArray("listings");
                         for (int j=0; j<listings.length(); j++) {
                             JSONObject l = (JSONObject) listings.get(j);
