@@ -1,5 +1,6 @@
 package com.silver.dan.deals;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +25,11 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
     public List<Product> removedProducts = new ArrayList<>();
     private OnItemClickListener listener;
     private List<Product> refOriginalProductList;
+    MainActivity mainActivity;
 
-    public ProductArrayAdapter(ArrayList<Product> products) {
+    public ProductArrayAdapter(MainActivity activity, ArrayList<Product> products) {
         refOriginalProductList = products;
+        this.mainActivity = activity;
         addProducts(products);
     }
 
@@ -101,7 +104,23 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
         holder.favoriteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rowItem.toggleFavorite(holder.favoriteIcon);
+
+                rowItem.toggleFavorite(holder.favoriteIcon, new Product.favoriteCallback() {
+                    @Override
+                    public void added() {
+                        mainActivity.showSnackBar("Item saved", "View favorites", Snackbar.LENGTH_LONG, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void removed() {
+
+                    }
+                });
             }
         });
 

@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             public void failure(@NonNull Request request, @NonNull Response response, @NonNull FuelError fuelError) {
                 Log.e(MainActivity.TAG, fuelError.toString());
 
-                showSnackBar("Cannot load data.", "Retry", new View.OnClickListener() {
+                showSnackBar("Cannot load data.", "Retry", Snackbar.LENGTH_SHORT, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         loadMainCategories();
@@ -243,8 +243,8 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public void showSnackBar(String text, String action, View.OnClickListener callback) {
-        Snackbar.make(snackbarPosition, text, Snackbar.LENGTH_INDEFINITE)
+    public void showSnackBar(String text, String action, int length, View.OnClickListener callback) {
+        Snackbar.make(snackbarPosition, text, length)
                 .setAction(action, callback)
                 .setActionTextColor(ContextCompat.getColor(getApplicationContext(), R.color.accent))
                 .show();

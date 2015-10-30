@@ -2,6 +2,7 @@ package com.silver.dan.deals;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -140,7 +141,7 @@ public class ProductListFragment extends Fragment {
 
             @Override
             public void onError(String error) {
-                ((MainActivity) getActivity()).showSnackBar("Cannot load data.", "Retry", new View.OnClickListener() {
+                ((MainActivity) getActivity()).showSnackBar("Cannot load data.", "Retry", Snackbar.LENGTH_SHORT, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         loadProducts();
@@ -159,7 +160,7 @@ public class ProductListFragment extends Fragment {
         pri_cat = PrimaryCategory.findById(pri_cat_id);
         sec_cat = pri_cat.findSecondaryCatById(sec_cat_id);
 
-        adapter = new ProductArrayAdapter(sec_cat.products);
+        adapter = new ProductArrayAdapter((MainActivity) getActivity(), sec_cat.products);
 
         loadProducts();
     }

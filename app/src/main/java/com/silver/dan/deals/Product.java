@@ -60,13 +60,20 @@ public class Product {
         this.fetchDetailData();
     }
 
-    public void toggleFavorite(ImageView favoriteIcon) {
+    public interface favoriteCallback {
+        void added();
+        void removed();
+    }
+
+    public void toggleFavorite(ImageView favoriteIcon, favoriteCallback callback) {
         this.favorited = !this.favorited;
 
         if (this.favorited) {
             favoriteIcon.setImageResource(R.mipmap.ic_favorite_black_36dp);
+            callback.added();
         } else {
             favoriteIcon.setImageResource(R.mipmap.ic_favorite_border_black_36dp);
+            callback.removed();
         }
     }
 
