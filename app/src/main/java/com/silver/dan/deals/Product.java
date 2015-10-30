@@ -64,9 +64,9 @@ public class Product {
         this.favorited = !this.favorited;
 
         if (this.favorited) {
-            favoriteIcon.setImageResource(R.mipmap.ic_favorite_black_24dp);
+            favoriteIcon.setImageResource(R.mipmap.ic_favorite_black_36dp);
         } else {
-            favoriteIcon.setImageResource(R.mipmap.ic_favorite_border_black_24dp);
+            favoriteIcon.setImageResource(R.mipmap.ic_favorite_border_black_36dp);
         }
     }
 

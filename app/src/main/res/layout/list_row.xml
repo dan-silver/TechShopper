@@ -88,11 +88,12 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:padding="2dp"
                         android:background="?android:attr/selectableItemBackground"
                         android:tint="@color/accent"
-                        android:src="@mipmap/ic_favorite_border_black_24dp"
-                        android:contentDescription="@string/fav_icon" />
+                        android:src="@mipmap/ic_favorite_border_black_36dp"
+                        android:contentDescription="@string/fav_icon"
+                        android:scaleX="0.9"
+                        android:scaleY="0.9"/>
 
                 </RelativeLayout>
             </LinearLayout>
