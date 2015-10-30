@@ -82,18 +82,16 @@
                         android:text="3.5/5"
                         android:id="@+id/product_rating"/>
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/favorite_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:background="?android:attr/selectableItemBackground"
                         android:tint="@color/accent"
+                        android:padding="2dp"
                         android:src="@mipmap/ic_favorite_border_black_36dp"
-                        android:contentDescription="@string/fav_icon"
-                        android:scaleX="0.9"
-                        android:scaleY="0.9"/>
+                        android:contentDescription="@string/fav_icon"/>
 
                 </RelativeLayout>
             </LinearLayout>

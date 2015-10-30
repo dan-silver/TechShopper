@@ -1,5 +1,9 @@
 package com.silver.dan.deals;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
@@ -70,6 +74,18 @@ public class Product {
 
         if (this.favorited) {
             favoriteIcon.setImageResource(R.mipmap.ic_favorite_black_36dp);
+
+            Context context = favoriteIcon.getContext();
+            Resources resources = context.getResources();
+
+
+            Drawable[] layers = new Drawable[2];
+            layers[0] = resources.getDrawableForDensity(R.mipmap.ic_favorite_border_black_36dp, resources.getDisplayMetrics().densityDpi);//, context.getTheme());
+            layers[1] = resources.getDrawableForDensity(R.mipmap.ic_favorite_black_36dp, resources.getDisplayMetrics().densityDpi);//, context.getTheme());
+
+            TransitionDrawable transition = new TransitionDrawable(layers);
+            favoriteIcon.setImageDrawable(transition);
+            transition.startTransition(175);
             callback.added();
         } else {
             favoriteIcon.setImageResource(R.mipmap.ic_favorite_border_black_36dp);
