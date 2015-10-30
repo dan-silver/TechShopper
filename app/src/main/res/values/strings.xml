@@ -6,4 +6,5 @@
     <string name="filter">Filter</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
+    <string name="fav_icon">favorite icon</string>
 </resources>

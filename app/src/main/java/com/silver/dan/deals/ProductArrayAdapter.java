@@ -72,7 +72,7 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
 
     @Override
     public void onBindViewHolder(final ProductArrayAdapter.Holder holder, int position) {
-        Product rowItem = products.get(position);
+        final Product rowItem = products.get(position);
         holder.txtProductPrice.setText(rowItem.getPriceString());
         holder.flowTextView.setText(rowItem.title);
         holder.loader.spin();
@@ -97,6 +97,14 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
         } else {
             holder.rating.setVisibility(View.GONE);
         }
+
+        holder.favoriteIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rowItem.toggleFavorite(holder.favoriteIcon);
+            }
+        });
+
     }
 
     @Override
@@ -146,6 +154,7 @@ public class ProductArrayAdapter extends RecyclerView.Adapter<ProductArrayAdapte
         @Bind(R.id.price) TextView txtProductPrice;
         @Bind(R.id.product_rating) TextView rating;
         @Bind(R.id.progress_wheel) ProgressWheel loader;
+        @Bind(R.id.favorite_icon) ImageView favoriteIcon;
 
         public Holder(View view) {
             super(view);

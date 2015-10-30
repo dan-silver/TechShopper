@@ -1,6 +1,7 @@
 package com.silver.dan.deals;
 
 import android.support.annotation.NonNull;
+import android.widget.ImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,6 +27,7 @@ public class Product {
     public boolean detailsLoaded = false;
     private ArrayList<DetailsCallback> callbacks = new ArrayList<>();
     public static HashMap<Integer, Product> products = new HashMap<>();
+    private boolean favorited = false;
 
     Product(String title, String image, int id, String brand, int primaryCategoryId, int secondaryCategoryId) {
         this.title = title;
@@ -56,6 +58,16 @@ public class Product {
     public void fetchDetailData(DetailsCallback callback) {
         addDetailsLoadedCallback(callback);
         this.fetchDetailData();
+    }
+
+    public void toggleFavorite(ImageView favoriteIcon) {
+        this.favorited = !this.favorited;
+
+        if (this.favorited) {
+            favoriteIcon.setImageResource(R.mipmap.ic_favorite_black_24dp);
+        } else {
+            favoriteIcon.setImageResource(R.mipmap.ic_favorite_border_black_24dp);
+        }
     }
 
     interface DetailsCallback {

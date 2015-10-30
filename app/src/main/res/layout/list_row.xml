@@ -57,28 +57,43 @@
                     android:text="abv abv abv abv abv abv abv abv abv abv abv abv ">
                 </TextView>
                 <RelativeLayout
-                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:typeface="sans"
-                        android:textColor="@color/secondary_text"
-                        android:textSize="13sp"
-                        android:text="3.5/5"
-                        android:id="@+id/product_rating"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
                     <TextView
                         android:id="@+id/price"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
+                        android:layout_height="match_parent"
                         android:typeface="sans"
                         android:text="$109.99"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
+                        android:gravity="center_vertical"
+                        android:layout_centerVertical="true"
                         android:textColor="@color/secondary_text"
                         android:textSize="13sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:typeface="sans"
+                        android:textColor="@color/secondary_text"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center_vertical"
+                        android:textSize="13sp"
+                        android:text="3.5/5"
+                        android:id="@+id/product_rating"/>
+
+                    <ImageButton
+                        android:id="@+id/favorite_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:padding="2dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:tint="@color/accent"
+                        android:src="@mipmap/ic_favorite_border_black_24dp"
+                        android:contentDescription="@string/fav_icon" />
+
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
