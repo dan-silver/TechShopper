@@ -197,6 +197,7 @@ public class ProductListFragment extends Fragment {
             }
         });
 
+        swipeRefreshLayout.setColorSchemeResources(R.color.primary_dark, R.color.primary);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
