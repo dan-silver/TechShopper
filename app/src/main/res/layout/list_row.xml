@@ -74,24 +74,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
                         android:typeface="sans"
                         android:textColor="@color/secondary_text"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="center_vertical"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
                         android:textSize="13sp"
                         android:text="3.5/5"
                         android:id="@+id/product_rating"/>
-
-                    <ImageView
-                        android:id="@+id/favorite_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:tint="@color/accent"
-                        android:padding="2dp"
-                        android:src="@mipmap/ic_favorite_border_black_36dp"
-                        android:contentDescription="@string/fav_icon"/>
 
                 </RelativeLayout>
             </LinearLayout>
